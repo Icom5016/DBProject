@@ -2,6 +2,7 @@ from flask import Flask, request
 #los py files del handler folder
 from handler.messages import MsgHandler
 from handler.users import UserHandler
+from handler.contactlists import ContactListHandler
 
 app = Flask(__name__)
 
@@ -43,6 +44,10 @@ def getLikesByMsgId(msg_id):
 def getDislikesByMsgId(msg_id):
     return MsgHandler().getDislikesByMsgId(msg_id)
 
+@app.route("/MessagingApp/msg/time/<int:msg_id>")
+def getTimeByMsgId(msg_id):
+    return MsgHandler().getTimeByMsgId(msg_id)
+
 #get all of the users
 @app.route("/MessagingApp/user")
 def user():
@@ -73,6 +78,22 @@ def getEmailByUserId(id):
 def getPhoneByUserId(id):
     handler = UserHandler()
     return handler.getPhoneByUserId(id)
+
+#get all of the messages
+@app.route("/MessagingApp/contactlist")
+def contactlist():
+    handler = ContactListHandler()
+    return handler.getAllContactList()
+
+@app.route("/MessagingApp/contactlist/owner/<int:id>")
+def getContactListByUserId(id):
+    handler = ContactListHandler()
+    return handler.getContactListByUserId(id)
+
+@app.route("/MessagingApp/contactlist/singlecontact/<int:id>")
+def getSingleContactByUserId(id):
+    handler = ContactListHandler()
+    return handler.getSingleContactByUserId(id)
 
 if __name__ == '__main__':
     app.run()

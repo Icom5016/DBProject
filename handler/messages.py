@@ -27,6 +27,7 @@ class MsgHandler:
         result["dislikes"] = row[3]
         result["user_id"] = row[4]
         result["chat_id"] = row[5]
+        result["time"] = row[6]
         return result
 
     def getAuthorByMsgId(self, msg_id):
@@ -99,4 +100,18 @@ class MsgHandler:
     def mapToDislikesDict(self, row):
         result = {}
         result["dislikes"] = row #hmmmmm
+        return result
+
+    def getTimeByMsgId(self, msg_id):
+        dao = MsgDAO()
+        result = dao.getTimeByMsgID(msg_id)
+        if result == None:
+            return jsonify(Error="NOT FOUND"), 404
+        else :
+            mapped = self.mapToTimeDict(result)
+            return jsonify(Time=mapped)
+
+    def mapToTimeDict(self, row):
+        result = {}
+        result["time"] = row
         return result

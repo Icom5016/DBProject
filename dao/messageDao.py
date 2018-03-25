@@ -73,7 +73,10 @@ class MsgDAO:
         pass
 
     def getTimeByMsgID(self, id):
-        pass
+        for r in self.data:
+            if id == r[0]:
+                return r[6]
+        return None
 
 
 

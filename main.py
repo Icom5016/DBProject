@@ -3,6 +3,7 @@ from flask import Flask, request
 from handler.messages import MsgHandler
 from handler.users import UserHandler
 from handler.contactlists import ContactListHandler
+from handler.reply import ReplyHandler
 
 app = Flask(__name__)
 
@@ -94,6 +95,18 @@ def getContactListByUserId(id):
 def getSingleContactByUserId(id):
     handler = ContactListHandler()
     return handler.getSingleContactByUserId(id)
+
+@app.route("/MessagingApp/reply/original/<int:reply_id>")
+def getOriginalByReplyId(reply_id):
+    return ReplyHandler().getOriginalByReplyId(reply_id)
+
+@app.route("/MessagingApp/reply/replies/<int:original_id>")
+def getRepliesByOriginalId(original_id):
+    return ReplyHandler().getRepliesByOriginalId(original_id)
+
+@app.route("/MessagingApp/reply/")
+def getAllReplies():
+    return ReplyHandler().getAllReplies()
 
 if __name__ == '__main__':
     app.run()

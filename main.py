@@ -108,5 +108,30 @@ def getRepliesByOriginalId(original_id):
 def getAllReplies():
     return ReplyHandler().getAllReplies()
 
+###################################################################
+#####                  GroupChat Entity Routes                #####
+###################################################################
+
+@app.route("/MessagingApp/gc")
+def getAllGroupChats():
+    return groupchatHandler.getAllChats()
+
+@app.route("/MessagingApp/gc/<int:gcid>")
+def gettAllChatsById(gcid):
+    return groupchatHandler.getGroupChatById(gcid)
+
+@app.route("/MessagingApp/gc/owner/<int:oid>")
+def getAllChatsByOwnerId(oid):
+    return groupchatHandler.getGroupChatByOwnerId(oid)
+
+@app.route("/MessagingApp/gc/owner/chatname/<int:oid>/<char:name>")
+def getAllChatsByOwnerIdAndChatName(oid, name):
+    return groupchatHandler.getGroupChatsByOwnerIdAndName(oid, name)
+
+@app.route("/MessagingApp/gc/gcname/<char:name>")
+def getAllChatsWithName(name):
+    return groupchatHandler.getGroupChatsByName(name)
+
+
 if __name__ == '__main__':
     app.run()

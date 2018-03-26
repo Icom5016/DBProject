@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="04672f8c-f08e-4ba3-946e-d2aa3bdb762d" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/dao/groupchatDAO.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/handler/groupchat.py" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
-    </list>
+    <list default="true" id="04672f8c-f08e-4ba3-946e-d2aa3bdb762d" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -126,7 +121,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="y" value="44" />
     <option name="width" value="1280" />
     <option name="height" value="730" />
@@ -234,7 +229,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="44" width="1280" height="730" extended-state="0" />
+    <frame x="0" y="23" width="1280" height="729" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2494043" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />

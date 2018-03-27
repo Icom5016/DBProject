@@ -132,6 +132,65 @@ def getAllChatsByOwnerIdAndChatName(oid, name):
 def getAllChatsWithName(name):
     return groupchatHandler.getGroupChatsByName(name)
 
+#Dashboard routes
+@app.route("/MessagingApp/dashboard")
+def dashboard():
+    handler = DashboardHandler()
+    return handler.getAllDashboard()
+
+@app.route("/MessagingApp/dashboard/<int:dashboard_id>")
+def getDashboardById(dashboard_id):
+    return DashboardHandler().getDashboardById(dashboard_id)
+
+@app.route("/MessagingApp/dashboard/date/<int:dashboard_id>")
+def getDateByDashboardId(dashboard_id):
+    return DashboardHandler().getDateById(dashboard_id)
+
+@app.route("/MessagingApp/dashboard/<string:date>")
+def getDashboardByDate(date):
+    return DashboardHandler().getDashboardByDate(date)
+
+@app.route("/MessagingApp/dashboard/total_messages/<int:dashboard_id>")
+def getTotalMessagesByDashboardId(dashboard_id):
+    return DashboardHandler().getTotalMessagesById(dashboard_id)
+
+@app.route("/MessagingApp/dashboard/total_replies/<int:dashboard_id>")
+def getRepliesByDashboardId(dashboard_id):
+    return DashboardHandler().getTotalRepliesById(dashboard_id)
+
+@app.route("/MessagingApp/dashboard/total_likes/<int:dashboard_id>")
+def getTotalLikesByDashboardId(dashboard_id):
+    return DashboardHandler().getTotalLikesById(dashboard_id)
+
+@app.route("/MessagingApp/dashboard/total_dislikes/<int:dashboard_id>")
+def getTotalDislikesByDashboardId(dashboard_id):
+    return DashboardHandler().getTotalDislikesById(dashboard_id)
+
+@app.route("/MessagingApp/dashboard/active_users/<int:dashboard_id>")
+def getActiveUsersByDashboardId(dashboard_id):
+    return DashboardHandler().getActiveUsersById(dashboard_id)
+
+#Hashtag routes
+@app.route("/MessagingApp/hashtag")
+def hashtag():
+    handler = HashtagHandler()
+    return handler.getAllHashtag()
+
+@app.route("/MessagingApp/hashtag/<int:hashtag_id>")
+def getHashtagdById(hashtag_id):
+    return HashtagHandler().getHashtagById(hashtag_id)
+
+@app.route("/MessagingApp/hashtag/text/<int:hashtag_id>")
+def getTextByHashtagId(hashtag_id):
+    return HashtagHandler().getTextByHashtagId(hashtag_id)
+
+@app.route("/MessagingApp/hashtag/frequency/<int:hashtag_id>")
+def getFrequencyByHashtagId(hashtag_id):
+    return HashtagHandler().getFrequencyByHashtagId(hashtag_id)
+
+@app.route("/MessagingApp/hashtag/frequency/<int:hashtag_id>")
+def getFrequencyByHashtagText(hashtag_text):
+    return HashtagHandler().getFrequencyByHashtagText(hashtag_text)
 
 if __name__ == '__main__':
     app.run()

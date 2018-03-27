@@ -18,7 +18,8 @@ CREATE TABLE Message(
 	likes int, 
 	dislikes int, 
 	sentby int references User(uid), 
-	cgid int references Group_Chat(gcid));
+	cgid int references Group_Chat(gcid),
+	date string);
 
 CREATE TABLE Group_Chat(
 	gcid int serial primary key, 
@@ -37,11 +38,6 @@ CREATE TABLE Contact_List(
 	uid int references User(uid), 
 	contact int, 
 	primary key(uid, contact));
-
-CREATE TABLE Sends (
-	uid int references User(uid), 
-	date date, 
-	mid int references Message(mid));
 
 CREATE TABLE Replies (
 	original int references Message(mid), 

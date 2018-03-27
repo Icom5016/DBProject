@@ -4,6 +4,7 @@ from handler.messages import MsgHandler
 from handler.users import UserHandler
 from handler.contactlists import ContactListHandler
 from handler.reply import ReplyHandler
+from handler.groupchat import groupchatHandler
 
 app = Flask(__name__)
 
@@ -114,23 +115,23 @@ def getAllReplies():
 
 @app.route("/MessagingApp/gc")
 def getAllGroupChats():
-    return groupchatHandler.getAllChats()
+    return groupchatHandler().getAllChats()
 
 @app.route("/MessagingApp/gc/<int:gcid>")
 def gettAllChatsById(gcid):
-    return groupchatHandler.getGroupChatById(gcid)
+    return groupchatHandler().getGroupChatById(gcid)
 
 @app.route("/MessagingApp/gc/owner/<int:oid>")
 def getAllChatsByOwnerId(oid):
-    return groupchatHandler.getGroupChatByOwnerId(oid)
+    return groupchatHandler().getGroupChatByOwnerId(oid)
 
-@app.route("/MessagingApp/gc/owner/chatname/<int:oid>/<char:name>")
+@app.route("/MessagingApp/gc/owner/chatname/<int:oid>/<string:name>")
 def getAllChatsByOwnerIdAndChatName(oid, name):
-    return groupchatHandler.getGroupChatsByOwnerIdAndName(oid, name)
+    return groupchatHandler().getGroupChatsByOwnerIdAndName(oid, name)
 
-@app.route("/MessagingApp/gc/gcname/<char:name>")
+@app.route("/MessagingApp/gc/gcname/<string:name>")
 def getAllChatsWithName(name):
-    return groupchatHandler.getGroupChatsByName(name)
+    return groupchatHandler().getGroupChatsByName(name)
 
 #Dashboard routes
 @app.route("/MessagingApp/dashboard")

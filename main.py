@@ -4,10 +4,9 @@ from handler.messages import MsgHandler
 from handler.users import UserHandler
 from handler.contactlists import ContactListHandler
 from handler.reply import ReplyHandler
-from handler.groupchat import groupchatHandler
+from handler.groupChat import GroupChatHandler
 from handler.dashboard import DashboardHandler
 from handler.hashtag import HashtagHandler
-
 
 app = Flask(__name__)
 
@@ -84,7 +83,7 @@ def getPhoneByUserId(id):
     handler = UserHandler()
     return handler.getPhoneByUserId(id)
 
-#get all of the messages
+#get all of the contacts
 @app.route("/MessagingApp/contactlist")
 def contactlist():
     handler = ContactListHandler()
@@ -112,29 +111,37 @@ def getRepliesByOriginalId(original_id):
 def getAllReplies():
     return ReplyHandler().getAllReplies()
 
-###################################################################
-#####                  GroupChat Entity Routes                #####
-###################################################################
-
+####Jahn stuff
 @app.route("/MessagingApp/gc")
 def getAllGroupChats():
-    return groupchatHandler().getAllChats()
+    return GroupChatHandler().getAllChats()
 
 @app.route("/MessagingApp/gc/<int:gcid>")
-def gettAllChatsById(gcid):
-    return groupchatHandler().getGroupChatById(gcid)
+def getGroupChatById(gcid):
+    return GroupChatHandler().getGroupChatById(gcid)
 
 @app.route("/MessagingApp/gc/owner/<int:oid>")
 def getAllChatsByOwnerId(oid):
-    return groupchatHandler().getGroupChatByOwnerId(oid)
+    return GroupChatHandler().getAllGroupChatByOwnerId(oid)
 
 @app.route("/MessagingApp/gc/owner/chatname/<int:oid>/<string:name>")
 def getAllChatsByOwnerIdAndChatName(oid, name):
-    return groupchatHandler().getGroupChatsByOwnerIdAndName(oid, name)
+    return GroupChatHandler().getGroupChatsByOwnerIdAndName(oid, name)
 
 @app.route("/MessagingApp/gc/gcname/<string:name>")
 def getAllChatsWithName(name):
-    return groupchatHandler().getGroupChatsByName(name)
+    return GroupChatHandler().getGroupChatsByName(name)
+
+###
+@app.route("/MessagingApp/gcmembers")
+def getAllChatsAndMembers():
+    handler = GroupChatHandler()
+    return handler.getAllChatsAndMembers()
+
+@app.route("/MessagingApp/gcmembers/<int:chat_id>")
+def getChatMembersByChatId(chat_id):
+    handler = GroupChatHandler()
+    return handler.getChatMembersByChatID(chat_id)
 
 #Dashboard routes
 @app.route("/MessagingApp/dashboard")

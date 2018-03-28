@@ -1,4 +1,4 @@
-class gcDAO:
+class GroupChatDAO:
     def __init__(self):
         #[groupchatid, groupchatname, groupchatownerid]
         GC1 = [0, 'Class A', 117]
@@ -13,13 +13,13 @@ class gcDAO:
     def getAllChats(self):
         return self.data
 
-    def getChatById(self, Id):
+    def getGroupChatById(self, Id):
         for r in self.data:
             if (Id == r[0]):
                 return r
         return None
 
-    def getAllChatsByOwnerId(self, Id):
+    def getAllGroupChatsByOwnerId(self, Id):
         total = []
         for r in self.data:
             if (Id == r[2]):

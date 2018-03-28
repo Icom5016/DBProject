@@ -1,10 +1,10 @@
 class DashboardDAO:
     def __init__(self):
         #[dashboard id, date, total messages, total replies, total likes, total dislikes, active users]
-        D1 = [1, "03-25-2018", 89, 13, 42, 21, 30]
-        D2 = [2, "03-26-2018", 15, 2, 3, 1, 6]
-        D3 = [3, "03-27-2018", 65, 10, 25, 12, 25]
-        D4 = [4, "03-28-2018", 71, 9, 32, 16, 28]
+        D1 = [1, "03/25/2018", 89, 13, 42, 21, 30]
+        D2 = [2, "03/26/2018", 15, 2, 3, 1, 6]
+        D3 = [3, "03/27/2018", 65, 10, 25, 12, 25]
+        D4 = [4, "03/28/2018", 71, 9, 32, 16, 28]
 
         self.data = []
         self.data.append(D1)

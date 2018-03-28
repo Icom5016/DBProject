@@ -30,7 +30,7 @@ class gcDAO:
     def getAllChatsByOwnerIdAndName(self, oid, cn):
         total = []
         for r in self.data:
-            if (oid == r[2] && cn == r[1]):
+            if (oid == r[2] and cn == r[1]):
                 total.append(r)
         return total
 

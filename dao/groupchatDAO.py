@@ -10,7 +10,6 @@ class gcDAO:
         self.data.append(GC2)
         self.data.append(GC3)
 
-
     def getAllChats(self):
         return self.data
 
@@ -18,7 +17,7 @@ class gcDAO:
         for r in self.data:
             if (Id == r[0]):
                 return r
-            return None
+        return None
 
     def getAllChatsByOwnerId(self, Id):
         total = []

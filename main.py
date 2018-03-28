@@ -5,6 +5,9 @@ from handler.users import UserHandler
 from handler.contactlists import ContactListHandler
 from handler.reply import ReplyHandler
 from handler.groupchat import groupchatHandler
+from handler.dashboard import DashboardHandler
+from handler.hashtag import HashtagHandler
+
 
 app = Flask(__name__)
 
@@ -157,15 +160,15 @@ def getTotalMessagesByDashboardId(dashboard_id):
 
 @app.route("/MessagingApp/dashboard/total_replies/<int:dashboard_id>")
 def getRepliesByDashboardId(dashboard_id):
-    return DashboardHandler().getTotalRepliesById(dashboard_id)
+    return DashboardHandler().getRepliesById(dashboard_id)
 
 @app.route("/MessagingApp/dashboard/total_likes/<int:dashboard_id>")
 def getTotalLikesByDashboardId(dashboard_id):
-    return DashboardHandler().getTotalLikesById(dashboard_id)
+    return DashboardHandler().getLikesById(dashboard_id)
 
 @app.route("/MessagingApp/dashboard/total_dislikes/<int:dashboard_id>")
 def getTotalDislikesByDashboardId(dashboard_id):
-    return DashboardHandler().getTotalDislikesById(dashboard_id)
+    return DashboardHandler().getDislikesById(dashboard_id)
 
 @app.route("/MessagingApp/dashboard/active_users/<int:dashboard_id>")
 def getActiveUsersByDashboardId(dashboard_id):
@@ -189,7 +192,7 @@ def getTextByHashtagId(hashtag_id):
 def getFrequencyByHashtagId(hashtag_id):
     return HashtagHandler().getFrequencyByHashtagId(hashtag_id)
 
-@app.route("/MessagingApp/hashtag/frequency/<int:hashtag_id>")
+@app.route("/MessagingApp/hashtag/frequency/<string:hashtag_text>")
 def getFrequencyByHashtagText(hashtag_text):
     return HashtagHandler().getFrequencyByHashtagText(hashtag_text)
 

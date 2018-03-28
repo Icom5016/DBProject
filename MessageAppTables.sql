@@ -1,11 +1,11 @@
 CREATE TABLE Dashboard (
 	sid int serial primary key,
-    date date, 
-    total_messages int, 
-    total_replies int, 
-    total_likes int, 
-    total_dislikes int, 
-    total_active_users int);
+  date date,
+  total_messages int,
+  total_replies int,
+  total_likes int,
+  total_dislikes int,
+  total_active_users int);
 
 CREATE TABLE Hashtag(
 	hid int serial primary key, 
@@ -28,10 +28,11 @@ CREATE TABLE Group_Chat(
 
 CREATE TABLE User(
 	uid int serial primary key, 
-	firstname varchar(10), 
-	lastname varchar(10), 
+	firstname varchar(50),
+	lastname varchar(50),
 	email string, 
-	phone varchar(10));
+	phone char(10),
+	password varchar(50));
 
 CREATE TABLE Contact_List(
 	clid int serial primary key, 

@@ -37,12 +37,12 @@ class HashtagHandler:
 
     def mapToTextDict(self, row):
         result = {}
-        result["text"] = row[1]
+        result["text"] = row
         return result
 
     def getFrequencyByHashtagId(self, hashtag_id):
         dao = HashtagDAO()
-        result = dao.getFrequencyByHashtagID(hashtag_id)
+        result = dao.getFrequencyByHashtagId(hashtag_id)
         if result == None:
             return jsonify(Error="NOT FOUND"), 404
         else :
@@ -60,5 +60,5 @@ class HashtagHandler:
 
     def mapToFrequencyDict(self, row):
         result = {}
-        result["frequency"] = row[2]
+        result["frequency"] = row
         return result

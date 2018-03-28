@@ -21,7 +21,7 @@ class HashtagDAO:
                 return r
         return None
 
-    def getTextByHahtagId(self, id):
+    def getTextByHashtagId(self, id):
         for r in self.data:
             if id == r[0]:
                 return r[1]

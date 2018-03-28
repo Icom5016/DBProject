@@ -41,12 +41,12 @@ class DashboardHandler:
 
     def mapToDateDict(self, row):
         result = {}
-        result["date"] = row[1]
+        result["date"] = row
         return result
 
     def getTotalMessagesById(self, dashboard_id):
         dao = DashboardDAO()
-        result = dao.getTotalMessagesByID(dashboard_id)
+        result = dao.getTotalMessagesById(dashboard_id)
         if result == None:
             return jsonify(Error="NOT FOUND"), 404
         else :
@@ -55,12 +55,12 @@ class DashboardHandler:
 
     def mapToTotalMessagesDict(self, row):
         result = {}
-        result["total_messages"] = row[2]
+        result["total_messages"] = row
         return result
 
     def getRepliesById(self, dashboard_id):
         dao = DashboardDAO()
-        result = dao.getTotalRepliesByID(dashboard_id)
+        result = dao.getTotalRepliesById(dashboard_id)
         if result == None:
             return jsonify(Error="NOT FOUND"), 404
         else :
@@ -69,12 +69,12 @@ class DashboardHandler:
 
     def mapToRepliesDict(self, row):
         result = {}
-        result["total_replies"] = row[3]
+        result["total_replies"] = row
         return result
 
     def getLikesById(self, dashboard_id):
         dao = DashboardDAO()
-        result = dao.getTotalLikesByID(dashboard_id)
+        result = dao.getTotalLikesById(dashboard_id)
         if result == None:
             return jsonify(Error="NOT FOUND"), 404
         else:
@@ -83,12 +83,12 @@ class DashboardHandler:
 
     def mapToLikesDict(self, row):
         result = {}
-        result["total_likes"] = row[4]
+        result["total_likes"] = row
         return result
 
     def getDislikesById(self, dashboard_id):
         dao = DashboardDAO()
-        result = dao.getTotalDislikesByID(dashboard_id)
+        result = dao.getTotalDislikesById(dashboard_id)
         if result == None:
             return jsonify(Error="NOT FOUND"), 404
         else:
@@ -97,12 +97,12 @@ class DashboardHandler:
 
     def mapToDislikesDict(self, row):
         result = {}
-        result["total_dislikes"] = row[5]
+        result["total_dislikes"] = row
         return result
 
     def getActiveUsersById(self, dashboard_id):
         dao = DashboardDAO()
-        result = dao.getActiveUsersByID(dashboard_id)
+        result = dao.getActiveUsersById(dashboard_id)
         if result == None:
             return jsonify(Error="NOT FOUND"), 404
         else:
@@ -111,7 +111,7 @@ class DashboardHandler:
 
     def mapToActiveUsersDict(self, row):
         result = {}
-        result["active_users"] = row[6]
+        result["active_users"] = row
         return result
 
     def getDashboardByDate(self, date):

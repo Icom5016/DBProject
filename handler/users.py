@@ -10,9 +10,9 @@ class UserHandler:
             mapped_result.append(self.mapToUserDict(r))
         return jsonify(User=mapped_result)
 
-    def getUserById(self, id):
+    def getUserById(self, user_id):
         dao = UserDAO()
-        result = dao.getUserById(id)
+        result = dao.getUserById(user_id)
         if result == None:
             return jsonify(Error="NOT FOUND"), 404
         else :
@@ -28,10 +28,10 @@ class UserHandler:
         result["phone"] = row[4]
         return result
 
-    def getFNameByUserId(self, id):
+    def getFNameByUserId(self, user_id):
         print("DEBUG - users: getName")
         dao = UserDAO()
-        result = dao.getFNameByUserId(id)
+        result = dao.getFNameByUserId(user_id)
         if result == None:
             return jsonify(Error="NOT FOUND"), 404
         else :
@@ -44,9 +44,9 @@ class UserHandler:
         result["first_name"] = row
         return result
 
-    def getLNameByUserId(self, id):
+    def getLNameByUserId(self, user_id):
         dao = UserDAO()
-        result = dao.getLNameByUserId(id)
+        result = dao.getLNameByUserId(user_id)
         if result == None:
             return jsonify(Error="NOT FOUND"), 404
         else :
@@ -58,9 +58,9 @@ class UserHandler:
         result["last_name"] = row
         return result
 
-    def getEmailByUserId(self, id):
+    def getEmailByUserId(self, user_id):
         dao = UserDAO()
-        result = dao.getEmailByUserId(id)
+        result = dao.getEmailByUserId(user_id)
         if result == None:
             return jsonify(Error="NOT FOUND"), 404
         else :
@@ -72,9 +72,9 @@ class UserHandler:
         result["email"] = row
         return result
 
-    def getPhoneByUserId(self, id):
+    def getPhoneByUserId(self, user_id):
         dao = UserDAO()
-        result = dao.getPhoneByUserId(id)
+        result = dao.getPhoneByUserId(user_id)
         if result == None:
             return jsonify(Error="NOT FOUND"), 404
         else :

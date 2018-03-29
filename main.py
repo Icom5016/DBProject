@@ -120,6 +120,18 @@ def getPhoneByUserId(user_id):
     handler = UserHandler()
     return handler.getPhoneByUserId(user_id)
 
+#Get the username of an user
+@app.route("/MessagingApp/user/username/<int:user_id>")
+def getUsernameByUserId(user_id):
+    handler = UserHandler()
+    return handler.getUsernameByUserId(user_id)
+
+#Get the username of an user
+@app.route("/MessagingApp/user/password/<int:user_id>")
+def getPasswordByUserId(user_id):
+    handler = UserHandler()
+    return handler.getPasswordByUserId(user_id)
+
 #################################### CONTACT LIST ROUTES
 
 #Get all contact lists with their current contacts
@@ -127,12 +139,6 @@ def getPhoneByUserId(user_id):
 def contactlist():
     handler = ContactListHandler()
     return handler.getAllContactList()
-
-#Get a contact list using its id
-# @app.route("/MessagingApp/contactlist/list/<int:clist_id>")
-# def getContactListByCListId(clist_id):
-#     handler = ContactListHandler()
-#     return handler.getContactListByCListId(clist_id)
 
 #Gets the contact list of a user using the user's id
 @app.route("/MessagingApp/contactlist/owner/<int:user_id>")

@@ -2,7 +2,7 @@ class GroupChatDAO:
     def __init__(self):
         #[groupchatid, groupchatname, groupchatownerid]
         GC1 = [0, 'Class A', 117]
-        GC2 = [1, 'WAZUUUUP', 87]
+        GC2 = [1, 'Whats Up!', 87]
         GC3 = [2, 'random chat', 10]
 
         self.data = []
@@ -13,29 +13,29 @@ class GroupChatDAO:
     def getAllChats(self):
         return self.data
 
-    def getGroupChatById(self, Id):
+    def getGroupChatById(self, gchat_id):
         for r in self.data:
-            if (Id == r[0]):
+            if (gchat_id == r[0]):
                 return r
         return None
 
-    def getAllGroupChatsByOwnerId(self, Id):
+    def getAllGroupChatsByOwnerId(self, user_id):
         total = []
         for r in self.data:
-            if (Id == r[2]):
+            if (user_id == r[2]):
                 total.append(r)
         return total
 
-    def getAllChatsByOwnerIdAndName(self, oid, cn):
+    def getAllChatsByOwnerIdAndName(self, user_id, gchat_name):
         total = []
         for r in self.data:
-            if (oid == r[2] and cn == r[1]):
+            if (user_id == r[2] and gchat_name == r[1]):
                 total.append(r)
         return total
 
-    def getAllChatsByName(self, cn):
+    def getAllChatsByName(self, gchat_name):
         total = []
         for r in self.data:
-            if (cn == r[1]):
+            if (gchat_name == r[1]):
                 total.append(r)
         return total

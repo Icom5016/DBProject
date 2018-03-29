@@ -11,9 +11,9 @@ class ContactListHandler:
             mapped_result.append(self.mapToContactListDict(r))
         return jsonify(ContactLists=mapped_result)
 
-    def getContactListByUserId(self, id):
+    def getContactListByUserId(self, user_id):
         dao = ContactListDAO()
-        result = dao.getContactListByUserID(id)
+        result = dao.getContactListByUserID(user_id)
         if result == None:
             return jsonify(Error="NOT FOUND"), 404
         else :
@@ -26,10 +26,10 @@ class ContactListHandler:
         result["contacts"] = row[1]
         return result
 
-    def getSingleContactByUserId(self, id):
+    def getSingleContactByUserId(self, user_id):
         handler = UserHandler()
         dao = ContactListDAO()
-        result = dao.getSingleContactByUserID(id)
+        result = dao.getSingleContactByUserID(user_id)
         if result == None:
             return jsonify(Error="NOT FOUND"), 404
         else :

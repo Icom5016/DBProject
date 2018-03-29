@@ -15,21 +15,21 @@ class HashtagDAO:
     def getAllHashtag(self):
         return self.data
 
-    def getHashtagById(self, id):
+    def getHashtagById(self, hashtag_id):
         for r in self.data:
-            if id == r[0]:
+            if hashtag_id == r[0]:
                 return r
         return None
 
-    def getTextByHashtagId(self, id):
+    def getTextByHashtagId(self, hashtag_id):
         for r in self.data:
-            if id == r[0]:
+            if hashtag_id == r[0]:
                 return r[1]
         return None
 
-    def getFrequencyByHashtagId(self, id):
+    def getFrequencyByHashtagId(self, hashtag_id):
         for r in self.data:
-            if id == r[0]:
+            if hashtag_id == r[0]:
                 return r[2]
         return None
 

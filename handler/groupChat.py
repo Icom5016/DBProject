@@ -11,34 +11,34 @@ class GroupChatHandler():
             mapped_result.append(self.mapToGroupChatDict(r))
         return jsonify(Chats = mapped_result)
 
-    def getGroupChatById(self, gcid):
+    def getGroupChatById(self, gchat_id):
         dao = GroupChatDAO()
-        result = dao.getGroupChatById(gcid)
+        result = dao.getGroupChatById(gchat_id)
         if result == None:
             return jsonify(Error="NOT FOUND"), 404
         else:
             mapped_result = self.mapToGroupChatDict(result)
             return jsonify(ChatsById=mapped_result)
 
-    def getAllGroupChatByOwnerId(self, gcownerid):
+    def getAllGroupChatByOwnerId(self, owner_id):
         dao = GroupChatDAO()
-        result = dao.getAllGroupChatsByOwnerId(gcownerid)
+        result = dao.getAllGroupChatsByOwnerId(owner_id)
         mapped_result = []
         for r in result:
             mapped_result.append(self.mapToGroupChatDict(r))
         return jsonify(ChatsByOwner=mapped_result)
 
-    def getGroupChatsByOwnerIdAndName(self, gcownerid, gcname):
+    def getGroupChatsByOwnerIdAndName(self, owner_id, gchat_name):
         dao = GroupChatDAO()
-        result = dao.getAllChatsByOwnerIdAndName(gcownerid, gcname)
+        result = dao.getAllChatsByOwnerIdAndName(owner_id, gchat_name)
         mapped_result = []
         for r in result:
             mapped_result.append(self.mapToGroupChatDict(r))
         return jsonify(ChatsByOwnerAndName = mapped_result)
 
-    def getGroupChatsByName(self, gcname):
+    def getGroupChatsByName(self, gchat_name):
         dao = GroupChatDAO()
-        result = dao.getAllChatsByName(gcname)
+        result = dao.getAllChatsByName(gchat_name)
         mapped_result = []
         for r in result:
             mapped_result.append(self.mapToGroupChatDict(r))
@@ -46,9 +46,9 @@ class GroupChatHandler():
 
     def mapToGroupChatDict(self, row):
         result = {}
-        result["gcid"] = row[0]
-        result["gcname"] = row[1]
-        result["gcowner"] =row[2]
+        result["gchat_id"] = row[0]
+        result["gchat_name"] = row[1]
+        result["owner"] =row[2]
         return result
 
     def getAllChatsAndMembers(self):
@@ -59,9 +59,9 @@ class GroupChatHandler():
             mapped_result.append(self.mapToChatAndMembersDict(r))
         return jsonify(ChatsAndMembers=mapped_result)
 
-    def getChatMembersByChatID(self, chat_id):
+    def getChatMembersByChatID(self, gchat_id):
         dao = ChatMembersDAO()
-        result = dao.getAllChatMembersByChatID(chat_id)
+        result = dao.getAllChatMembersByChatID(gchat_id)
         if result == None:
             return jsonify(Error="NOT FOUND"), 404
         else :
@@ -70,6 +70,6 @@ class GroupChatHandler():
 
     def mapToChatAndMembersDict(self, row):
         result = {}
-        result["chat_id"] = row[0]
+        result["gchat_id"] = row[0]
         result["members"] = row[1]
         return result

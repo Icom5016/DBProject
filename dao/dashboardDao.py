@@ -15,9 +15,9 @@ class DashboardDAO:
     def getAllDashboard(self):
         return self.data
 
-    def getDashboardById(self, id):
+    def getDashboardById(self, dashboard_id):
         for r in self.data:
-            if id == r[0]:
+            if dashboard_id == r[0]:
                 return r
         return None
 
@@ -27,38 +27,38 @@ class DashboardDAO:
                 return r
             return None
 
-    def getDateById(self, id):
+    def getDateById(self, dashboard_id):
         for r in self.data:
-            if id == r[0]:
+            if dashboard_id == r[0]:
                 return r[1]
         return None
 
-    def getTotalMessagesById(self, id):
+    def getTotalMessagesById(self, dashboard_id):
         for r in self.data:
-            if id == r[0]:
+            if dashboard_id == r[0]:
                 return r[2]
         return None
 
-    def getTotalRepliesById(self, id):
+    def getTotalRepliesById(self, dashboard_id):
         for r in self.data:
-            if id == r[0]:
+            if dashboard_id == r[0]:
                 return r[3]
         return None
 
-    def getTotalLikesById(self, id):
+    def getTotalLikesById(self, dashboard_id):
         for r in self.data:
-            if id == r[0]:
+            if dashboard_id == r[0]:
                 return r[4]
         return None
 
-    def getTotalDislikesById(self, id):
+    def getTotalDislikesById(self, dashboard_id):
         for r in self.data:
-            if id == r[0]:
+            if dashboard_id == r[0]:
                 return r[5]
             return None
 
-    def getActiveUsersById(self, id):
+    def getActiveUsersById(self, dashboard_id):
         for r in self.data:
-            if id == r[0]:
+            if dashboard_id == r[0]:
                 return r[6]
             return None

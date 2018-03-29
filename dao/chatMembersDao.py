@@ -31,45 +31,30 @@ class ChatMembersDAO:
         dao = UserDAO()
         result = []
         chatId = -1
-        chatMembers = []
+        chat_members = []
         for r in self.data:
             if chatId != r[0]:
                 chatId = r[0]
                 for r2 in self.data:
                     if chatId == r2[0]:
                         memberId = r2[1]
-                        chatMembers.append(dao.getUserById(memberId))
-                result.append([chatId, chatMembers])
-                chatMembers = []
+                        chat_members.append(dao.getUserById(memberId))
+                result.append([chatId, chat_members])
+                chat_members = []
         if result == []:
             return None
         return result
 
-    def getAllChatMembersByChatID(self, chat_id):
+    def getAllChatMembersByChatID(self, gchat_id):
         dao = UserDAO()
         result = []
-        chatMembers = []
+        chat_members = []
         for r in self.data:
-            if chat_id == r[0]:
-                memberId = r[1]
-                chatMembers.append(dao.getUserById(memberId))
-        result.append(chat_id)
-        result.append(chatMembers)
-        if chatMembers == []:
+            if gchat_id == r[0]:
+                member_id = r[1]
+                chat_members.append(dao.getUserById(member_id))
+        result.append(gchat_id)
+        result.append(chat_members)
+        if chat_members == []:
             return None
         return result
-
-    # def getContactListByUserID(self, id):
-    #     dao = UserDAO()
-    #     result = []
-    #     ownerId = id
-    #     contacts = []
-    #     for r in self.data:
-    #         if ownerId == r[1]:
-    #             contactId = r[2]
-    #             contacts.append(dao.getUserById(contactId))
-    #     result.append(ownerId)
-    #     result.append(contacts)
-    #     if contacts == []:
-    #         return None
-    #     return result

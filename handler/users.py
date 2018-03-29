@@ -26,6 +26,8 @@ class UserHandler:
         result["last_name"] = row[2]
         result["email"] = row[3]
         result["phone"] = row[4]
+        result["username"] = row[5]
+        result["password"] = row[6]
         return result
 
     def getFNameByUserId(self, user_id):
@@ -84,4 +86,32 @@ class UserHandler:
     def mapToPhoneDict(self, row):
         result = {}
         result["phone"] = row
+        return result
+
+    def getUsernameByUserId(self, user_id):
+        dao = UserDAO()
+        result = dao.getUsernameByUserId(user_id)
+        if result == None:
+            return jsonify(Error="NOT FOUND"), 404
+        else :
+            mapped = self.mapToUsernameDict(result)
+            return jsonify(Username=mapped)
+
+    def mapToUsernameDict(self, row):
+        result = {}
+        result["username"] = row
+        return result
+
+    def getPasswordByUserId(self, user_id):
+        dao = UserDAO()
+        result = dao.getPasswordByUserId(user_id)
+        if result == None:
+            return jsonify(Error="NOT FOUND"), 404
+        else :
+            mapped = self.mapToUsernameDict(result)
+            return jsonify(Password=mapped)
+
+    def mapToPasswordDict(self, row):
+        result = {}
+        result["password"] = row
         return result

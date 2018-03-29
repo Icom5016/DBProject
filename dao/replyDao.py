@@ -1,7 +1,8 @@
 from dao.messageDao import MsgDAO
 
-class ReplyDAO():
+class ReplyDAO:
     def __init__(self):
+        #[original, reply, primary key
         R1 = [25, 50, [25, 50]]
         R2 = [25, 75, [25, 75]]
         R3 = [100, 125, [100, 125]]

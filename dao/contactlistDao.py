@@ -26,63 +26,43 @@ class ContactListDAO:
     def getAllContactList(self):
         dao = UserDAO()
         result = []
-        ownerId = 0
+        owner_id = 0
         contacts = []
         for r in self.data:
-            if ownerId != r[1]:
-                ownerId = r[1]
+            if owner_id != r[1]:
+                owner_id = r[1]
                 for r2 in self.data:
-                    if ownerId == r2[1]:
-                        contactId = r2[2]
-                        contacts.append(dao.getUserById(contactId))
-                result.append([ownerId, contacts])
+                    if owner_id == r2[1]:
+                        contact_id = r2[2]
+                        contacts.append(dao.getUserById(contact_id))
+                result.append([owner_id, contacts])
                 contacts = []
         if result == []:
             return None
         return result
 
-    #returns single contact list... Various id will return the same list if the beling to the same owner
-    #Not sure si debe ir. No tiene mucho sentido since there's no single Id para un list completo de contacts
-    # def getContactListByID(self, id):
-    #     dao = UserDAO()
-    #     result = []
-    #     ownerId = 0
-    #     contacts = []
-    #     for r in self.data:
-    #         if ownerId != r[1]:
-    #             ownerId = r[1]
-    #             for r2 in self.data:
-    #                 if ownerId == r2[1]:
-    #                     contactId = r2[2]
-    #                     contacts.append(dao.getUserById(contactId))
-    #             result.append([ownerId, contacts])
-    #             contacts = []
-    #     if result == []:
-    #         return None
-    #     return result
-
     #returns single contact list
-    def getContactListByUserID(self, id):
+    def getContactListByUserID(self, user_id):
         dao = UserDAO()
         result = []
-        ownerId = id
+        owner_id = user_id
         contacts = []
         for r in self.data:
-            if ownerId == r[1]:
-                contactId = r[2]
-                contacts.append(dao.getUserById(contactId))
-        result.append(ownerId)
+            if owner_id == r[1]:
+                contact_id = r[2]
+                contacts.append(dao.getUserById(contact_id))
+        result.append(owner_id)
         result.append(contacts)
         if contacts == []:
             return None
         return result
 
     #returns the user attributes of an existing contact of any list
-    def getSingleContactByUserID(self, id):
+    def getSingleContactByUserID(self, user_id):
         dao = UserDAO()
         result = []
-        contactId = id
+        contact_id = user_id
         for r in self.data:
-            if contactId == r[2]:
-                return dao.getUserById(contactId)
+            if contact_id == r[2]:
+                return dao.getUserById(contact_id)
         return None

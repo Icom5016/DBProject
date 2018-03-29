@@ -42,7 +42,6 @@ class DashboardHandler:
     def mapToDateDict(self, row):
         result = {}
         result["date"] = row
-        #result["date"] = row[1]
         return result
 
     def getTotalMessagesById(self, dashboard_id):
@@ -56,7 +55,7 @@ class DashboardHandler:
 
     def mapToTotalMessagesDict(self, row):
         result = {}
-        result["total_messages"] = row[2]
+        result["total_messages"] = row
         return result
 
     def getRepliesById(self, dashboard_id):
@@ -70,7 +69,7 @@ class DashboardHandler:
 
     def mapToRepliesDict(self, row):
         result = {}
-        result["total_replies"] = row[3]
+        result["total_replies"] = row
         return result
 
     def getLikesById(self, dashboard_id):
@@ -84,7 +83,7 @@ class DashboardHandler:
 
     def mapToLikesDict(self, row):
         result = {}
-        result["total_likes"] = row[4]
+        result["total_likes"] = row
         return result
 
     def getDislikesById(self, dashboard_id):
@@ -98,7 +97,7 @@ class DashboardHandler:
 
     def mapToDislikesDict(self, row):
         result = {}
-        result["total_dislikes"] = row[5]
+        result["total_dislikes"] = row
         return result
 
     def getActiveUsersById(self, dashboard_id):
@@ -112,7 +111,7 @@ class DashboardHandler:
 
     def mapToActiveUsersDict(self, row):
         result = {}
-        result["active_users"] = row[6]
+        result["active_users"] = row
         return result
 
     def getDashboardByDate(self, date):

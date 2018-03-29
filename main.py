@@ -187,65 +187,42 @@ def getChatMembersByChatId(gchat_id):
 
 #################################### DASHBOARD ROUTES
 
-#Gets all existing dashboard statistics
 @app.route("/MessagingApp/dashboard")
 def dashboard():
     handler = DashboardHandler()
     return handler.getAllDashboard()
 
-#Gets a dashboard using its id
 @app.route("/MessagingApp/dashboard/<int:dashboard_id>")
 def getDashboardById(dashboard_id):
-    handler = DashboardHandler()
-    return handler.getDashboardById(dashboard_id)
+    return DashboardHandler().getDashboardById(dashboard_id)
 
-################################################################################################
-################################################################################################
-
-#Gets the date of dashboard using its id
 @app.route("/MessagingApp/dashboard/date/<int:dashboard_id>")
 def getDateByDashboardId(dashboard_id):
-    handler = DashboardHandler()
-    return handler.getDateById(dashboard_id)
+    return DashboardHandler().getDateById(dashboard_id)
 
-#Get a dashboard using its date
 @app.route("/MessagingApp/dashboard/<string:date>")
 def getDashboardByDate(date):
-    handler = DashboardHandler()
-    return handler.getDashboardByDate(date)
+    return DashboardHandler().getDashboardByDate(date)
 
-#Get the total amount of messages of a dashboard statistic
-@app.route("/MessagingApp/dashboard/msg/<int:dashboard_id>")
+@app.route("/MessagingApp/dashboard/total_messages/<int:dashboard_id>")
 def getTotalMessagesByDashboardId(dashboard_id):
-    handler = DashboardHandler()
-    return handler.getTotalMessagesById(dashboard_id)
+    return DashboardHandler().getTotalMessagesById(dashboard_id)
 
-#Get the total amount of replies
-@app.route("/MessagingApp/dashboard/reply/<int:dashboard_id>")
+@app.route("/MessagingApp/dashboard/total_replies/<int:dashboard_id>")
 def getRepliesByDashboardId(dashboard_id):
-    handler = DashboardHandler()
-    return handler.getRepliesById(dashboard_id)
+    return DashboardHandler().getRepliesById(dashboard_id)
 
-#Get the total amount of likes
-@app.route("/MessagingApp/dashboard/likes/<int:dashboard_id>")
+@app.route("/MessagingApp/dashboard/total_likes/<int:dashboard_id>")
 def getTotalLikesByDashboardId(dashboard_id):
-    handler = DashboardHandler()
-    return handler.getLikesById(dashboard_id)
+    return DashboardHandler().getLikesById(dashboard_id)
 
-#Get the total amount of dislikes
-@app.route("/MessagingApp/dashboard/dislikes/<int:dashboard_id>")
+@app.route("/MessagingApp/dashboard/total_dislikes/<int:dashboard_id>")
 def getTotalDislikesByDashboardId(dashboard_id):
-    handler = DashboardHandler()
-    return handler.getDislikesById(dashboard_id)
+    return DashboardHandler().getDislikesById(dashboard_id)
 
-#Get the total amount of active users
-@app.route("/MessagingApp/dashboard/users/<int:dashboard_id>")
+@app.route("/MessagingApp/dashboard/active_users/<int:dashboard_id>")
 def getActiveUsersByDashboardId(dashboard_id):
-    handler = DashboardHandler()
-    return handler.getActiveUsersById(dashboard_id)
-
-################################################################################################
-################################################################################################
+    return DashboardHandler().getActiveUsersById(dashboard_id)
 
 #################################### HASHTAG ROUTES
 

@@ -1,5 +1,5 @@
 from flask import jsonify, request
-from dao.groupChatDao import GroupChatDAO
+from dao.groupchatDao import GroupChatDAO
 from dao.chatMembersDao import ChatMembersDAO
 
 class GroupChatHandler():

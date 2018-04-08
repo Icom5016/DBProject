@@ -60,3 +60,13 @@ CREATE TABLE ContainsHashtag(
 	hid int references Hashtag(hid), --hashtag id
 	mid int references Message(mid), --message id
 	primary key(hid, mid));
+
+CREATE TABLE Likes (
+  msgid int references Message(msgid), --message id
+  uid int references User(uid), --user id
+  primary key(msgid, uid));
+
+CREATE TABLE Dislikes (
+  msgid int references Message(msgid), --message id
+  uid int references User(uid), --user id
+  primary key(msgid, uid));

@@ -88,6 +88,26 @@ def getAllReplies():
 def getMessagesByChatId(gc_id):
     return MsgHandler().getMessagesByChatId(gc_id)
 
+#Gets a list of all the users that like a message
+@app.route("/MessagingApp/msg/likes/users/<int:msg_id>")
+def getUsersWhoLikeMessage(msg_id):
+    return MsgHandler().getUsersWhoLikeMessages(msg_id)
+
+#Gets a list of all the messages that a user likes
+@app.route("/MessagingApp/user/likes/msgs/<int:u_id>")
+def getMessagesLikedByUser(u_id):
+    return MsgHandler().getMessagesLikedByUser(u_id)
+
+#Gets a list of all the users that dislike a message
+@app.route("/MessagingApp/msg/dislikes/users/<int:msg_id>")
+def getUsersWhoDislikeMessage(msg_id):
+    return MsgHandler().getUsersWhoDislikeMessages(msg_id)
+
+#Gets a list of all the messages that a user dislikes
+@app.route("/MessagingApp/user/dislikes/msgs/<int:u_id>")
+def getMessagesDislikedByUser(u_id):
+    return MsgHandler().getMessagesDislikedByUser(u_id)
+
 #################################### USER ROUTES
 
 #Get all existing users

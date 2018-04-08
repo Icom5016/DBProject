@@ -1,5 +1,8 @@
 from flask import jsonify, request
 from dao.messageDao import MsgDAO
+from dao.likesDao import LikesDAO
+from dao.dislikesDao import DislikesDAO
+from dao.userDao import UserDAO
 
 class MsgHandler:
     def getAllMsg(self):
@@ -122,7 +125,64 @@ class MsgHandler:
     def getMessagesByChatId(self, gc_id):
         dao = MsgDAO()
         result = dao.getMessagesByChatId(gc_id)
+        if len(result) == 0:
+            return jsonify(Error="NOT FOUND"), 404
         mapped_result = []
         for r in result:
             mapped_result.append(self.mapToMsgDict(r))
         return jsonify(Messages=mapped_result)
+
+    def getUsersWhoLikeMessages(self, msg_id):
+        dao1 = LikesDAO()
+        result = dao1.getUsersWhoLikeMessage(msg_id)
+        if len(result) == 0:
+            return jsonify(Error="NOT FOUND"), 404
+        dao2 = UserDAO()
+        mapped_result = []
+        for r in result:
+            mapped_result.append(self.mapToUserDict(dao2.getUserById(r)))
+        return jsonify(Users=mapped_result)
+
+    def getMessagesLikedByUser(self, u_id):
+        dao = LikesDAO()
+        result = dao.getMessagesLikedByUser(u_id)
+        if len(result) == 0:
+            return jsonify(Error="NOT FOUND"), 404
+        dao2 = MsgDAO()
+        mapped_result = []
+        for r in result:
+            mapped_result.append(self.mapToMsgDict(dao2.getMsgById(r)))
+        return jsonify(Messages=mapped_result)
+
+    def getUsersWhoDislikeMessages(self, msg_id):
+        dao1 = DislikesDAO()
+        result = dao1.getUsersWhoDislikeMessage(msg_id)
+        if len(result) == 0:
+            return jsonify(Error="NOT FOUND"), 404
+        dao2 = UserDAO()
+        mapped_result = []
+        for r in result:
+            mapped_result.append(self.mapToUserDict(dao2.getUserById(r)))
+        return jsonify(Users=mapped_result)
+
+    def getMessagesDislikedByUser(self, u_id):
+        dao = DislikesDAO()
+        result = dao.getMessagesDislikedByUser(u_id)
+        if len(result) == 0:
+            return jsonify(Error="NOT FOUND"), 404
+        dao2 = MsgDAO()
+        mapped_result = []
+        for r in result:
+            mapped_result.append(self.mapToMsgDict(dao2.getMsgById(r)))
+        return jsonify(Messages=mapped_result)
+
+    def mapToUserDict(self, row):
+        result = {}
+        result["user_id"] = row[0]
+        result["first_name"] = row[1]
+        result["last_name"] = row[2]
+        result["email"] = row[3]
+        result["phone"] = row[4]
+        result["username"] = row[5]
+        result["password"] = row[6]
+        return result

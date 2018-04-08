@@ -20,6 +20,15 @@ class UserHandler:
             mapped = self.mapToUserDict(result)
             return jsonify(User=mapped)
 
+    def getUserByName(self, username):
+        dao = UserDAO()
+        result = dao.getUserByName(username)
+        if result == None:
+            return jsonify(Error="NOT FOUND"), 404
+        else:
+            mapped = self.mapToUserDict(result)
+            return jsonify(User=mapped)
+
     def mapToUserDict(self, row):
         result = {}
         result["user_id"] = row[0]
@@ -41,6 +50,15 @@ class UserHandler:
             mapped = self.mapToFNameDict(result)
             return jsonify(FirstName=mapped)
 
+    def getFNameByName(self, username):
+        dao = UserDAO()
+        result = dao.getFNameByName(username)
+        if result == None:
+            return jsonify(Error="NOT FOUND"), 404
+        else:
+            mapped = self.mapToFNameDict(result)
+            return jsonify(FirstName=mapped)
+
     def mapToFNameDict(self, row):
         print("DEBUG - users: MapToDict")
         result = {}
@@ -50,6 +68,15 @@ class UserHandler:
     def getLNameByUserId(self, user_id):
         dao = UserDAO()
         result = dao.getLNameByUserId(user_id)
+        if result == None:
+            return jsonify(Error="NOT FOUND"), 404
+        else:
+            mapped = self.mapToLNameDict(result)
+            return jsonify(LastName=mapped)
+
+    def getLNameByName(self, username):
+        dao = UserDAO()
+        result = dao.getLNameByName(username)
         if result == None:
             return jsonify(Error="NOT FOUND"), 404
         else:
@@ -70,6 +97,15 @@ class UserHandler:
             mapped = self.mapToEmailDict(result)
             return jsonify(Email=mapped)
 
+    def getEmailByName(self, username):
+        dao = UserDAO()
+        result = dao.getEmailByName(username)
+        if result == None:
+            return jsonify(Error="NOT FOUND"), 404
+        else:
+            mapped = self.mapToEmailDict(result)
+            return jsonify(Email=mapped)
+
     def mapToEmailDict(self, row):
         result = {}
         result["email"] = row
@@ -83,6 +119,15 @@ class UserHandler:
         else:
             mapped = self.mapToPhoneDict(result)
             return jsonify(Phone=mapped)
+
+    def getPhoneByName(self, username):
+        dao = UserDAO()
+        result = dao.getPhoneByName(username)
+        if result == None:
+            return jsonify(Error="NOT FOUND"), 404
+        else:
+            mapped = self.mapToPhoneDict(result)
+            return jsonify(FirstName=mapped)
 
     def mapToPhoneDict(self, row):
         result = {}

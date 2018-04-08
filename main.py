@@ -83,6 +83,11 @@ def getAllReplies():
     handler = ReplyHandler()
     return handler.getAllReplies()
 
+#Gets a list of all messages belonging to a group chat by its id
+@app.route("/MessagingApp/gchat/msgs/<int:gc_id>")
+def getMessagesByChatId(gc_id):
+    return MsgHandler().getMessagesByChatId(gc_id)
+
 #################################### USER ROUTES
 
 #Get all existing users
@@ -96,11 +101,21 @@ def user():
 def getUserById(user_id):
     return UserHandler().getUserById(user_id)
 
+#Get an user using the username
+@app.route("/MessagingApp/user/<string:username>")
+def getUserByUsername(username):
+    return UserHandler().getUserByName(username)
+
 #Get the first name of an user
 @app.route("/MessagingApp/user/fname/<int:user_id>")
 def getFNameByUserId(user_id):
     handler = UserHandler()
     return handler.getFNameByUserId(user_id)
+
+#Get the first name of a user using the username
+@app.route("/MessagingApp/user/fname/<string:username>")
+def getFNameByUsername(username):
+    return UserHandler().getFNameByName(username)
 
 #Get the last name of an user
 @app.route("/MessagingApp/user/lname/<int:user_id>")
@@ -108,17 +123,32 @@ def getLNameByUserId(user_id):
     handler = UserHandler()
     return handler.getLNameByUserId(user_id)
 
+#Get the last name of a user using the username
+@app.route("/MessagingApp/user/lname/<string:username>")
+def getLNameByUsername(username):
+    return UserHandler().getLNameByName(username)
+
 #Get the email of an user
 @app.route("/MessagingApp/user/email/<int:user_id>")
 def getEmailByUserId(user_id):
     handler = UserHandler()
     return handler.getEmailByUserId(user_id)
 
+#Get the email of a user using the username
+@app.route("/MessagingApp/user/email/<string:username>")
+def getEmailByUsername(username):
+    return UserHandler().getEmailByName(username)
+
 #Get the phone of an user
 @app.route("/MessagingApp/user/phone/<int:user_id>")
 def getPhoneByUserId(user_id):
     handler = UserHandler()
     return handler.getPhoneByUserId(user_id)
+
+#Get the phone of an user using the username
+@app.route("/MessagingApp/user/phone/<string:username>")
+def getPhoneByUsername(username):
+    return UserHandler().getPhoneByName(username)
 
 #Get the username of an user
 @app.route("/MessagingApp/user/username/<int:user_id>")
@@ -165,9 +195,15 @@ def getGroupChatById(gchat_id):
     return GroupChatHandler().getGroupChatById(gchat_id)
 
 #Get the group chats of an owner (user) using their id
-@app.route("/MessagingApp/gchat/owner/<int:user_id>")
+@app.route("/MessagingApp/owner/gchat/<int:user_id>")
 def getAllChatsByOwnerId(user_id):
     return GroupChatHandler().getAllGroupChatByOwnerId(user_id)
+
+#Get the owner of a group chat using the group chat id
+@app.route("/MessagingApp/gchat/owner/<int:gc_id>")
+def getOwnerOfChat(gc_id):
+    handler = GroupChatHandler()
+    return handler.getOwnerOfChat(gc_id)
 
 #Get a specific group chat using the owner's (user) id and the group chat's name
 @app.route("/MessagingApp/gchat/owner/gchat_name/<int:user_id>/<string:gchat_name>")
@@ -193,39 +229,48 @@ def getChatMembersByChatId(gchat_id):
 
 #################################### DASHBOARD ROUTES
 
+#Get all dashboards in the system
 @app.route("/MessagingApp/dashboard")
 def dashboard():
     handler = DashboardHandler()
     return handler.getAllDashboard()
 
+#Get a dashboard by id
 @app.route("/MessagingApp/dashboard/<int:dashboard_id>")
 def getDashboardById(dashboard_id):
     return DashboardHandler().getDashboardById(dashboard_id)
 
+#Get the date of a dashboard by id
 @app.route("/MessagingApp/dashboard/date/<int:dashboard_id>")
 def getDateByDashboardId(dashboard_id):
     return DashboardHandler().getDateById(dashboard_id)
 
+#Get a dashboard by date
 @app.route("/MessagingApp/dashboard/<string:date>")
 def getDashboardByDate(date):
     return DashboardHandler().getDashboardByDate(date)
 
+#Get the number of total messages in dashboard by id
 @app.route("/MessagingApp/dashboard/total_messages/<int:dashboard_id>")
 def getTotalMessagesByDashboardId(dashboard_id):
     return DashboardHandler().getTotalMessagesById(dashboard_id)
 
+#Get the number of total replies in dashboard by id
 @app.route("/MessagingApp/dashboard/total_replies/<int:dashboard_id>")
 def getRepliesByDashboardId(dashboard_id):
     return DashboardHandler().getRepliesById(dashboard_id)
 
+#Get the number of total likes in dashboard by id
 @app.route("/MessagingApp/dashboard/total_likes/<int:dashboard_id>")
 def getTotalLikesByDashboardId(dashboard_id):
     return DashboardHandler().getLikesById(dashboard_id)
 
+#Get the number of total dislikes in dashboard by id
 @app.route("/MessagingApp/dashboard/total_dislikes/<int:dashboard_id>")
 def getTotalDislikesByDashboardId(dashboard_id):
     return DashboardHandler().getDislikesById(dashboard_id)
 
+#Get the number of total active users in dashboard by id
 @app.route("/MessagingApp/dashboard/active_users/<int:dashboard_id>")
 def getActiveUsersByDashboardId(dashboard_id):
     return DashboardHandler().getActiveUsersById(dashboard_id)
@@ -257,6 +302,7 @@ def getFrequencyByHashtagId(hashtag_id):
 @app.route("/MessagingApp/hashtag/frequency/<string:hashtag_text>")
 def getFrequencyByHashtagText(hashtag_text):
     return HashtagHandler().getFrequencyByHashtagText(hashtag_text)
+
 
 if __name__ == '__main__':
     app.run()

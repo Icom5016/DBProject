@@ -61,3 +61,10 @@ class MsgDAO:
             if msg_id == r[0]:
                 return r[7]
         return None
+
+    def getMessagesByChatId(self, gc_id):
+        total = []
+        for r in self.data:
+            if gc_id == r[5]:
+                total.append(r)
+        return total

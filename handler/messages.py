@@ -118,3 +118,11 @@ class MsgHandler:
         result = {}
         result["date"] = row
         return result
+
+    def getMessagesByChatId(self, gc_id):
+        dao = MsgDAO()
+        result = dao.getMessagesByChatId(gc_id)
+        mapped_result = []
+        for r in result:
+            mapped_result.append(self.mapToMsgDict(r))
+        return jsonify(Messages=mapped_result)

@@ -39,3 +39,9 @@ class GroupChatDAO:
             if (gchat_name == r[1]):
                 total.append(r)
         return total
+
+    def getOwnerOfChat(self, gc_id):
+        for r in self.data:
+            if gc_id == r[0]:
+                return r[2]
+        return None

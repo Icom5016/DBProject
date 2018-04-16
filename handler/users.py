@@ -1,5 +1,6 @@
 from flask import jsonify, request
 from dao.userDao import UserDAO
+from dao.chatMembersDao import ChatMembersDAO
 
 
 class UserHandler:
@@ -160,4 +161,21 @@ class UserHandler:
     def mapToPasswordDict(self, row):
         result = {}
         result["password"] = row
+        return result
+
+    def getChatsOfUser(self, user_id):
+        dao = ChatMembersDAO()
+        result = dao.getChatsByUser(user_id)
+        if result == None:
+            return jsonify(Error="NOT FOUND"), 404
+        mapped_result = []
+        for r in result:
+            mapped_result.append(self.mapToChatsDict(r))
+        return jsonify(Groupchats=mapped_result)
+
+    def mapToChatsDict(self, row):
+        result = {}
+        result["gchat_id"] = row[0]
+        result["gchat_name"] = row[1]
+        result["owner"] = row[2]
         return result

@@ -132,6 +132,16 @@ class MsgHandler:
             mapped_result.append(self.mapToMsgDict(r))
         return jsonify(Messages=mapped_result)
 
+    def getMessagesFromAUserInChat(self, gc_id, user_id):
+        dao = MsgDAO()
+        result = dao.getMessagesByChatIdAndUserId(gc_id, user_id)
+        if result == None:
+            return jsonify(Error="NOT FOUND"), 404
+        mapped_result = []
+        for r in result:
+            mapped_result.append(self.mapToMsgDict(r))
+        return jsonify(Messages=mapped_result)
+
     def getUsersWhoLikeMessages(self, msg_id):
         dao1 = LikesDAO()
         result = dao1.getUsersWhoLikeMessage(msg_id)

@@ -88,6 +88,11 @@ def getAllReplies():
 def getMessagesByChatId(gc_id):
     return MsgHandler().getMessagesByChatId(gc_id)
 
+#Gets a list of all messages written by a user belonging to a group chat using the group chat id and user id
+@app.route("/MessagingApp/gchat/user/msgs/<int:gc_id>/<int:u_id>")
+def getMessagesByChatIdAndUserId(gc_id, u_id):
+    return MsgHandler().getMessagesFromAUserInChat(gc_id, u_id)
+
 #Gets a list of all the users that like a message
 @app.route("/MessagingApp/msg/likes/users/<int:msg_id>")
 def getUsersWhoLikeMessage(msg_id):
@@ -224,6 +229,11 @@ def getAllChatsByOwnerId(user_id):
 def getOwnerOfChat(gc_id):
     handler = GroupChatHandler()
     return handler.getOwnerOfChat(gc_id)
+
+#Get the groupchats a user belongs to by user id
+@app.route("/MessagingApp/user/gchats/<int:u_id>")
+def getChatsOfUser(u_id):
+    return UserHandler().getChatsOfUser(u_id)
 
 #Get a specific group chat using the owner's (user) id and the group chat's name
 @app.route("/MessagingApp/gchat/owner/gchat_name/<int:user_id>/<string:gchat_name>")

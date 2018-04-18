@@ -1,6 +1,7 @@
 from flask import jsonify, request
 from dao.groupchatDao import GroupChatDAO
 from dao.chatMembersDao import ChatMembersDAO
+from dao.userDao import UserDAO
 
 class GroupChatHandler():
     def getAllChats(self):
@@ -72,4 +73,26 @@ class GroupChatHandler():
         result = {}
         result["gchat_id"] = row[0]
         result["members"] = row[1]
+        return result
+
+    def getOwnerOfChat(self, gc_id):
+        dao1 = GroupChatDAO()
+        u_id = dao1.getOwnerOfChat(gc_id)
+        dao2 = UserDAO()
+        result = dao2.getUserById(u_id)
+        if result == None:
+            return jsonify(Error="NOT FOUND"), 404
+        else:
+            mapped = self.mapToUserDict(result)
+            return jsonify(Owner=mapped)
+
+    def mapToUserDict(self, row):
+        result = {}
+        result["user_id"] = row[0]
+        result["first_name"] = row[1]
+        result["last_name"] = row[2]
+        result["email"] = row[3]
+        result["phone"] = row[4]
+        result["username"] = row[5]
+        result["password"] = row[6]
         return result

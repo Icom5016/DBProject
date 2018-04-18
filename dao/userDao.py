@@ -21,9 +21,21 @@ class UserDAO:
                 return r
         return None
 
+    def getUserByName(self, username):
+        for r in self.data:
+            if username == r[5]:
+                return r
+        return None
+
     def getFNameByUserId(self, user_id):
         for r in self.data:
             if user_id == r[0]:
+                return r[1]
+        return None
+
+    def getFNameByName(self, username):
+        for r in self.data:
+            if username == r[5]:
                 return r[1]
         return None
 
@@ -33,15 +45,33 @@ class UserDAO:
                 return r[2]
         return None
 
+    def getLNameByName(self, username):
+        for r in self.data:
+            if username == r[5]:
+                return r[2]
+        return None
+
     def getEmailByUserId(self, user_id):
         for r in self.data:
             if user_id == r[0]:
                 return r[3]
         return None
 
+    def getEmailByName(self, username):
+        for r in self.data:
+            if username == r[5]:
+                return r[3]
+        return None
+
     def getPhoneByUserId(self, user_id):
         for r in self.data:
             if user_id == r[0]:
+                return r[4]
+        return None
+
+    def getPhoneByName(self, username):
+        for r in self.data:
+            if username == r[5]:
                 return r[4]
         return None
 

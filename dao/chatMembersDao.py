@@ -1,4 +1,5 @@
 from dao.userDao import UserDAO
+from dao.groupchatDao import GroupChatDAO
 
 class ChatMembersDAO:
     def __init__(self):
@@ -56,5 +57,15 @@ class ChatMembersDAO:
         result.append(gchat_id)
         result.append(chat_members)
         if chat_members == []:
+            return None
+        return result
+
+    def getChatsByUser(self, user_id):
+        dao = GroupChatDAO()
+        result = []
+        for r in self.data:
+            if user_id == r[1]:
+                result.append(dao.getGroupChatById(r[0]))
+        if not result:
             return None
         return result

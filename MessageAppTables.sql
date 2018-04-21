@@ -14,7 +14,7 @@ CREATE TABLE hashtag(
 
 insert into hashtag(hash_id, text, frequency) VALUES (1, '#DontTellToby', 5) --done
 insert into hashtag(hash_id, text, frequency) VALUES (2, '#DwightRegionalManager', 1) --done
-insert into hashtag(hash_id, text, frequency) VALUES (3, '#GoingToSandalsJamaica', 1)
+insert into hashtag(hash_id, text, frequency) VALUES (3, '#GoingToSandalsJamaica', 1) --done
 insert into hashtag(hash_id, text, frequency) VALUES (7, '#AssistantTOTHERegionalManager', 4) --done
 insert into hashtag(hash_id, text, frequency) VALUES (8, '#MichealComeBack', 2) --done
 

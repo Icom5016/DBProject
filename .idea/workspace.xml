@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="04672f8c-f08e-4ba3-946e-d2aa3bdb762d" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/MessageAppTables.sql" afterPath="$PROJECT_DIR$/MessageAppTables.sql" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -29,8 +28,8 @@
       <file leaf-file-name="MessageAppTables.sql" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/MessageAppTables.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="369">
-              <caret line="58" column="95" lean-forward="true" selection-start-line="58" selection-start-column="95" selection-end-line="58" selection-end-column="95" />
+            <state relative-caret-position="255">
+              <caret line="24" column="36" lean-forward="true" selection-start-line="24" selection-start-column="36" selection-end-line="24" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -559,8 +558,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/MessageAppTables.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="369">
-          <caret line="58" column="95" lean-forward="true" selection-start-line="58" selection-start-column="95" selection-end-line="58" selection-end-column="95" />
+        <state relative-caret-position="255">
+          <caret line="24" column="36" lean-forward="true" selection-start-line="24" selection-start-column="36" selection-end-line="24" selection-end-column="36" />
           <folding />
         </state>
       </provider>

@@ -1,8 +1,7 @@
 from flask import Flask, request
-from handler.messages import MsgHandler
+from handler2.messages2 import MsgHandler
 from handler2.users2 import UserHandler
 from handler2.contactlists2 import ContactListHandler
-from handler.reply import ReplyHandler
 from handler2.groupChat2 import GroupChatHandler
 from handler.dashboard import DashboardHandler
 from handler.hashtag import HashtagHandler
@@ -27,61 +26,67 @@ def login():
 #################################### MESSAGE ROUTES
 
 #Get all the existing messages
-@app.route("/MessagingApp/msg")
+@app.route("/MessagingApp/msg", methods=['GET', 'POST'])
 def msg():
-    handler = MsgHandler()
-    return handler.getAllMsg()
+    if not request.args:
+        return MsgHandler().getAllMsg()
+    else:
+        return MsgHandler.getAllMsg(request.args)
 
 #Get one message using the message id
-@app.route("/MessagingApp/msg/<int:msg_id>")
+@app.route("/MessagingApp/msg/<int:msg_id>", methods=['GET', 'PUT', 'DELETE'])
 def getMsgById(msg_id):
     return MsgHandler().getMsgById(msg_id)
 
 #Get the author (user) of the message
-@app.route("/MessagingApp/msg/author/<int:msg_id>")
+@app.route("/MessagingApp/msg/author/<int:msg_id>", methods=['GET', 'PUT', 'DELETE'])
 def getAuthorByMsgId(msg_id):
     return MsgHandler().getAuthorByMsgId(msg_id)
 
 #Get the text of a message
-@app.route("/MessagingApp/msg/text/<int:msg_id>")
+@app.route("/MessagingApp/msg/text/<int:msg_id>", methods=['GET', 'PUT', 'DELETE'])
 def getTextByMsgId(msg_id):
     return MsgHandler().getTextByMsgId(msg_id)
 
 #Get the number of likes of a message
-@app.route("/MessagingApp/msg/likes/<int:msg_id>")
+@app.route("/MessagingApp/msg/likes/<int:msg_id>", methods=['GET', 'PUT', 'DELETE'])
 def getLikesByMsgId(msg_id):
     return MsgHandler().getLikesByMsgId(msg_id)
 
 #get the number of dislikes of a message
-@app.route("/MessagingApp/msg/dislikes/<int:msg_id>")
+@app.route("/MessagingApp/msg/dislikes/<int:msg_id>", methods=['GET', 'PUT', 'DELETE'])
 def getDislikesByMsgId(msg_id):
     return MsgHandler().getDislikesByMsgId(msg_id)
 
 #get the time of a message
-@app.route("/MessagingApp/msg/time/<int:msg_id>")
+@app.route("/MessagingApp/msg/time/<int:msg_id>", methods=['GET', 'PUT', 'DELETE'])
 def getTimeByMsgId(msg_id):
     return MsgHandler().getTimeByMsgId(msg_id)
 
 #get the date of a message
-@app.route("/MessagingApp/msg/date/<int:msg_id>")
+@app.route("/MessagingApp/msg/date/<int:msg_id>", methods=['GET', 'PUT', 'DELETE'])
 def getDateByMsgId(msg_id):
     return MsgHandler().getDateByMsgId(msg_id)
 
-#Gets the original message using the reply's id
-@app.route("/MessagingApp/msg/original/<int:reply_id>")
-def getOriginalByReplyId(reply_id):
-    return ReplyHandler().getOriginalByReplyId(reply_id)
+@app.route("/MessagingApp/msg/gchat/<int:gchat_id>", methods=['GET', 'PUT', 'DELETE'])
+def getMessagesByChatId(gchat_id):
+    return MsgHandler().getMessagesByChatId(gchat_id)
 
-#Gets a list of replies of a message using its id
-@app.route("/MessagingApp/msg/reply/<int:original_id>")
-def getRepliesByOriginalId(original_id):
-    return ReplyHandler().getRepliesByOriginalId(original_id)
-
-#Gets a list of all existing messages that are replies
-@app.route("/MessagingApp/msg/reply")
-def getAllReplies():
-    handler = ReplyHandler()
-    return handler.getAllReplies()
+# #Gets the original message using the reply's id
+# @app.route("/MessagingApp/msg/original/<int:reply_id>", methods=['GET', 'PUT', 'DELETE'])
+# def getOriginalByReplyId(reply_id):
+#     return ReplyHandler().getOriginalByReplyId(reply_id)
+#
+# #Gets a list of replies of a message using its id
+# @app.route("/MessagingApp/msg/reply/<int:original_id>", methods=['GET', 'PUT', 'DELETE'])
+# def getRepliesByOriginalId(original_id):
+#     return ReplyHandler().getRepliesByOriginalId(original_id)
+#
+# #Gets a list of all existing messages that are replies
+# @app.route("/MessagingApp/msg/reply", methods=['GET', 'PUT', 'DELETE'])
+# def getAllReplies():
+#     handler = ReplyHandler()
+#     return handler.getAllReplies()
 
 #################################### USER ROUTES
 

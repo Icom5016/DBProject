@@ -19,52 +19,52 @@ insert into hashtag(hash_id, text, frequency) VALUES (7, '#AssistantTOTHERegiona
 insert into hashtag(hash_id, text, frequency) VALUES (8, '#MichealComeBack', 2) --done
 
 CREATE TABLE message(
-	msg_id int serial primary key, --message id
-	text string, --message text
+	msg_id serial primary key, --message id
+	text varchar, --message text
 	likes int, --message likes
 	dislikes int, --message dislikes
 	date date, --message date
 	time time, --message time
 	person_id int references person(person_id), --user that sent the message
-	gchat_id int references group_chat(gcid)); --group chat where it was sent
+	gchat_id int references group_chat(gchat_id)); --group chat where it was sent
 
-insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (1, 'Hey guys!', 0, 0, '2018-03-01', '07:30:13', 1, 1)
-insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (2, '#DontTellToby', 0, 0, '2018-03-01', '07:30:40', 1, 1)
-insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (3, 'Lets throw a dinner party!. Also Im #GoingToSandalsJamaica in summer with my boss thats also my girlfriend', 0, 0, '2018-03-01', '07:31:02', 1, 1)
-insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (4, 'Wow... #DontTellToby seriously Micheal?', 0, 0, '2018-03-01', '07:31:10', 2, 1)
-insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (5, 'Yeah I think thats a bit too much... #DontTellToby ???', 0, 0, '2018-03-01', '07:31:20', 3, 1)
-insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (6, 'You shouldnt be so harsh on him' , 0, 0, '2018-03-01', '07:31:30', 3, 1)
-insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (7, 'Yeah well whatever... he sucks', 0, 0, '2018-03-01', '07:31:50', 1, 1)
-insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (8, 'HAHAH MICHEAL COMEDIC GENIUS! #DontTellToby hahaahahah', 0, 0, '2018-03-01', '07:32:00', 4, 1)
-insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (9, 'Ill bring Mose #DontTellToby', 0, 0, '2018-03-01', '07:32:13', 4, 1)
-insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (10, 'NO dwight... no', 0, 0, '2018-03-01', '07:32:20', 1, 1)
+insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (1, 'Hey guys!', 2, 0, '2018-03-01', '07:30:13', 1, 1);
+insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (2, '#DontTellToby', 1, 5, '2018-03-01', '07:30:40', 1, 1);
+insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (3, 'Lets throw a dinner party!. Also Im #GoingToSandalsJamaica in summer with my boss thats also my girlfriend', 0, 0, '2018-03-01', '07:31:02', 1, 1);
+insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (4, 'Wow... #DontTellToby seriously Micheal?', 3, 0, '2018-03-01', '07:31:10', 2, 1);
+insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (5, 'Yeah I think thats a bit too much... #DontTellToby ???', 0, 0, '2018-03-01', '07:31:20', 3, 1);
+insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (6, 'You shouldnt be so harsh on him' , 0, 1, '2018-03-01', '07:31:30', 3, 1);
+insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (7, 'Yeah well whatever... he sucks', 0, 2, '2018-03-01', '07:31:50', 1, 1);
+insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (8, 'HAHAH MICHEAL COMEDIC GENIUS! #DontTellToby hahaahahah', 1, 0, '2018-03-01', '07:32:00', 4, 1);
+insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (9, 'Ill bring Mose #DontTellToby', 0, 5, '2018-03-01', '07:32:13', 4, 1);
+insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (10, 'NO dwight... no', 5, 0, '2018-03-01', '07:32:20', 1, 1);
 
-insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (11, 'So what are we bringing for the party?', 0, 0, '2018-03-01', '09:17:00', 5, 2)
-insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (12, 'Cake?', 0, 0, '2018-03-01', '09:17:30', 3, 2)
-insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (13, 'EW NO!', 0, 0, '2018-03-01', '09:18:00', 5, 2)
-insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (14, 'We should ask Ryan', 0, 0, '2018-03-01', '09:18:30', 8, 2)
-insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (15, 'Hes not in the party planning comittee Kelly', 0, 0, '2018-03-01', '09:19:00', 10, 2)
+insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (11, 'So what are we bringing for the party?', 1, 0, '2018-03-01', '09:17:00', 5, 2);
+insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (12, 'Cake?', 3, 1, '2018-03-01', '09:17:30', 3, 2);
+insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (13, 'EW NO!', 0, 0, '2018-03-01', '09:18:00', 5, 2);
+insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (14, 'We should ask Ryan', 0, 4, '2018-03-01', '09:18:30', 8, 2);
+insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (15, 'Hes not in the party planning comittee Kelly', 2, 0, '2018-03-01', '09:19:00', 10, 2);
 
-insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (16, ' Hi Micheal, I was thinking about #DwightRegionalManager... what do you', 0, 0, '2018-03-01', '09:18:30', 6, 3)
-insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (17, 'SHUTUP TOBY. DONT TYPE ANYMORE', 0, 0, '2018-03-01', '09:18:35', 1, 3)
+insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (16, ' Hi Micheal, I was thinking about #DwightRegionalManager... what do you', 0, 1, '2018-03-01', '09:18:30', 6, 3);
+insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (17, 'SHUTUP TOBY. DONT TYPE ANYMORE', 0, 0, '2018-03-01', '09:18:35', 1, 3);
 
-insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (18, 'I love you!', 0, 0, '2018-03-01', '09:18:35', 2, 4)
-insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (19, 'Me too <3', 0, 0, '2018-03-01', '09:18:55', 3, 4)
+insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (18, 'I love you!', 1, 0, '2018-03-01', '09:18:35', 2, 4);
+insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (19, 'Me too <3', 1, 0, '2018-03-01', '09:18:55', 3, 4);
 
-insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (20, 'I miss Micheal. #MichealComeBack', 0, 0, '2018-03-01', '12:30:00', 2, 5)
-insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (21, 'Me too T.T #MichealComeBack', 0, 0, '2018-03-01', '12:31:00', 4, 5)
-insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (22, 'What does T.T mean Dwight...', 0, 0, '2018-03-01', '12:32:00', 3, 5)
-insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (23, 'Its a crying face, Koreans used it in the ancient wars agaisnt the japanese', 0, 0, '2018-03-01', '12:33:00', 4, 5)
-insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (24, 'What do you guys think of me being the Regional Manager?', 0, 0, '2018-03-01', '12:34:00', 4, 5)
-insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (25, 'Youll forever remain #AssistantTOTHERegionalManager', 0, 0, '2018-03-01', '12:35:00', 2, 5)
-insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (26, 'Yup... #AssistantTOTHERegionalManager (:', 0, 0, '2018-03-01', '12:36:00', 3, 5)
-insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (27, 'How dare yee create such defamatory hashtag... #AssistantTOTHERegionalManager ... Ill get you fired JIM', 0, 0, '2018-03-01', '12:37:00', 4, 5)
-insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (28, 'I kinda like it actually... #AssistantTOTHERegionalManager', 0, 0, '2018-03-01', '12:38:00', 5, 5)
-insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (29, 'Now that you say it... Me too HAha', 0, 0, '2018-03-01', '12:39:00', 4, 5)
-insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (30, 'jesus...', 0, 0, '2018-03-01', '12:40:00', 2, 5)
+insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (20, 'I miss Micheal. #MichealComeBack', 2, 0, '2018-03-01', '12:30:00', 2, 5);
+insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (21, 'Me too T.T #MichealComeBack', 1, 0, '2018-03-01', '12:31:00', 4, 5);
+insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (22, 'What does T.T mean Dwight...', 0, 1, '2018-03-01', '12:32:00', 3, 5);
+insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (23, 'Its a crying face, Koreans used it in the ancient wars agaisnt the japanese', 0, 0, '2018-03-01', '12:33:00', 4, 5);
+insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (24, 'What do you guys think of me being the Regional Manager?', 0, 0, '2018-03-01', '12:34:00', 4, 5);
+insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (25, 'Youll forever remain #AssistantTOTHERegionalManager', 0, 1, '2018-03-01', '12:35:00', 2, 5);
+insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (26, 'Yup... #AssistantTOTHERegionalManager (:', 0, 1, '2018-03-01', '12:36:00', 3, 5);
+insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (27, 'How dare yee create such defamatory hashtag... #AssistantTOTHERegionalManager ... Ill get you fired JIM', 1, 0, '2018-03-01', '12:37:00', 4, 5);
+insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (28, 'I kinda like it actually... #AssistantTOTHERegionalManager', 1, 1, '2018-03-01', '12:38:00', 5, 5);
+insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (29, 'Now that you say it... Me too HAha', 1, 0, '2018-03-01', '12:39:00', 4, 5);
+insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (30, 'jesus...', 0, 1, '2018-03-01', '12:40:00', 2, 5);
 
-insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (31, 'Love me Ryan! I prefer to die if youre not with me...', 0, 0, '2018-03-01', '12:34:00', 8, 6)
-insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (32, 'No Kelly this is not meant to be', 0, 0, '2018-03-01', '12:35:00', 9, 6)
+insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (31, 'Love me Ryan! I prefer to die if youre not with me...', 0, 0, '2018-03-01', '12:34:00', 8, 6);
+insert into message(msg_id, text, likes, dislikes, date, time, person_id, gchat_id) VALUES (32, 'No Kelly this is not meant to be', 0, 1, '2018-03-01', '12:35:00', 9, 6);
 
 
 

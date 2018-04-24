@@ -60,10 +60,15 @@ class GroupChatHandler():
         result = dao.getAllChatsAndMembers()
         mapped_result = []
         for r in result:
-            mapped_result.append(self.mapToChatAndMembersDict(r))
+            mapped_result.append(self.mapToAllChatsAndMembersListDict(r))
         return jsonify(ChatsAndMembers=mapped_result)
 
-
+    def mapToAllChatsAndMembersListDict(self, row):
+        result = {}
+        result["gchat_id"] = row[0]
+        result["chat_name"] = row[1]
+        result["members"] = row[2]
+        return result
 
     def getChatMembersByChatID(self, gchat_id):
         dao = ChatMembersDAO()

@@ -72,21 +72,37 @@ def getDateByMsgId(msg_id):
 def getMessagesByChatId(gchat_id):
     return MsgHandler().getMessagesByChatId(gchat_id)
 
-# #Gets the original message using the reply's id
-# @app.route("/MessagingApp/msg/original/<int:reply_id>", methods=['GET', 'PUT', 'DELETE'])
-# def getOriginalByReplyId(reply_id):
-#     return ReplyHandler().getOriginalByReplyId(reply_id)
-#
-# #Gets a list of replies of a message using its id
-# @app.route("/MessagingApp/msg/reply/<int:original_id>", methods=['GET', 'PUT', 'DELETE'])
-# def getRepliesByOriginalId(original_id):
-#     return ReplyHandler().getRepliesByOriginalId(original_id)
-#
-# #Gets a list of all existing messages that are replies
-# @app.route("/MessagingApp/msg/reply", methods=['GET', 'PUT', 'DELETE'])
-# def getAllReplies():
-#     handler = ReplyHandler()
-#     return handler.getAllReplies()
+@app.route("/MessagingApp/msg/user/<int:user_id>", methods=['GET', 'PUT', 'DELETE'])
+def getAllMsgByUserId(user_id):
+    return MsgHandler().getAllMsgByUserId(user_id)
+
+@app.route("/MessagingApp/msg/gchat/user/<int:gchat_id>/<int:user_id>", methods=['GET', 'PUT', 'DELETE'])
+def getMessagesByChatIdAndUserId(gchat_id, user_id):
+    return MsgHandler().getMessagesByChatIdAndUserId(gchat_id, user_id)
+
+@app.route("/MessagingApp/msg/likes/user/<int:msg_id>", methods=['GET', 'PUT', 'DELETE'])
+def getAllLikeUsersByMsgID(msg_id):
+    return MsgHandler().getAllLikeUsersByMsgID(msg_id)
+
+@app.route("/MessagingApp/msg/dislikes/user/<int:msg_id>", methods=['GET', 'PUT', 'DELETE'])
+def getAllDislikeUsersByMsgID(msg_id):
+    return MsgHandler().getAllDislikeUsersByMsgID(msg_id)
+
+#Gets the original message using the reply's id
+@app.route("/MessagingApp/msg/original/<int:reply_id>", methods=['GET', 'PUT', 'DELETE'])
+def getOriginalByReplyId(reply_id):
+    return MsgHandler().getOriginalByReplyId(reply_id)
+
+#Gets a list of replies of a message using its id
+@app.route("/MessagingApp/msg/reply/<int:original_id>", methods=['GET', 'PUT', 'DELETE'])
+def getRepliesByOriginalId(original_id):
+    return MsgHandler().getRepliesByOriginalId(original_id)
+
+#Gets a list of all existing messages that are replies
+@app.route("/MessagingApp/msg/reply", methods=['GET', 'PUT', 'DELETE'])
+def getAllReplies():
+    handler = MsgHandler()
+    return handler.getAllReplies()
 
 #################################### USER ROUTES
 
@@ -148,6 +164,14 @@ def getPhoneByUserId(user_id):
 def getPasswordByUserId(user_id):
     handler = UserHandler()
     return handler.getPasswordByUserId(user_id)
+
+@app.route("/MessagingApp/user/likes/msg/<int:user_id>", methods=['GET', 'PUT', 'DELETE'])
+def getLikedMsgByUserId(user_id):
+    return UserHandler().getLikedMsgByUserId(user_id)
+
+@app.route("/MessagingApp/user/dislikes/msg/<int:user_id>", methods=['GET', 'PUT', 'DELETE'])
+def getDislikedMsgByUserId(user_id):
+    return UserHandler().getDislikedMsgByUserId(user_id)
 
 #################################### CONTACT LIST ROUTES
 

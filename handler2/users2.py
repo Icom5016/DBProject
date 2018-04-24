@@ -180,3 +180,31 @@ class UserHandler:
         result["gchat_name"] = row[1]
         result["owner"] = row[2]
         return result
+
+    def getLikedMsgByUserId(self, user_id):
+        dao = UserDAO()
+        result = dao.getLikedMsgByUserId(user_id)
+        mapped_result = []
+        for r in result:
+            mapped_result.append(self.mapToMsgDict(r))
+        return jsonify(LikedMessages=mapped_result)
+
+    def getDislikedMsgByUserId(self, user_id):
+        dao = UserDAO()
+        result = dao.getDislikedMsgByUserId(user_id)
+        mapped_result = []
+        for r in result:
+            mapped_result.append(self.mapToMsgDict(r))
+        return jsonify(DislikedMessages=mapped_result)
+
+    def mapToMsgDict(self, row):
+        result = {}
+        result["msg_id"] = row[0]
+        result["text"] = row[1]
+        result["likes"] = row[2]
+        result["dislikes"] = row[3]
+        result["date"] = row[4]
+        #result["time"] = row[5]
+        result["person_id"] = row[6]
+        result["gchat_id"] = row[7]
+        return result

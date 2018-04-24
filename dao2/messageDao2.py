@@ -69,14 +69,21 @@ class MsgDAO:
         result = cursor.fetchone()
         return result
 
-    def getUserMessages(self):
-        pass
-        # cursor = self.conn.cursor()
-        # query = "select person_id, from person;"
-        # cursor.execute(query)
+    #Not sure what I was going for here
+    # def getUserMessages(self):
+    #     pass
+    #     # cursor = self.conn.cursor()
+    #     # query = "select person_id, from person;"
+    #     # cursor.execute(query)
 
-    def getUserMessagesByUserId(self, user_id):
-        pass
+    def getAllMsgByUserId(self, user_id):
+        cursor = self.conn.cursor()
+        query = "select * from message where person_id = %s;"
+        cursor.execute(query, (user_id,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
 
     def getMessagesByChatId(self, gchat_id):
         cursor = self.conn.cursor()
@@ -94,40 +101,64 @@ class MsgDAO:
                            r[8], r[10], r[1]])
         return result
 
-    def getMessagesByChatIdAndUserId(self, gc_id, user_id):
-        # total = []
-        # for r in self.data:
-        #     if gc_id == r[5] and user_id == r[4]:
-        #         total.append(r)
-        # if not total:
-        #     return None
-        # return total
-        pass
+    def getMessagesByChatIdAndUserId(self, gchat_id, user_id):
+        cursor = self.conn.cursor()
+        query = "select * from message where gchat_id = %s and person_id = %s;"
+        cursor.execute(query, (gchat_id, user_id,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
 
-    def getOriginalByReplyId(self, reply_id):
-        for r in self.data:
-            if r[1] == reply_id:
-                dao = MsgDAO()
-                original_id = r[0]
-                return dao.getMsgById(original_id)
-        return None
+    def getOriginalByReplyId(self, msg_id):
+        cursor = self.conn.cursor()
+        query = "select M.msg_id, M.text, M.likes, M.dislikes, M.date, M.time, M.person_id, M.gchat_id " \
+                "from message as M, reply as R " \
+                "where M.msg_id = R.original_id " \
+                "and R.msg_id = %s;"
+        cursor.execute(query, (msg_id,))
+        result = cursor.fetchone()
+        return result
 
     def getRepliesByOriginalId(self, original_id):
-        dao = MsgDAO()
+        cursor = self.conn.cursor()
+        query = "select M.msg_id, M.text, M.likes, M.dislikes, M.date, M.time, M.person_id, M.gchat_id " \
+                "from message as M, reply as R where M.msg_id = R.msg_id " \
+                "and R.original_id = %s;"
+        cursor.execute(query, (original_id,))
         result = []
-        for r in self.data:
-            if r[0] == original_id:
-                reply_id = r[1]
-                result.append(dao.getMsgById(reply_id))
-        if result == []:
-            return None
+        for row in cursor:
+            result.append(row)
         return result
 
     def getAllReplies(self):
-        dao = MsgDAO()
+        cursor = self.conn.cursor()
+        query = "select M.msg_id, M.text, M.likes, M.dislikes, M.date, M.time, M.person_id, M.gchat_id " \
+                "from message as M, reply as R where M.msg_id = R.msg_id;"
+        cursor.execute(query)
         result = []
-        for r in self.data:
-            result.append(dao.getMsgById(r[1]))
-        if result == []:
-            return None
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getAllLikeUsersByMsgID(self, msg_id):
+        cursor = self.conn.cursor()
+        query = "select P.person_id, P.first_name, P.last_name, P.email, P.phone, P.password " \
+                "from person as P, react as R " \
+                "where P.person_id = R.person_id and R.likes = true and R.msg_id = %s;"
+        cursor.execute(query, (msg_id,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getAllDislikeUsersByMsgID(self, msg_id):
+        cursor = self.conn.cursor()
+        query = "select P.person_id, P.first_name, P.last_name, P.email, P.phone, P.password " \
+                "from person as P, react as R " \
+                "where P.person_id = R.person_id and R.dislikes = true and R.msg_id = %s;"
+        cursor.execute(query, (msg_id,))
+        result = []
+        for row in cursor:
+            result.append(row)
         return result

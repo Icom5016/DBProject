@@ -96,3 +96,25 @@ class UserDAO:
         cursor.execute(query, (user_id,))
         result = cursor.fetchone()
         return result
+
+    def getLikedMsgByUserId(self, user_id):
+        cursor = self.conn.cursor()
+        query = "select M.msg_id, M.text, M.likes, M.dislikes, M.date, M.time, M.person_id, M.gchat_id " \
+                "from message as M, react as R " \
+                "where M.msg_id = R.msg_id and R.likes = true and R.person_id = %s;"
+        cursor.execute(query, (user_id,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getDislikedMsgByUserId(self, user_id):
+        cursor = self.conn.cursor()
+        query = "select M.msg_id, M.text, M.likes, M.dislikes, M.date, M.time, M.person_id, M.gchat_id " \
+                "from message as M, react as R " \
+                "where M.msg_id = R.msg_id and R.dislikes = true and R.person_id = %s;"
+        cursor.execute(query, (user_id,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result

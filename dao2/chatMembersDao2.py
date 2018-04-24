@@ -32,6 +32,8 @@ class ChatMembersDAO:
             return None
         return result
 
+
+
     def getAllChatMembersByChatID(self, gchat_id):
         cursor = self.conn.cursor()
         query = "select * from chat_members;"

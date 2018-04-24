@@ -22,6 +22,14 @@ class MsgHandler:
             mapped = self.mapToMsgDict(result)
             return jsonify(Message=mapped)
 
+    def getAllMsgByUserId(self, user_id):
+        dao = MsgDAO()
+        result = dao.getAllMsgByUserId(user_id)
+        mapped_result = []
+        for r in result:
+            mapped_result.append(self.mapToMsgDict(r))
+        return jsonify(Message=mapped_result)
+
     def mapToMsgDict(self, row):
         result = {}
         result["msg_id"] = row[0]
@@ -41,10 +49,32 @@ class MsgHandler:
             return jsonify(Error="NOT FOUND"), 404
         userDao = UserDAO()
         result = userDao.getUserById(result_id[0])
-        mapped = self.mapToAuthorDict(result)
+        mapped = self.mapToUserDict(result)
         return jsonify(Author=mapped)
 
-    def mapToAuthorDict(self, row):
+    def getAllLikeUsersByMsgID(self, msg_id):
+        dao = MsgDAO()
+        result = dao.getAllLikeUsersByMsgID(msg_id)
+        if result == None:
+            return jsonify(Error="NOT FOUND"), 404
+        else:
+            mapped_result = []
+            for r in result:
+                mapped_result.append(self.mapToUserDict(r))
+            return jsonify(UsersThatLike=mapped_result)
+
+    def getAllDislikeUsersByMsgID(self, msg_id):
+        dao = MsgDAO()
+        result = dao.getAllDislikeUsersByMsgID(msg_id)
+        if result == None:
+            return jsonify(Error="NOT FOUND"), 404
+        else:
+            mapped_result = []
+            for r in result:
+                mapped_result.append(self.mapToUserDict(r))
+            return jsonify(UsersThatDislike=mapped_result)
+
+    def mapToUserDict(self, row):
         result = {}
         result["user_id"] = row[0]
         result["first_name"] = row[1]
@@ -134,9 +164,9 @@ class MsgHandler:
             mapped_result.append(self.mapToMsgDict(r))
         return jsonify(Messages=mapped_result)
 
-    def getMessagesFromAUserInChat(self, gc_id, user_id):
+    def getMessagesByChatIdAndUserId(self, gchat_id, user_id):
         dao = MsgDAO()
-        result = dao.getMessagesByChatIdAndUserId(gc_id, user_id)
+        result = dao.getMessagesByChatIdAndUserId(gchat_id, user_id)
         if result == None:
             return jsonify(Error="NOT FOUND"), 404
         mapped_result = []
@@ -144,6 +174,7 @@ class MsgHandler:
             mapped_result.append(self.mapToMsgDict(r))
         return jsonify(Messages=mapped_result)
 
+    #Gotta make ReactDao
     # def getUsersWhoLikeMessages(self, msg_id):
     #     dao1 = LikesDAO()
     #     result = dao1.getUsersWhoLikeMessage(msg_id)
@@ -188,16 +219,6 @@ class MsgHandler:
     #         mapped_result.append(self.mapToMsgDict(dao2.getMsgById(r)))
     #     return jsonify(Messages=mapped_result)
 
-    def mapToUserDict(self, row):
-        result = {}
-        result["user_id"] = row[0]
-        result["first_name"] = row[1]
-        result["last_name"] = row[2]
-        result["email"] = row[3]
-        result["phone"] = row[4]
-        result["username"] = row[5]
-        result["password"] = row[6]
-        return result
 
     def getOriginalByReplyId(self, reply_id):
         dao = MsgDAO()
@@ -211,24 +232,22 @@ class MsgHandler:
 
     def getRepliesByOriginalId(self, original_id):
         dao = MsgDAO()
-        msg_handler = MsgHandler()
         result = dao.getRepliesByOriginalId(original_id)
         if result == None:
             return jsonify(Error="NOT FOUND"), 404
         else:
             mapped_result = []
             for r in result:
-                mapped_result.append(msg_handler.mapToMsgDict(r))
+                mapped_result.append(self.mapToMsgDict(r))
             return jsonify(Replies=mapped_result)
 
     def getAllReplies(self):
         dao = MsgDAO()
-        msg_handler = MsgHandler()
         result = dao.getAllReplies()
         if result == None:
             return jsonify(Error="NOT FOUND"), 404
         else:
             mapped_result = []
             for r in result:
-                mapped_result.append(msg_handler.mapToMsgDict(r))
+                mapped_result.append(self.mapToMsgDict(r))
             return jsonify(Replies=mapped_result)

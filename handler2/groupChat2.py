@@ -63,6 +63,8 @@ class GroupChatHandler():
             mapped_result.append(self.mapToChatAndMembersDict(r))
         return jsonify(ChatsAndMembers=mapped_result)
 
+
+
     def getChatMembersByChatID(self, gchat_id):
         dao = ChatMembersDAO()
         result = dao.getAllChatMembersByChatID(gchat_id)
@@ -73,8 +75,6 @@ class GroupChatHandler():
         if result == None:
             return jsonify(Error="NOT FOUND"), 404
         return jsonify(Chat_Members=mapped_result)
-
-
 
     def mapToChatAndMembersDict(self, row):
         result = {}

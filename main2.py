@@ -232,12 +232,11 @@ def getAllChatsByOwnerIdAndChatName(user_id, gchat_name):
 def getAllChatsWithName(gchat_name):
     return GroupChatHandler().getGroupChatsByName(gchat_name)
 
-#NEED TO DO
 #Gets all group chats with their respective members
-# @app.route("/MessagingApp/gchat/members", methods=['GET', 'PUT', 'DELETE'])
-# def getAllChatsAndMembers():
-#     handler = GroupChatHandler()
-#     return handler.getAllChatsAndMembers()
+@app.route("/MessagingApp/gchat/members", methods=['GET', 'PUT', 'DELETE'])
+def getAllChatsAndMembers():
+    handler = GroupChatHandler()
+    return handler.getAllChatsAndMembers()
 
 #Gets a group chat and its members using the chat's id
 @app.route("/MessagingApp/gchat/members/<int:gchat_id>", methods=['GET', 'PUT', 'DELETE'])

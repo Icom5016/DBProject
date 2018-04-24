@@ -12,26 +12,34 @@ class ChatMembersDAO:
 
     def getAllChatsAndMembers(self):
         cursor = self.conn.cursor()
-        query = "select * from chat_members;"
+        query = "select C.gchat_id, C.gchat_name, P.person_id " \
+                "from group_chat as C, chat_members as M, person as P " \
+                "where C.gchat_id = M.gchat_id " \
+                "and P.person_id = M.person_id;"
         cursor.execute(query)
-
         dao = UserDAO()
         result = []
-        chatId = -1
-        chat_members = []
-        for r in self.data:
-            if chatId != r[0]:
-                chatId = r[0]
-                for r2 in self.data:
-                    if chatId == r2[0]:
-                        memberId = r2[1]
-                        chat_members.append(dao.getUserById(memberId))
-                result.append([chatId, chat_members])
-                chat_members = []
+        gchat_id = 0
+        members = []
+
+        #Save the data of the cursor to be able to iterate through it multiple times later
+        cursor_result = []
+        for row in cursor:
+            cursor_result.append(row)
+
+        for row in cursor_result:
+            if gchat_id != row[0]:
+                gchat_id = row[0]
+                chat_name = row[1]
+                for row2 in cursor_result:
+                    if chat_name == row2[1]:
+                        person_id = row2[2]
+                        members.append(dao.getUserById(person_id))
+                result.append([gchat_id, chat_name, members])
+                members = []
         if result == []:
             return None
         return result
-
 
 
     def getAllChatMembersByChatID(self, gchat_id):

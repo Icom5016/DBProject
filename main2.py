@@ -3,8 +3,8 @@ from handler2.messages2 import MsgHandler
 from handler2.users2 import UserHandler
 from handler2.contactlists2 import ContactListHandler
 from handler2.groupChat2 import GroupChatHandler
-from handler.dashboard import DashboardHandler
-from handler.hashtag import HashtagHandler
+from handler2.dashboard2 import DashboardHandler
+from handler2.hashtag2 import HashtagHandler
 
 app = Flask(__name__)
 
@@ -252,9 +252,9 @@ def getChatMembersByChatId(gchat_id):
 #     handler = DashboardHandler()
 #     return handler.getAllDashboard()
 #
-# @app.route("/MessagingApp/dashboard/<int:dashboard_id>")
-# def getDashboardById(dashboard_id):
-#     return DashboardHandler().getDashboardById(dashboard_id)
+@app.route("/MessagingApp/dashboard/<string:date>")
+def getDashboardByDate(date):
+    return DashboardHandler().getDashboardByDate(date)
 #
 # @app.route("/MessagingApp/dashboard/date/<int:dashboard_id>")
 # def getDateByDashboardId(dashboard_id):
@@ -264,25 +264,31 @@ def getChatMembersByChatId(gchat_id):
 # def getDashboardByDate(date):
 #     return DashboardHandler().getDashboardByDate(date)
 #
-# @app.route("/MessagingApp/dashboard/total_messages/<int:dashboard_id>")
-# def getTotalMessagesByDashboardId(dashboard_id):
-#     return DashboardHandler().getTotalMessagesById(dashboard_id)
-#
-# @app.route("/MessagingApp/dashboard/total_replies/<int:dashboard_id>")
-# def getRepliesByDashboardId(dashboard_id):
-#     return DashboardHandler().getRepliesById(dashboard_id)
-#
-# @app.route("/MessagingApp/dashboard/total_likes/<int:dashboard_id>")
-# def getTotalLikesByDashboardId(dashboard_id):
-#     return DashboardHandler().getLikesById(dashboard_id)
-#
-# @app.route("/MessagingApp/dashboard/total_dislikes/<int:dashboard_id>")
-# def getTotalDislikesByDashboardId(dashboard_id):
-#     return DashboardHandler().getDislikesById(dashboard_id)
-#
-# @app.route("/MessagingApp/dashboard/active_users/<int:dashboard_id>")
-# def getActiveUsersByDashboardId(dashboard_id):
-#     return DashboardHandler().getActiveUsersById(dashboard_id)
+
+#Get the total messages in a given day
+@app.route("/MessagingApp/dashboard/total_messages/<string:date>")
+def getTotalMessagesByDate(date):
+    return DashboardHandler().getTotalMessagesByDate(date)
+
+#Get the total replies in a given day
+@app.route("/MessagingApp/dashboard/total_replies/<string:date>")
+def getRepliesByDate(date):
+    return DashboardHandler().getRepliesByDate(date)
+
+#Get the total likes in a given day
+@app.route("/MessagingApp/dashboard/total_likes/<string:date>")
+def getTotalLikesByDate(date):
+    return DashboardHandler().getLikesByDate(date)
+
+#Get the total dislikes in a given day
+@app.route("/MessagingApp/dashboard/total_dislikes/<string:date>")
+def getTotalDislikesByDate(date):
+    return DashboardHandler().getDislikesByDate(date)
+
+#Get the total active users in a given day
+@app.route("/MessagingApp/dashboard/active_users/<string:date>")
+def getActiveUsersByDate(date):
+    return DashboardHandler().getActiveUsersByDate(date)
 
 #################################### HASHTAG ROUTES
 

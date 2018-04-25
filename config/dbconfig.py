@@ -1,13 +1,7 @@
 #Databse configuration information
 
-
-#JAHN
 pg_config = {
-    'user' : 'appusr',
-    'passwd' : '12345',
-    'dbname' : 'appdb'
+    'user' : 'ubuntu',
+    'passwd' : 'ubuntu',
+    'dbname' : 'messageappdb'
 }
-
-#YOU CAN PUT YOURS HERE SO WE DONT HAVE TO CHANGE THEM ALWAYS
-
-

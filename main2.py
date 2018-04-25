@@ -3,16 +3,10 @@ from handler2.messages2 import MsgHandler
 from handler2.users2 import UserHandler
 from handler2.contactlists2 import ContactListHandler
 from handler2.groupChat2 import GroupChatHandler
-from handler.hashtag import HashtagHandler
-from flask_cors import CORS, cross_origin
+from handler2.dashboard2 import DashboardHandler
+from handler2.hashtag2 import HashtagHandler
 
-#ACTIVATE
 app = Flask(__name__)
-
-#Apply CORS to this app
-CORS(app)
-
-#################################### INIT ROUTES ####################################
 
 #Home page
 @app.route("/MessagingApp")
@@ -29,7 +23,7 @@ def register():
 def login():
     return "Login successful"
 
-#################################### MESSAGE ROUTES ####################################
+#################################### MESSAGE ROUTES
 
 #Get all the existing messages
 @app.route("/MessagingApp/msg", methods=['GET', 'POST'])
@@ -110,7 +104,7 @@ def getAllReplies():
     handler = MsgHandler()
     return handler.getAllReplies()
 
-#################################### USER ROUTES ####################################
+#################################### USER ROUTES
 
 #Get all existing users
 @app.route("/MessagingApp/user", methods=['GET', 'POST'])
@@ -179,7 +173,7 @@ def getLikedMsgByUserId(user_id):
 def getDislikedMsgByUserId(user_id):
     return UserHandler().getDislikedMsgByUserId(user_id)
 
-################################## CONTACT LIST ROUTES ##################################
+#################################### CONTACT LIST ROUTES
 
 #Get all contact lists with their current contacts
 @app.route("/MessagingApp/contactlist")
@@ -208,7 +202,7 @@ def getContactListByUserId(user_id):
 #     handler = ContactListHandler()
 #     return handler.getSingleContactByUserId(user_id)
 
-#################################### (GROUP) CHAT ROUTES ####################################
+#################################### (GROUP) CHAT ROUTES
 
 #Get all existing group chats
 @app.route("/MessagingApp/gchat")
@@ -250,8 +244,53 @@ def getChatMembersByChatId(gchat_id):
     handler = GroupChatHandler()
     return handler.getChatMembersByChatID(gchat_id)
 
+#################################### DASHBOARD ROUTES
 
-#################################### HASHTAG ROUTES ####################################
+#Son aggregates?
+# @app.route("/MessagingApp/dashboard")
+# def dashboard():
+#     handler = DashboardHandler()
+#     return handler.getAllDashboard()
+#
+@app.route("/MessagingApp/dashboard/<string:date>")
+def getDashboardByDate(date):
+    return DashboardHandler().getDashboardByDate(date)
+#
+# @app.route("/MessagingApp/dashboard/date/<int:dashboard_id>")
+# def getDateByDashboardId(dashboard_id):
+#     return DashboardHandler().getDateById(dashboard_id)
+#
+# @app.route("/MessagingApp/dashboard/<string:date>")
+# def getDashboardByDate(date):
+#     return DashboardHandler().getDashboardByDate(date)
+#
+
+#Get the total messages in a given day
+@app.route("/MessagingApp/dashboard/total_messages/<string:date>")
+def getTotalMessagesByDate(date):
+    return DashboardHandler().getTotalMessagesByDate(date)
+
+#Get the total replies in a given day
+@app.route("/MessagingApp/dashboard/total_replies/<string:date>")
+def getRepliesByDate(date):
+    return DashboardHandler().getRepliesByDate(date)
+
+#Get the total likes in a given day
+@app.route("/MessagingApp/dashboard/total_likes/<string:date>")
+def getTotalLikesByDate(date):
+    return DashboardHandler().getLikesByDate(date)
+
+#Get the total dislikes in a given day
+@app.route("/MessagingApp/dashboard/total_dislikes/<string:date>")
+def getTotalDislikesByDate(date):
+    return DashboardHandler().getDislikesByDate(date)
+
+#Get the total active users in a given day
+@app.route("/MessagingApp/dashboard/active_users/<string:date>")
+def getActiveUsersByDate(date):
+    return DashboardHandler().getActiveUsersByDate(date)
+
+#################################### HASHTAG ROUTES
 
 #Get all existing hashtags
 @app.route("/MessagingApp/hashtag")

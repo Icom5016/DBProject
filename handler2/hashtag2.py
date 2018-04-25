@@ -1,5 +1,5 @@
 from flask import jsonify, request
-from dao.hashtagDao import HashtagDAO
+from dao2.hashtagDao2 import HashtagDAO
 
 class HashtagHandler:
     def getAllHashtag(self):

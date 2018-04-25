@@ -320,6 +320,8 @@ def getTextByHashtagId(hashtag_id):
 def getFrequencyByHashtagId(hashtag_id):
     return HashtagHandler().getFrequencyByHashtagId(hashtag_id)
 
+
+#This route doesn't work
 #Get the frequency at wich a hashtag has been used using its text
 @app.route("/MessagingApp/hashtag/frequency/<string:hashtag_text>")
 def getFrequencyByHashtagText(hashtag_text):

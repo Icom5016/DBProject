@@ -305,27 +305,38 @@ def hashtag():
     handler = HashtagHandler()
     return handler.getAllHashtag()
 
-#Get a hashtag using its id
-@app.route("/MessagingApp/hashtag/<int:hashtag_id>")
-def getHashtagdById(hashtag_id):
-    return HashtagHandler().getHashtagById(hashtag_id)
+#Get all hashtags in a message using message id
+@app.route("/MessagingApp/hashtags/msg/<int:msg_id>")
+def getHashtagdByMsgId(msg_id):
+    return HashtagHandler().getHashtagByMsgId(msg_id)
 
-#Get a hashtag's text using its id
-@app.route("/MessagingApp/hashtag/text/<int:hashtag_id>")
-def getTextByHashtagId(hashtag_id):
-    return HashtagHandler().getTextByHashtagId(hashtag_id)
+#For some reason a text starting with '#' doesn't work
 
-#Get the frequency at wich a hashtag has been used using its id
-@app.route("/MessagingApp/hashtag/frequency/<int:hashtag_id>")
-def getFrequencyByHashtagId(hashtag_id):
-    return HashtagHandler().getFrequencyByHashtagId(hashtag_id)
+#Get all messages that contain a hashtag using the hashtag text
+@app.route("/MessagingApp/msgs/hashtag/<string:hashtag_text>")
+def getMsgsByHashtagText(hashtag_text):
+    return HashtagHandler().getMsgsByHashtagText(hashtag_text)
+
+# #Get the frequency at wich a hashtag has been used using its id
+# @app.route("/MessagingApp/hashtag/frequency/<int:hashtag_id>")
+# def getFrequencyByHashtagId(hashtag_id):
+#     return HashtagHandler().getFrequencyByHashtagId(hashtag_id)
 
 
-#This route doesn't work
 #Get the frequency at wich a hashtag has been used using its text
 @app.route("/MessagingApp/hashtag/frequency/<string:hashtag_text>")
 def getFrequencyByHashtagText(hashtag_text):
     return HashtagHandler().getFrequencyByHashtagText(hashtag_text)
+
+#Get trending hashtags ordered by hashtag text frequency
+@app.route("/MessagingApp/trending_hashtags")
+def getTrendingHashtag():
+    return HashtagHandler().getTrendingHashtag()
+
+#Get trending hashtag in a group chat by hashtag text frequency
+@app.route("/MessagingApp/trending_hashtags/gchat/<int:gchat_id>")
+def getTrendingHashtagsByGchatId(gchat_id):
+    return HashtagHandler().getTrendingHashtagByGchatId(gchat_id)
 
 if __name__ == '__main__':
     app.run()

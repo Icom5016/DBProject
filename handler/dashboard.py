@@ -1,19 +1,20 @@
 from flask import jsonify, request
-from dao.dashboardDao import DashboardDAO
+from dao.DahsboardDao import DashboardDAO
 
-class DashboardHandler:
-    def getAllDashboard(self):
-        dao = DashboardDAO()
-        result = dao.getAllDashboard()
-        mapped_result = []
-        for r in result:
-            mapped_result.append(self.mapToDashboardDict(r))
-        return jsonify(Dashboard=mapped_result)
+class DashboardHandler():
 
-    def getDashboardById(self, dashboard_id):
+    # def getAllDashboard(self):
+    #     dao = DashboardDAO()
+    #     result = dao.getAllDashboard()
+    #     mapped_result = []
+    #     for r in result:
+    #         mapped_result.append(self.mapToDashboardDict(r))
+    #     return jsonify(Dashboard=mapped_result)
+    #
+    def getDashboardByDate(self, date):
         dao = DashboardDAO()
-        result = dao.getDashboardById(dashboard_id)
-        if result == None:
+        result = dao.getDashboardByDate(date)
+        if not result:
             return jsonify(Error="NOT FOUND"), 404
         else :
             mapped = self.mapToDashboardDict(result)
@@ -21,104 +22,89 @@ class DashboardHandler:
 
     def mapToDashboardDict(self, row):
         result = {}
-        result["dashboard_id"] = row[0]
-        result["date"] = row[1]
-        result["total_messages"] = row[2]
-        result["total_replies"] = row[3]
-        result["total_likes"] = row[4]
-        result["total_dislikes"] = row[5]
-        result["active_users"] = row[6]
+        result["total_messages"] = row[0]
+        result["total_replies"] = row[1]
+        result["total_likes"] = row[2]
+        result["total_dislikes"] = row[3]
+        result["active_users"] = row[4]
         return result
+    #
+    # def mapToDateDict(self, row):
+    #     result = {}
+    #     result["date"] = row
+    #     return result
 
-    def getDateById(self, dashboard_id):
+
+    def getTotalMessagesByDate(self, date):
         dao = DashboardDAO()
-        result = dao.getDateById(dashboard_id)
-        if result == None:
+        result = dao.getTotalMessagesByDate(date)
+        if not result:
             return jsonify(Error="NOT FOUND"), 404
         else :
-            mapped = self.mapToDateDict(result)
-            return jsonify(Dashboard=mapped)
+            return jsonify(Total_Messages=result)
 
-    def mapToDateDict(self, row):
-        result = {}
-        result["date"] = row
-        return result
+    # def mapToTotalMessagesDict(self, row):
+    #     result = {}
+    #     result["total_messages"] = row
+    #     return result
 
-    def getTotalMessagesById(self, dashboard_id):
+    def getRepliesByDate(self, date):
         dao = DashboardDAO()
-        result = dao.getTotalMessagesById(dashboard_id)
-        if result == None:
+        result = dao.getTotalRepliesByDate(date)
+        if not result:
             return jsonify(Error="NOT FOUND"), 404
         else :
-            mapped = self.mapToTotalMessagesDict(result)
-            return jsonify(Dashboard=mapped)
+            return jsonify(Total_Replies=result)
 
-    def mapToTotalMessagesDict(self, row):
-        result = {}
-        result["total_messages"] = row
-        return result
+    # def mapToRepliesDict(self, row):
+    #     result = {}
+    #     result["total_replies"] = row
+    #     return result
 
-    def getRepliesById(self, dashboard_id):
+    def getLikesByDate(self, date):
         dao = DashboardDAO()
-        result = dao.getTotalRepliesById(dashboard_id)
-        if result == None:
-            return jsonify(Error="NOT FOUND"), 404
-        else :
-            mapped = self.mapToRepliesDict(result)
-            return jsonify(Dashboard=mapped)
-
-    def mapToRepliesDict(self, row):
-        result = {}
-        result["total_replies"] = row
-        return result
-
-    def getLikesById(self, dashboard_id):
-        dao = DashboardDAO()
-        result = dao.getTotalLikesById(dashboard_id)
-        if result == None:
+        result = dao.getTotalLikesByDate(date)
+        if not result:
             return jsonify(Error="NOT FOUND"), 404
         else:
-            mapped = self.mapToLikesDict(result)
-            return jsonify(Dashboard=mapped)
+            return jsonify(Total_Likes=result)
 
-    def mapToLikesDict(self, row):
-        result = {}
-        result["total_likes"] = row
-        return result
+    # def mapToLikesDict(self, row):
+    #     result = {}
+    #     result["total_likes"] = row
+    #     return result
 
-    def getDislikesById(self, dashboard_id):
+    def getDislikesByDate(self, date):
         dao = DashboardDAO()
-        result = dao.getTotalDislikesById(dashboard_id)
-        if result == None:
+        result = dao.getTotalDislikesByDate(date)
+        if not result:
             return jsonify(Error="NOT FOUND"), 404
         else:
-            mapped = self.mapToDislikesDict(result)
-            return jsonify(Dashboard=mapped)
+            return jsonify(Total_Dislikes=result)
 
-    def mapToDislikesDict(self, row):
-        result = {}
-        result["total_dislikes"] = row
-        return result
+    # def mapToDislikesDict(self, row):
+    #     result = {}
+    #     result["total_dislikes"] = row
+    #     return result
 
-    def getActiveUsersById(self, dashboard_id):
+    def getActiveUsersByDate(self, date):
         dao = DashboardDAO()
-        result = dao.getActiveUsersById(dashboard_id)
-        if result == None:
+        result = dao.getActiveUsersByDate(date)
+        if not result:
             return jsonify(Error="NOT FOUND"), 404
         else:
-            mapped = self.mapToActiveUsersDict(result)
-            return jsonify(Dashboard=mapped)
+            return jsonify(Total_Active_Users=result)
 
-    def mapToActiveUsersDict(self, row):
-        result = {}
-        result["active_users"] = row
-        return result
-
-    def getDashboardByDate(self, date):
-        dao = DashboardDAO()
-        result = dao.getDashboardByDate(date)
-        if result == None:
-            return jsonify(Error="NOT FOUND"), 404
-        else :
-            mapped = self.mapToDashboardDict(result)
-            return jsonify(Dashboard=mapped)
+    # def mapToActiveUsersDict(self, row):
+    #     result = {}
+    #     result["active_users"] = row
+    #     return result
+    #
+    # def getDashboardByDate(self, date):
+    #     dao = DashboardDAO()
+    #     result = dao.getDashboardByDate(date)
+    #     if result == None:
+    #         return jsonify(Error="NOT FOUND"), 404
+    #     else :
+    #         mapped = self.mapToDashboardDict(result)
+    #         return jsonify(Dashboard=mapped)

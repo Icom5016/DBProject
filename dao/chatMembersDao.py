@@ -1,71 +1,76 @@
 from dao.userDao import UserDAO
 from dao.groupchatDao import GroupChatDAO
+from config.dbconfig import pg_config
+import psycopg2
 
 class ChatMembersDAO:
     def __init__(self):
-        #[chat id, member id, primery key(chatid, memberid)]
-        #John's chat w/ sam and kelly
-        CM1 = [0, 117, [0, 117]]
-        CM2 = [0, 34, [0, 34]]
-        CM3 = [0, 87, [0, 87]]
-        #Kelly's chat with John
-        CM4 = [1, 87, [1, 87]]
-        CM5 = [1, 117, [1, 117]]
-        #Halsey's chat with john, sam, kelly
-        CM6 = [2, 10, [2, 10]]
-        CM7 = [2, 117, [2, 117]]
-        CM8 = [2, 34, [2, 34]]
-        CM9 = [2, 87, [2, 87]]
-
-        self.data = []
-        self.data.append(CM1)
-        self.data.append(CM2)
-        self.data.append(CM3)
-        self.data.append(CM4)
-        self.data.append(CM5)
-        self.data.append(CM6)
-        self.data.append(CM7)
-        self.data.append(CM8)
-        self.data.append(CM9)
+        connection_url = "dbname=%s user=%s password=%s" % (pg_config['dbname'],
+                                                            pg_config['user'],
+                                                            pg_config['passwd'])
+        self.conn = psycopg2._connect(connection_url)
 
     def getAllChatsAndMembers(self):
+        cursor = self.conn.cursor()
+        query = "select C.gchat_id, C.gchat_name, P.person_id " \
+                "from group_chat as C, chat_members as M, person as P " \
+                "where C.gchat_id = M.gchat_id " \
+                "and P.person_id = M.person_id;"
+        cursor.execute(query)
         dao = UserDAO()
         result = []
-        chatId = -1
-        chat_members = []
-        for r in self.data:
-            if chatId != r[0]:
-                chatId = r[0]
-                for r2 in self.data:
-                    if chatId == r2[0]:
-                        memberId = r2[1]
-                        chat_members.append(dao.getUserById(memberId))
-                result.append([chatId, chat_members])
-                chat_members = []
+        gchat_id = 0
+        members = []
+
+        #Save the data of the cursor to be able to iterate through it multiple times later
+        cursor_result = []
+        for row in cursor:
+            cursor_result.append(row)
+
+        for row in cursor_result:
+            if gchat_id != row[0]:
+                gchat_id = row[0]
+                chat_name = row[1]
+                for row2 in cursor_result:
+                    if chat_name == row2[1]:
+                        person_id = row2[2]
+                        members.append(dao.getUserById(person_id))
+                result.append([gchat_id, chat_name, members])
+                members = []
         if result == []:
             return None
         return result
 
+
     def getAllChatMembersByChatID(self, gchat_id):
+        cursor = self.conn.cursor()
+        query = "select * from chat_members;"
+        cursor.execute(query)
+
         dao = UserDAO()
         result = []
-        chat_members = []
-        for r in self.data:
-            if gchat_id == r[0]:
-                member_id = r[1]
-                chat_members.append(dao.getUserById(member_id))
-        result.append(gchat_id)
-        result.append(chat_members)
-        if chat_members == []:
+        for row in cursor:
+            if row[1] == gchat_id:
+                result.append(dao.getUserById(row[2]))
+        if result == []:
             return None
         return result
 
-    def getChatsByUser(self, user_id):
-        dao = GroupChatDAO()
-        result = []
-        for r in self.data:
-            if user_id == r[1]:
-                result.append(dao.getGroupChatById(r[0]))
-        if not result:
-            return None
-        return result
+    #
+    # cursor = self.conn.cursor()
+    # query = "select person_id from chat_members;"
+    # cursor.execute(query)
+    # result = []
+    # for row in cursor:
+    #     result.append(row)
+    # return result
+
+    # def getChatsByUser(self, user_id):
+    #     dao = GroupChatDAO()
+    #     result = []
+    #     for r in self.data:
+    #         if user_id == r[1]:
+    #             result.append(dao.getGroupChatById(r[0]))
+    #     if not result:
+    #         return None
+    #     return result

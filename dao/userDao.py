@@ -1,88 +1,120 @@
+from config.dbconfig import pg_config
+import psycopg2
 class UserDAO:
     def __init__(self):
-        # [user id, first name, last name, email, phone, username, password]
-        U1 = [117, "John", "Green", "john.green@unsc.edu", "7871177609", "MasterChief", "cortana"]
-        U2 = [34, "Sam", "McDonald", "sam.mcdonald@unsc.edu", "7870346348", "BlueTwo", "shaddock"]
-        U3 = [87, "Kelly", "Reynolds", "kelly.reynolds@unsc.edu", "7870879876", "BlueThree", "reach"]
-        U4 = [10, "Catherine", "Halsey", "catherine.halsey@unsc.edu", "7870102345", "DrHalsey", "hellooni"]
 
-        self.data = []
-        self.data.append(U1)
-        self.data.append(U2)
-        self.data.append(U3)
-        self.data.append(U4)
+        connection_url = "dbname=%s user=%s password=%s" % (pg_config['dbname'],
+                                                            pg_config['user'],
+                                                            pg_config['passwd'])
+        self.conn = psycopg2._connect(connection_url)
 
     def getAllUser(self):
-        return self.data
+        cursor = self.conn.cursor()
+        query = "select * from person;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
 
     def getUserById(self, user_id):
-        for r in self.data:
-            if user_id == r[0]:
-                return r
-        return None
+        cursor = self.conn.cursor()
+        query = "select * from person where person_id = %s;"
+        cursor.execute(query, (user_id,))
+        result = cursor.fetchone()
+        return result
 
-    def getUserByName(self, username):
-        for r in self.data:
-            if username == r[5]:
-                return r
-        return None
+    ####REMOVED USERNAME ATTRIB
+    # def getUserByName(self, username):
+    #     for r in self.data:
+    #         if username == r[5]:
+    #             return r
+    #     return None
 
     def getFNameByUserId(self, user_id):
-        for r in self.data:
-            if user_id == r[0]:
-                return r[1]
-        return None
+        cursor = self.conn.cursor()
+        query = "select first_name from person where person_id = %s;"
+        cursor.execute(query, (user_id,))
+        result = cursor.fetchone()
+        return result
 
-    def getFNameByName(self, username):
-        for r in self.data:
-            if username == r[5]:
-                return r[1]
-        return None
+    #
+    # def getFNameByName(self, username):
+    #     for r in self.data:
+    #         if username == r[5]:
+    #             return r[1]
+    #     return None
 
     def getLNameByUserId(self, user_id):
-        for r in self.data:
-            if user_id == r[0]:
-                return r[2]
-        return None
+        cursor = self.conn.cursor()
+        query = "select last_name from person where person_id = %s;"
+        cursor.execute(query, (user_id,))
+        result = cursor.fetchone()
+        return result
 
-    def getLNameByName(self, username):
-        for r in self.data:
-            if username == r[5]:
-                return r[2]
-        return None
+    # def getLNameByName(self, username):
+    #     for r in self.data:
+    #         if username == r[5]:
+    #             return r[2]
+    #     return None
 
     def getEmailByUserId(self, user_id):
-        for r in self.data:
-            if user_id == r[0]:
-                return r[3]
-        return None
+        cursor = self.conn.cursor()
+        query = "select email from person where person_id = %s;"
+        cursor.execute(query, (user_id,))
+        result = cursor.fetchone()
+        return result
 
-    def getEmailByName(self, username):
-        for r in self.data:
-            if username == r[5]:
-                return r[3]
-        return None
+    # def getEmailByName(self, username):
+    #     for r in self.data:
+    #         if username == r[5]:
+    #             return r[3]
+    #     return None
 
     def getPhoneByUserId(self, user_id):
-        for r in self.data:
-            if user_id == r[0]:
-                return r[4]
-        return None
+        cursor = self.conn.cursor()
+        query = "select phone from person where person_id = %s;"
+        cursor.execute(query, (user_id,))
+        result = cursor.fetchone()
+        return result
 
-    def getPhoneByName(self, username):
-        for r in self.data:
-            if username == r[5]:
-                return r[4]
-        return None
+    # def getPhoneByName(self, username):
+    #     for r in self.data:
+    #         if username == r[5]:
+    #             return r[4]
+    #     return None
 
-    def getUsernameByUserId(self, user_id):
-        for r in self.data:
-            if user_id == r[0]:
-                return r[5]
-        return None
+    # def getUsernameByUserId(self, user_id):
+    #     for r in self.data:
+    #         if user_id == r[0]:
+    #             return r[5]
+    #     return None
 
     def getPasswordByUserId(self, user_id):
-        for r in self.data:
-            if user_id == r[0]:
-                return r[6]
-        return None
+        cursor = self.conn.cursor()
+        query = "select password from person where person_id = %s;"
+        cursor.execute(query, (user_id,))
+        result = cursor.fetchone()
+        return result
+
+    def getLikedMsgByUserId(self, user_id):
+        cursor = self.conn.cursor()
+        query = "select M.msg_id, M.text, M.likes, M.dislikes, M.date, M.time, M.person_id, M.gchat_id " \
+                "from message as M, react as R " \
+                "where M.msg_id = R.msg_id and R.likes = true and R.person_id = %s;"
+        cursor.execute(query, (user_id,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getDislikedMsgByUserId(self, user_id):
+        cursor = self.conn.cursor()
+        query = "select M.msg_id, M.text, M.likes, M.dislikes, M.date, M.time, M.person_id, M.gchat_id " \
+                "from message as M, react as R " \
+                "where M.msg_id = R.msg_id and R.dislikes = true and R.person_id = %s;"
+        cursor.execute(query, (user_id,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result

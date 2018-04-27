@@ -1,47 +1,56 @@
+from config.dbconfig import pg_config
+import psycopg2
+
 class GroupChatDAO:
     def __init__(self):
-        #[groupchatid, groupchatname, groupchatownerid]
-        GC1 = [0, 'Class A', 117]
-        GC2 = [1, 'Whats Up!', 87]
-        GC3 = [2, 'random chat', 10]
-
-        self.data = []
-        self.data.append(GC1)
-        self.data.append(GC2)
-        self.data.append(GC3)
+        connection_url = "dbname=%s user=%s password=%s" % (pg_config['dbname'],
+                                                            pg_config['user'],
+                                                            pg_config['passwd'])
+        self.conn = psycopg2._connect(connection_url)
 
     def getAllChats(self):
-        return self.data
+        cursor = self.conn.cursor()
+        query = "select * from group_chat;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
 
     def getGroupChatById(self, gchat_id):
-        for r in self.data:
-            if (gchat_id == r[0]):
-                return r
-        return None
+        cursor = self.conn.cursor()
+        query = "select * from group_chat where gchat_id = %s;"
+        cursor.execute(query, (gchat_id,))
+        result = cursor.fetchone()
+        return result
 
     def getAllGroupChatsByOwnerId(self, user_id):
-        total = []
-        for r in self.data:
-            if (user_id == r[2]):
-                total.append(r)
-        return total
+        cursor = self.conn.cursor()
+        query = "select * from group_chat where person_id = %s;"
+        cursor.execute(query, (user_id,))
+        result = cursor.fetchone()
+        return result
+
+    #not sure if the way this reads queries is right
 
     def getAllChatsByOwnerIdAndName(self, user_id, gchat_name):
-        total = []
-        for r in self.data:
-            if (user_id == r[2] and gchat_name == r[1]):
-                total.append(r)
-        return total
+        cursor = self.conn.cursor()
+        query = "select * from group_chat where person_id = %s and gchat_name = %s;"
+        cursor.execute(query, (user_id, gchat_name,))
+        result = cursor.fetchone()
+        return result
 
     def getAllChatsByName(self, gchat_name):
-        total = []
-        for r in self.data:
-            if (gchat_name == r[1]):
-                total.append(r)
-        return total
+        cursor = self.conn.cursor()
+        query = "select * from group_chat where gchat_name = %s;"
+        cursor.execute(query, (gchat_name,))
+        result = cursor.fetchone()
+        return result
 
-    def getOwnerOfChat(self, gc_id):
-        for r in self.data:
-            if gc_id == r[0]:
-                return r[2]
-        return None
+    def getOwnerOfChat(self, gchat_id):
+        cursor = self.conn.cursor()
+        query = "select person_id from group_chat where gchat_id = %s;"
+        cursor.execute(query, (gchat_id,))
+        result = cursor.fetchone()
+        return result

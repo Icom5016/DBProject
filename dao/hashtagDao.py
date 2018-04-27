@@ -1,40 +1,71 @@
+from config.dbconfig import pg_config
+import psycopg2
+
 class HashtagDAO:
+
     def __init__(self):
-        #[hashtag id, text, frequency]
-        H1 = [123, "pizza", 5]
-        H2 = [234, "realhastalamuerte", 1]
-        H3 = [345, "dbisfun", 10]
-        H4 = [456, "lasbestiasdeicom5016", 8]
 
-        self.data = []
-        self.data.append(H1)
-        self.data.append(H2)
-        self.data.append(H3)
-        self.data.append(H4)
+        connection_url = "dbname=%s user=%s password=%s" % (pg_config['dbname'],
+                                                            pg_config['user'],
+                                                            pg_config['passwd'])
+        self.conn = psycopg2._connect(connection_url)
 
-    def getAllHashtag(self):
-        return self.data
+    def getAllDistinctHashtag(self):
+        cursor = self.conn.cursor()
+        query = "select distinct hash_text from Hashtag;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
 
-    def getHashtagById(self, hashtag_id):
-        for r in self.data:
-            if hashtag_id == r[0]:
-                return r
-        return None
+    def getHashtagByMsgId(self, msg_id):
+        cursor = self.conn.cursor()
+        query = "select hash_id, hash_text from Hashtag where msg_id = %s;"
+        cursor.execute(query, (msg_id,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
 
-    def getTextByHashtagId(self, hashtag_id):
-        for r in self.data:
-            if hashtag_id == r[0]:
-                return r[1]
-        return None
+    def getMsgsByHashtagText(self, hashtag_text):
+        cursor = self.conn.cursor()
+        query = "select * from Hashtag natural inner join message where hash_text = %s;"
+        cursor.execute(query, (hashtag_text,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
 
-    def getFrequencyByHashtagId(self, hashtag_id):
-        for r in self.data:
-            if hashtag_id == r[0]:
-                return r[2]
-        return None
+    # def getFrequencyByHashtagId(self, hashtag_id):
+    #     cursor = self.conn.cursor()
+    #     query = "select frequency from Hashtag where hash_id = %s;"
+    #     cursor.execute(query, (hashtag_id,))
+    #     result = cursor.fetchone()
+    #     return result
 
     def getFrequencyByHashtagText(self, text):
-        for r in self.data:
-            if text == r[1]:
-                return r[2]
-        return None
+        cursor = self.conn.cursor()
+        query = "select hash_text, count(*) from Hashtag where hash_text = %s group by hash_text;"
+        cursor.execute(query, (text,))
+        result = cursor.fetchone()
+        return result
+
+    def getTrendingHashtag(self):
+        cursor = self.conn.cursor()
+        query = "select hash_text, count(*) from hashtag group by hash_text order by count(*) desc"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getTrendingHashtagByGchatId(self, gchat_id):
+        cursor = self.conn.cursor()
+        query = "select hash_text, count(*) from hashtag natural inner join message where " \
+                "gchat_id = %s group by hash_text order by count(*) desc"
+        cursor.execute(query, (gchat_id,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result

@@ -15,6 +15,8 @@ class UserDAO:
         result = []
         for row in cursor:
             result.append(row)
+        if result == []:
+            return None
         return result
 
     def getUserById(self, user_id):
@@ -22,79 +24,64 @@ class UserDAO:
         query = "select * from person where person_id = %s;"
         cursor.execute(query, (user_id,))
         result = cursor.fetchone()
+        if result == []:
+            return None
         return result
 
-    ####REMOVED USERNAME ATTRIB
-    # def getUserByName(self, username):
-    #     for r in self.data:
-    #         if username == r[5]:
-    #             return r
-    #     return None
+
+    def getUserByUsername(self, username):
+        cursor = self.conn.cursor()
+        query = "select * from person where username = %s;"
+        cursor.execute(query, (username,))
+        result = cursor.fetchone()
+        if result == []:
+            return None
+        return result
 
     def getFNameByUserId(self, user_id):
         cursor = self.conn.cursor()
         query = "select first_name from person where person_id = %s;"
         cursor.execute(query, (user_id,))
         result = cursor.fetchone()
+        if result == []:
+            return None
         return result
-
-    #
-    # def getFNameByName(self, username):
-    #     for r in self.data:
-    #         if username == r[5]:
-    #             return r[1]
-    #     return None
 
     def getLNameByUserId(self, user_id):
         cursor = self.conn.cursor()
         query = "select last_name from person where person_id = %s;"
         cursor.execute(query, (user_id,))
         result = cursor.fetchone()
+        if result == []:
+            return None
         return result
 
-    # def getLNameByName(self, username):
-    #     for r in self.data:
-    #         if username == r[5]:
-    #             return r[2]
-    #     return None
 
     def getEmailByUserId(self, user_id):
         cursor = self.conn.cursor()
         query = "select email from person where person_id = %s;"
         cursor.execute(query, (user_id,))
         result = cursor.fetchone()
+        if result == []:
+            return None
         return result
-
-    # def getEmailByName(self, username):
-    #     for r in self.data:
-    #         if username == r[5]:
-    #             return r[3]
-    #     return None
 
     def getPhoneByUserId(self, user_id):
         cursor = self.conn.cursor()
         query = "select phone from person where person_id = %s;"
         cursor.execute(query, (user_id,))
         result = cursor.fetchone()
+        if result == []:
+            return None
         return result
-
-    # def getPhoneByName(self, username):
-    #     for r in self.data:
-    #         if username == r[5]:
-    #             return r[4]
-    #     return None
-
-    # def getUsernameByUserId(self, user_id):
-    #     for r in self.data:
-    #         if user_id == r[0]:
-    #             return r[5]
-    #     return None
 
     def getPasswordByUserId(self, user_id):
         cursor = self.conn.cursor()
         query = "select password from person where person_id = %s;"
         cursor.execute(query, (user_id,))
         result = cursor.fetchone()
+        if result == []:
+            return None
         return result
 
     def getLikedMsgByUserId(self, user_id):
@@ -106,6 +93,8 @@ class UserDAO:
         result = []
         for row in cursor:
             result.append(row)
+        if result == []:
+            return None
         return result
 
     def getDislikedMsgByUserId(self, user_id):
@@ -117,4 +106,6 @@ class UserDAO:
         result = []
         for row in cursor:
             result.append(row)
+        if result == []:
+            return None
         return result

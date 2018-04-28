@@ -52,6 +52,7 @@ class ContactListHandler:
         result["email"] = row[3]
         result["phone"] = row[4]
         result["password"] = row[5]
+        result["username"] = row[6]
         return result
 
     # def getSingleContactByUserId(self, user_id):

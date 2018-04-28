@@ -17,6 +17,19 @@ class HashtagDAO:
         result = []
         for row in cursor:
             result.append(row)
+        if result == []:
+            return None
+        return result
+
+    def getHashtagByID(self, hashtag_id):
+        cursor = self.conn.cursor()
+        query = "select hash_id, hash_text " \
+                "from hashtag " \
+                "where hash_id = %s;"
+        cursor.execute(query, (hashtag_id,))
+        result = cursor.fetchone()
+        if result == []:
+            return None
         return result
 
     def getHashtagByMsgId(self, msg_id):
@@ -26,6 +39,8 @@ class HashtagDAO:
         result = []
         for row in cursor:
             result.append(row)
+        if result == []:
+            return None
         return result
 
     def getMsgsByHashtagText(self, hashtag_text):
@@ -35,20 +50,17 @@ class HashtagDAO:
         result = []
         for row in cursor:
             result.append(row)
+        if result == []:
+            return None
         return result
-
-    # def getFrequencyByHashtagId(self, hashtag_id):
-    #     cursor = self.conn.cursor()
-    #     query = "select frequency from Hashtag where hash_id = %s;"
-    #     cursor.execute(query, (hashtag_id,))
-    #     result = cursor.fetchone()
-    #     return result
 
     def getFrequencyByHashtagText(self, text):
         cursor = self.conn.cursor()
         query = "select hash_text, count(*) from Hashtag where hash_text = %s group by hash_text;"
         cursor.execute(query, (text,))
         result = cursor.fetchone()
+        if result == []:
+            return None
         return result
 
     def getTrendingHashtag(self):
@@ -58,6 +70,8 @@ class HashtagDAO:
         result = []
         for row in cursor:
             result.append(row)
+        if result == []:
+            return None
         return result
 
     def getTrendingHashtagByGchatId(self, gchat_id):
@@ -68,4 +82,6 @@ class HashtagDAO:
         result = []
         for row in cursor:
             result.append(row)
+        if result == []:
+            return None
         return result

@@ -106,4 +106,5 @@ class GroupChatHandler():
         result["email"] = row[3]
         result["phone"] = row[4]
         result["password"] = row[5]
+        result["username"] = row[6]
         return result

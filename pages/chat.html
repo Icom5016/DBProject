@@ -7,7 +7,7 @@
                      <textarea style="background: white" id="textarea1" class="materialize-textarea" ng-model="chatCtrl.newText"></textarea>
                 </div>
                 <div class="card-action white">
-                    <button class="btn waves-effect waves-light " type="submit" name="action" ng-click="chatCtrl.postMsg()">Enviar
+                    <button class="btn waves-effect waves-light " type="submit" name="action" ng-click="chatCtrl.postMsg()">Send
                     <i class="material-icons right">send</i>
                     </button>
                 </div>
@@ -26,7 +26,7 @@
                     <div class="card">
                         <div class="card-content">
                             <!-- Card Title is the person who write the message -->
-                            <span class="card-title">{{m.user_id}}</span>
+                            <span class="card-title">{{m.username}}</span>
                             <!-- Here comes the message text -->
                             <p>
                                 {{m.text}}

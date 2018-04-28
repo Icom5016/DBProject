@@ -40,6 +40,7 @@ class MsgHandler:
         #result["time"] = row[5]
         result["person_id"] = row[6]
         result["gchat_id"] = row[7]
+        result["username"] = row[8]
         return result
 
     def getAuthorByMsgId(self, msg_id):
@@ -82,6 +83,7 @@ class MsgHandler:
         result["email"] = row[3]
         result["phone"] = row[4]
         result["password"] = row[5]
+        result["username"] = row[6]
         return result
 
     def getTextByMsgId(self, msg_id):

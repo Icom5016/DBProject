@@ -80,18 +80,14 @@ class MsgDAO:
 
     def getMessagesByChatId(self, gchat_id):
         cursor = self.conn.cursor()
-        query = "select * from group_chat as C, message as M where " \
-                "C.gchat_id = M.gchat_id and C.gchat_id = %s;"
+        query = "select M.msg_id, M.text, M.likes, M.dislikes, M.date, M.time, M.person_id, M.gchat_id " \
+                "from group_chat as C, message as M " \
+                "where C.gchat_id = M.gchat_id and C.gchat_id = %s;"
         cursor.execute(query, (gchat_id,))
-        joined_result = []
+        result = []
 
         for row in cursor:
-            joined_result.append(row)
-
-        result = []
-        for r in joined_result:
-            result.append([r[3], r[4], r[5], r[6], r[7],
-                           r[8], r[10], r[1]])
+           result.append(row)
         return result
 
     def getMessagesByChatIdAndUserId(self, gchat_id, user_id):

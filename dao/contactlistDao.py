@@ -110,26 +110,19 @@ class ContactListDAO:
             return None
         return result
 
-        # dao = UserDAO()
-        # result = []
-        # owner_id = user_id
-        # contacts = []
-        # for r in self.data:
-        #     if owner_id == r[1]:
-        #         contact_id = r[2]
-        #         contacts.append(dao.getUserById(contact_id))
-        # result.append(owner_id)
-        # result.append(contacts)
-        # if contacts == []:
-        #     return None
-        # return result
+    def getContactsByUserID(self, user_id):
+        cursor = self.conn.cursor()
+        query = "select C.person_id from contact_list as L, " \
+               "contacts as C where L.clist_id = C.clist_id and L.person_id = %s;"
+        cursor.execute(query, (user_id,))
 
-    #returns the user attributes of an existing contact of any list
-    # def getSingleContactByUserID(self, user_id):
-    #     dao = UserDAO()
-    #     result = []
-    #     contact_id = user_id
-    #     for r in self.data:
-    #         if contact_id == r[2]:
-    #             return dao.getUserById(contact_id)
-    #     return None
+        dao = UserDAO()
+        result = []
+        clist_id = 0
+        owner_id = 0
+        contacts = []
+        for row in cursor:
+            result.append(dao.getUserById(row[0]))
+        if result == []:
+            return None
+        return result

@@ -2,6 +2,6 @@
 
 pg_config = {
     'user' : 'ubuntu',
-    'passwd' : 'ubuntu',
+    'passwd' : 'lloydsucks7',
     'dbname' : 'messageappdb'
 }

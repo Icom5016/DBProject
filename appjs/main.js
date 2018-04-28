@@ -7,12 +7,12 @@
             templateUrl: 'pages/login.html',
             controller: 'LoginController',
             controllerAs : 'logingCtrl'
-        }).when('/chat', {
+        }).when('/msg/gchat/1', {
             templateUrl: 'pages/chat.html',
             controller: 'ChatController',
             controllerAs : 'chatCtrl'
         }).otherwise({
-            redirectTo: '/chat'
+            redirectTo: '/msg/gchat/1'
         });
     }]);
 

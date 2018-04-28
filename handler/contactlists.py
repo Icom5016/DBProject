@@ -36,6 +36,24 @@ class ContactListHandler:
         result["contacts"] = row[2]
         return result
 
+    def getContactsByUserID(self, user_id):
+        dao = ContactListDAO()
+        result = dao.getContactsByUserID(user_id)
+        mapped_result = []
+        for r in result:
+            mapped_result.append(self.mapToUserDict(r))
+        return jsonify(Users=mapped_result)
+
+    def mapToUserDict(self, row):
+        result = {}
+        result["user_id"] = row[0]
+        result["first_name"] = row[1]
+        result["last_name"] = row[2]
+        result["email"] = row[3]
+        result["phone"] = row[4]
+        result["password"] = row[5]
+        return result
+
     # def getSingleContactByUserId(self, user_id):
     #     handler = UserHandler()
     #     dao = ContactListDAO()

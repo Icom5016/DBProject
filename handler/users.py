@@ -21,15 +21,14 @@ class UserHandler:
             mapped = self.mapToUserDict(result)
             return jsonify(User=mapped)
 
-    #####REMVD USRNM ATT
-    # def getUserByName(self, username):
-    #     dao = UserDAO()
-    #     result = dao.getUserByName(username)
-    #     if result == None:
-    #         return jsonify(Error="NOT FOUND"), 404
-    #     else:
-    #         mapped = self.mapToUserDict(result)
-    #         return jsonify(User=mapped)
+    def getUserByUsername(self, username):
+        dao = UserDAO()
+        result = dao.getUserByUsername(username)
+        if result == None:
+            return jsonify(Error="NOT FOUND"), 404
+        else:
+            mapped = self.mapToUserDict(result)
+            return jsonify(User=mapped)
 
     def mapToUserDict(self, row):
         result = {}
@@ -39,6 +38,7 @@ class UserHandler:
         result["email"] = row[3]
         result["phone"] = row[4]
         result["password"] = row[5]
+        result["username"] = row[6]
         return result
 
     def getFNameByUserId(self, user_id):

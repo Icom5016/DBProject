@@ -15,6 +15,8 @@ class GroupChatDAO:
         result = []
         for row in cursor:
             result.append(row)
+        if result == []:
+            return None
         return result
 
 
@@ -23,6 +25,8 @@ class GroupChatDAO:
         query = "select * from group_chat where gchat_id = %s;"
         cursor.execute(query, (gchat_id,))
         result = cursor.fetchone()
+        if result == []:
+            return None
         return result
 
     def getAllGroupChatsByOwnerId(self, user_id):
@@ -30,15 +34,17 @@ class GroupChatDAO:
         query = "select * from group_chat where person_id = %s;"
         cursor.execute(query, (user_id,))
         result = cursor.fetchone()
+        if result == []:
+            return None
         return result
-
-    #not sure if the way this reads queries is right
 
     def getAllChatsByOwnerIdAndName(self, user_id, gchat_name):
         cursor = self.conn.cursor()
         query = "select * from group_chat where person_id = %s and gchat_name = %s;"
         cursor.execute(query, (user_id, gchat_name,))
         result = cursor.fetchone()
+        if result == []:
+            return None
         return result
 
     def getAllChatsByName(self, gchat_name):
@@ -46,6 +52,8 @@ class GroupChatDAO:
         query = "select * from group_chat where gchat_name = %s;"
         cursor.execute(query, (gchat_name,))
         result = cursor.fetchone()
+        if result == []:
+            return None
         return result
 
     def getOwnerOfChat(self, gchat_id):
@@ -53,4 +61,6 @@ class GroupChatDAO:
         query = "select person_id from group_chat where gchat_id = %s;"
         cursor.execute(query, (gchat_id,))
         result = cursor.fetchone()
+        if result == []:
+            return None
         return result

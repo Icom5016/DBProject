@@ -136,11 +136,18 @@ def getUserById(user_id):
     # else:
     #     return jsonify(Error="Method not allowed."), 405
 
+#Get an user using the username
+@app.route("/MessagingApp/user/<string:username>", methods=['GET', 'PUT', 'DELETE'])
+def getUserByUsername(username):
+        return UserHandler().getUserByUsername(username)
+
 #Get the first name of an user
 @app.route("/MessagingApp/user/fname/<int:user_id>", methods=['GET', 'PUT', 'DELETE'])
 def getFNameByUserId(user_id):
     handler = UserHandler()
     return handler.getFNameByUserId(user_id)
+
+
 
 #Get the last name of an user
 @app.route("/MessagingApp/user/lname/<int:user_id>", methods=['GET', 'PUT', 'DELETE'])
@@ -251,6 +258,12 @@ def getChatMembersByChatId(gchat_id):
     handler = GroupChatHandler()
     return handler.getChatMembersByChatID(gchat_id)
 
+#Gets the owner of a gchat
+@app.route("/MessagingApp/gchat/getowner/<int:gchat_id>", methods=['GET', 'PUT', 'DELETE'])
+def getOwnerOfChat(gchat_id):
+    handler = GroupChatHandler()
+    return handler.getOwnerOfChat(gchat_id)
+
 #################################### DASHBOARD ROUTES ####################################
 
 #Son aggregates?
@@ -322,6 +335,9 @@ def getMsgsByHashtagText(hashtag_text):
 # def getFrequencyByHashtagId(hashtag_id):
 #     return HashtagHandler().getFrequencyByHashtagId(hashtag_id)
 
+@app.route("/MessagingApp/hashtag/<int:hashtag_id>")
+def getHashtagByID(hashtag_id):
+    return HashtagHandler().getHashtagByID(hashtag_id)
 
 #Get the frequency at wich a hashtag has been used using its text
 @app.route("/MessagingApp/hashtag/frequency/<string:hashtag_text>")

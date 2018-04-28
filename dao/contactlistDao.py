@@ -9,26 +9,6 @@ class ContactListDAO:
                                                             pg_config['passwd'])
         self.conn = psycopg2._connect(connection_url)
 
-        # #[contact id, contactlist owner id, contact(user) id]
-        # Co1 = [200, 117, 34] #John is owner
-        # Co2 = [201, 117, 87]
-        # Co3 = [202, 117, 10]
-        # Co4 = [203, 34, 117] #Sam is owner
-        # Co5 = [204, 34, 87]
-        # Co6 = [205, 87, 117] #Kelly is owner
-        # Co7 = [206, 87, 34]
-        # Co8 = [207, 10, 117] #Halsey is owner
-        #
-        # self.data = []
-        # self.data.append(Co1)
-        # self.data.append(Co2)
-        # self.data.append(Co3)
-        # self.data.append(Co4)
-        # self.data.append(Co5)
-        # self.data.append(Co6)
-        # self.data.append(Co7)
-        # self.data.append(Co8)
-
     #returns all of the contact lists
     def getAllContactList(self):
         cursor = self.conn.cursor()

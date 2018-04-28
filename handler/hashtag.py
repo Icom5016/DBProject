@@ -21,6 +21,14 @@ class HashtagHandler:
             mapped_result.append(self.mapToHashtagDict(r))
         return jsonify(Hashtag=mapped_result)
 
+    def getHashtagByID(self, hashtag_id):
+        dao = HashtagDAO()
+        result = dao.getHashtagByID(hashtag_id)
+        if result == None:
+            return jsonify(Error="NOT FOUND"), 404
+        mapped = self.mapToHashtagDict(result)
+        return jsonify(Hashtag=mapped)
+
     def mapToHashtagDict(self, row):
         result = {}
         result["hashtag_id"] = row[0]
@@ -49,15 +57,6 @@ class HashtagHandler:
         result["person_id"] = row[8]
         result["groupchat_id"] = row[9]
         return result
-
-    # def getFrequencyByHashtagId(self, hashtag_id):
-    #     dao = HashtagDAO()
-    #     result = dao.getFrequencyByHashtagId(hashtag_id)
-    #     if result == None:
-    #         return jsonify(Error="NOT FOUND"), 404
-    #     else :
-    #         mapped = self.mapToFrequencyDict(result)
-    #         return jsonify(Hashtag=mapped)
 
     def getFrequencyByHashtagText(self, hashtag_text):
         dao = HashtagDAO()

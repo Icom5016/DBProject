@@ -179,12 +179,12 @@ class MsgHandler:
     def getUsersWhoLikeMessages(self, msg_id):
         dao1 = MsgDAO()
         result = dao1.getAllLikeUsersByMsgID(msg_id)
-        if len(result) == 0:
+        if not result:
             return jsonify(Error="NOT FOUND"), 404
         dao2 = UserDAO()
         mapped_result = []
         for r in result:
-            mapped_result.append(self.mapToUserDict(dao2.getUserById(r)))
+            mapped_result.append(self.mapToUserDict(r))
         return jsonify(Users=mapped_result)
 
     def getUsersWhoDislikeMessages(self, msg_id):
@@ -195,7 +195,7 @@ class MsgHandler:
         dao2 = UserDAO()
         mapped_result = []
         for r in result:
-            mapped_result.append(self.mapToUserDict(dao2.getUserById(r)))
+            mapped_result.append(self.mapToUserDict(r))
         return jsonify(Users=mapped_result)
 
     #########NOT YET IMPLEMENTED

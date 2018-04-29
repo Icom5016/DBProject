@@ -1,10 +1,13 @@
 angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope', '$location', '$routeParams',
     function($http, $log, $scope, $location, $routeParams) {
+
         var thisCtrl = this;
 
         this.messageList = [];
         this.counter  = 0;
         this.newText = "";
+        this.likesList = [];
+        this.dislikesList = [];
 
         //
         //HERE IS WHERE WE GET FROM THE DB???//
@@ -82,8 +85,7 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
                     /*
                     * Stores the data received from python call. The jsonyfied data
                     */
-                    thisCtrl.likesList = response.data.username;
-                    thisCtrl.counter = thisCtrl.likesList.length;
+                    thisCtrl.likesList = response.data.Users;
 
                 },
             function (response){
@@ -125,8 +127,7 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
                     /*
                     * Stores the data received from python call. The jsonyfied data
                     */
-                    thisCtrl.dislikesList = response.data.username;
-                    thisCtrl.counter = thisCtrl.dislikesList.length;
+                    thisCtrl.dislikesList = response.data.Users;
 
                 },
             function (response){

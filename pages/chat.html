@@ -24,22 +24,33 @@
             <div class="row">
                 <div class="col s12 m6">
                     <div class="card">
-                        <div class="card-content" ng-mouseover="tooltip=true" ng-mouseleave="tooltip=false">
+                        <div class="card-content">
                             <!-- Card Title is the person who write the message -->
                             <span class="card-title" >{{ m.username }}</span>
                             <!-- Here comes the message text -->
                             <p>
                                 {{m.text}}
                             </p>
-                            <div class="tooltip" ng-show="tooltip"></div>
                         </div>
-                        <div class="card-action">
-                            <button class="btn-floating btn-small waves-effect waves-light blue" type="submit" name="action" ng-click="chatCtrl.likeMsg(m.msg_id)">
+                        <div class="card-action" ng-init="showWhoLiked=false" ng-init="showWhoDisliked=false">
+                            <button class="btn-floating btn-small waves-effect waves-light blue" type="submit" name="action"
+                                    ng-click="chatCtrl.likeMsg(m.msg_id)"  ng-mouseover="chatCtrl.loadWhoLiked(m.msg_id); showWhoLiked=true" ng-mouseleave="showWhoLiked=false">
                                 <i class="material-icons">thumb_up
-                                </i><</button> <span ng-model= "m.like"> {{ m["likes"] }} </span>
-                            <button class="btn-floating btn-small waves-effect waves-light blue" type="submit" name="action" ng-click="chatCtrl.dislikeMsg(m.msg_id)">
+                                </i><</button> <span ng-model= "m.like"> {{ m.likes }} </span>
+
+                            <button class="btn-floating btn-small waves-effect waves-light blue" type="submit" name="action"
+                                    ng-click="chatCtrl.dislikeMsg(m.msg_id)" ng-mouseover="chatCtrl.loadWhoDisliked(m.msg_id); showWhoDisliked=true" ng-mouseleave="showWhoDisliked=false">
                                 <i class="material-icons">thumb_down
-                                </i></button> <span ng-model="m.dislike"> {{ m["dislikes"] }} </span>
+                                </i></button> <span ng-model="m.dislike"> {{ m.dislikes }} </span>
+
+                            <div class="showWhoLiked" ng-show="showWhoLiked">
+                                <div ng-repeat="user in chatCtrl.likesList">{{ user.username }}</div>
+                            </div>
+
+                            <div class="showWhoDisliked" ng-show="showWhoDisliked">
+                                <div ng-repeat="user in chatCtrl.dislikesList">{{ user.username }}</div>
+                            </div>
+
                         </div>
                     </div>
                 </div>

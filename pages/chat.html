@@ -24,13 +24,14 @@
             <div class="row">
                 <div class="col s12 m6">
                     <div class="card">
-                        <div class="card-content">
+                        <div class="card-content" ng-mouseover="tooltip=true" ng-mouseleave="tooltip=false">
                             <!-- Card Title is the person who write the message -->
-                            <span class="card-title">{{ m.username }}</span>
+                            <span class="card-title" >{{ m.username }}</span>
                             <!-- Here comes the message text -->
                             <p>
                                 {{m.text}}
                             </p>
+                            <div class="tooltip" ng-show="tooltip"></div>
                         </div>
                         <div class="card-action">
                             <button class="btn-floating btn-small waves-effect waves-light blue" type="submit" name="action" ng-click="chatCtrl.likeMsg(m.msg_id)">

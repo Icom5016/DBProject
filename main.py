@@ -60,6 +60,16 @@ def getTextByMsgId(msg_id):
 def getLikesByMsgId(msg_id):
     return MsgHandler().getLikesByMsgId(msg_id)
 
+#Get list of users who liked a message
+@app.route("/MessagingApp/msg/wholiked/<int:msg_id>", methods=['GET', 'PUT', 'DELETE'])
+def getUsersWhoLikedByMsgId(msg_id):
+    return MsgHandler().getUsersWhoLikeMessages(msg_id)
+
+#Get list of users who disliked a message
+@app.route("/MessagingApp/msg/whodisliked/<int:msg_id>", methods=['GET', 'PUT', 'DELETE'])
+def getUsersWhoDislikedByMsgId(msg_id):
+    return MsgHandler().getUsersWhoDislikeMessages(msg_id)
+
 #get the number of dislikes of a message
 @app.route("/MessagingApp/msg/dislikes/<int:msg_id>", methods=['GET', 'PUT', 'DELETE'])
 def getDislikesByMsgId(msg_id):
@@ -266,24 +276,10 @@ def getOwnerOfChat(gchat_id):
 
 #################################### DASHBOARD ROUTES ####################################
 
-#Son aggregates?
-# @app.route("/MessagingApp/dashboard")
-# def dashboard():
-#     handler = DashboardHandler()
-#     return handler.getAllDashboard()
-#
+
 @app.route("/MessagingApp/dashboard/<string:date>")
 def getDashboardByDate(date):
     return DashboardHandler().getDashboardByDate(date)
-#
-# @app.route("/MessagingApp/dashboard/date/<int:dashboard_id>")
-# def getDateByDashboardId(dashboard_id):
-#     return DashboardHandler().getDateById(dashboard_id)
-#
-# @app.route("/MessagingApp/dashboard/<string:date>")
-# def getDashboardByDate(date):
-#     return DashboardHandler().getDashboardByDate(date)
-#
 
 #Get the total messages in a given day
 @app.route("/MessagingApp/dashboard/total_messages/<string:date>")

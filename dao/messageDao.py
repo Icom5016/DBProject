@@ -157,7 +157,7 @@ class MsgDAO:
 
     def getAllLikeUsersByMsgID(self, msg_id):
         cursor = self.conn.cursor()
-        query = "select P.person_id, P.first_name, P.last_name, P.email, P.phone, P.password, P.username " \
+        query = "select P.person_id, P.username, P.first_name, P.last_name, P.email, P.phone, P.password, P.username " \
                 "from person as P, react as R " \
                 "where P.person_id = R.person_id and R.likes = true and R.msg_id = %s;"
         cursor.execute(query, (msg_id,))
@@ -170,7 +170,7 @@ class MsgDAO:
 
     def getAllDislikeUsersByMsgID(self, msg_id):
         cursor = self.conn.cursor()
-        query = "select P.person_id, P.first_name, P.last_name, P.email, P.phone, P.password, P.username " \
+        query = "select P.person_id, P.username, P.first_name, P.last_name, P.email, P.phone, P.password, P.username " \
                 "from person as P, react as R " \
                 "where P.person_id = R.person_id and R.dislikes = true and R.msg_id = %s;"
         cursor.execute(query, (msg_id,))

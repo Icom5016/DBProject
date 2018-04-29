@@ -68,6 +68,92 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
             $log.error("Message Loaded: ", JSON.stringify(thisCtrl.messageList));
         };
 
+        this.loadWhoLiked = function(msg_id){
+            // Now create the url with the route to talk with the rest API
+            var reqURL1 = "http://localhost:5000/MessagingApp/msg/wholiked/" + msg_id;
+            console.log("reqURL: " + reqURL1);
+            // Now issue the http request to the rest API
+            $http.get(reqURL1).then(
+                // Success function
+                function (response) {
+                    console.log("data: " + JSON.stringify(response.data));
+                    // assing the part details to the variable in the controller
+
+                    /*
+                    * Stores the data received from python call. The jsonyfied data
+                    */
+                    thisCtrl.likesList = response.data.username;
+                    thisCtrl.counter = thisCtrl.likesList.length;
+
+                },
+            function (response){
+                // This is the error function
+                // If we get here, some error occurred.
+                // Verify which was the cause and show an alert.
+                var status = response.status;
+                if (status == 0){
+                    alert("No hay conexion a Internet");
+                }
+                else if (status == 401){
+                    alert("Su sesion expiro. Conectese de nuevo.");
+                }
+                else if (status == 403){
+                    alert("No esta autorizado a usar el sistema.");
+                }
+                else if (status == 404){
+                    alert("No se encontro la informacion solicitada.");
+                }
+                else {
+                    alert("Error interno del sistema.");
+                }
+            });
+
+            $log.error("Message Loaded: ", JSON.stringify(thisCtrl.reactList));
+        };
+
+        this.loadWhoDisliked = function(msg_id){
+            // Now create the url with the route to talk with the rest API
+            var reqURL1 = "http://localhost:5000/MessagingApp/msg/whodisliked/" + msg_id;
+            console.log("reqURL: " + reqURL1);
+            // Now issue the http request to the rest API
+            $http.get(reqURL1).then(
+                // Success function
+                function (response) {
+                    console.log("data: " + JSON.stringify(response.data));
+                    // assing the part details to the variable in the controller
+
+                    /*
+                    * Stores the data received from python call. The jsonyfied data
+                    */
+                    thisCtrl.dislikesList = response.data.username;
+                    thisCtrl.counter = thisCtrl.dislikesList.length;
+
+                },
+            function (response){
+                // This is the error function
+                // If we get here, some error occurred.
+                // Verify which was the cause and show an alert.
+                var status = response.status;
+                if (status == 0){
+                    alert("No hay conexion a Internet");
+                }
+                else if (status == 401){
+                    alert("Su sesion expiro. Conectese de nuevo.");
+                }
+                else if (status == 403){
+                    alert("No esta autorizado a usar el sistema.");
+                }
+                else if (status == 404){
+                    alert("No se encontro la informacion solicitada.");
+                }
+                else {
+                    alert("Error interno del sistema.");
+                }
+            });
+
+            $log.error("Message Loaded: ", JSON.stringify(thisCtrl.reactList));
+        };
+
         this.postMsg = function(){
             var msg = thisCtrl.newText;
             // Need to figure out who I am

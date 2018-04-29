@@ -190,7 +190,7 @@ class MsgHandler:
     def getUsersWhoDislikeMessages(self, msg_id):
         dao1 = MsgDAO()
         result = dao1.getAllDislikeUsersByMsgID(msg_id)
-        if len(result) == 0:
+        if not result:
             return jsonify(Error="NOT FOUND"), 404
         dao2 = UserDAO()
         mapped_result = []

@@ -102,8 +102,8 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
                 else if (status == 403){
                     alert("No esta autorizado a usar el sistema.");
                 }
-                else if (status == 404){
-                    alert("No se encontro la informacion solicitada.");
+                else if (status == 404){ // It means there are no users who like message
+                    thisCtrl.likesList = [];
                 }
                 else {
                     alert("Error interno del sistema.");
@@ -145,7 +145,7 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
                     alert("No esta autorizado a usar el sistema.");
                 }
                 else if (status == 404){
-                    alert("No se encontro la informacion solicitada.");
+                    thisCtrl.dislikesList = []; // It means there are no users who dislike message
                 }
                 else {
                     alert("Error interno del sistema.");

@@ -14,20 +14,12 @@ class HashtagHandler:
     def getHashtagByMsgId(self, msg_id):
         dao = HashtagDAO()
         result = dao.getHashtagByMsgId(msg_id)
-        if result == None:
+        if not result:
             return jsonify(Error="NOT FOUND"), 404
         mapped_result = []
         for r in result:
             mapped_result.append(self.mapToHashtagDict(r))
         return jsonify(Hashtag=mapped_result)
-
-    def getHashtagByID(self, hashtag_id):
-        dao = HashtagDAO()
-        result = dao.getHashtagByID(hashtag_id)
-        if result == None:
-            return jsonify(Error="NOT FOUND"), 404
-        mapped = self.mapToHashtagDict(result)
-        return jsonify(Hashtag=mapped)
 
     def mapToHashtagDict(self, row):
         result = {}
@@ -38,7 +30,7 @@ class HashtagHandler:
     def getMsgsByHashtagText(self, hashtag_text):
         dao = HashtagDAO()
         result = dao.getMsgsByHashtagText(hashtag_text)
-        if result == None:
+        if not result:
             return jsonify(Error="NOT FOUND"), 404
         mapped_result = []
         for r in result:
@@ -61,7 +53,7 @@ class HashtagHandler:
     def getFrequencyByHashtagText(self, hashtag_text):
         dao = HashtagDAO()
         result = dao.getFrequencyByHashtagText(hashtag_text)
-        if result == None:
+        if not result:
             return jsonify(Error="NOT FOUND"), 404
         else :
             mapped = self.mapToFrequencyDict(result)

@@ -16,7 +16,16 @@ class DashboardHandler():
         result = dao.getDashboardByDate(date)
         if not result:
             return jsonify(Error="NOT FOUND"), 404
-        else :
+        else:
+            mapped = self.mapToDashboardDict(result)
+            return jsonify(Dashboard=mapped)
+
+    def getTodayDashboard(self):
+        dao = DashboardDAO()
+        result = dao.getTodayDashboard()
+        if not result:
+            return jsonify(Error="NOT FOUND"), 404
+        else:
             mapped = self.mapToDashboardDict(result)
             return jsonify(Dashboard=mapped)
 

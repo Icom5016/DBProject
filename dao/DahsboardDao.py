@@ -11,6 +11,12 @@ class DashboardDAO():
         self.conn = psycopg2._connect(connection_url)
 
 
+    def getTodayDashboard(self):
+        cursor = self.conn.cursor()
+        cursor.execute("select current_date;")
+        date = cursor.fetchone()
+        return self.getDashboardByDate(date)
+
     def getDashboardByDate(self, date):
         result = []
         result.append(self.getTotalMessagesByDate(date))

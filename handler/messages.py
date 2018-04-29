@@ -37,7 +37,8 @@ class MsgHandler:
         result["likes"] = row[2]
         result["dislikes"] = row[3]
         result["date"] = row[4]
-        #result["time"] = row[5]
+        time = "%s:%s:%s" % (row[5].hour, row[5].minute, row[5].second)
+        result["time"] = time
         result["person_id"] = row[6]
         result["gchat_id"] = row[7]
         result["username"] = row[8]

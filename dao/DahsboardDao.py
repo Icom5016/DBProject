@@ -56,7 +56,8 @@ class DashboardDAO():
 
     def getActiveUsersByDate(self, date):
         cursor = self.conn.cursor()
-        query = "select count(distinct person_id) from message where date = %s;" #Aqui solo cuenta los users que escriben
+        query = "select username, count(*) from message natural inner join " \
+                "person where date = %s group by username order by count(*) desc;" #Aqui solo cuenta los users que escriben
         cursor.execute(query, (date,))
         result = cursor.fetchone()
         return result

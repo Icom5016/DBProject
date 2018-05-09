@@ -10,6 +10,17 @@ class HashtagDAO:
                                                             pg_config['passwd'])
         self.conn = psycopg2._connect(connection_url)
 
+    def getAllHashtag(self):
+        cursor = self.conn.cursor()
+        query = "select * from Hashtag;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        if not result:
+            return None
+        return result
+
     def getAllDistinctHashtag(self):
         cursor = self.conn.cursor()
         query = "select distinct hash_text from Hashtag;"
@@ -17,7 +28,7 @@ class HashtagDAO:
         result = []
         for row in cursor:
             result.append(row)
-        if result == []:
+        if not result:
             return None
         return result
 
@@ -65,7 +76,8 @@ class HashtagDAO:
 
     def getTrendingHashtag(self):
         cursor = self.conn.cursor()
-        query = "select hash_text, count(*) from hashtag group by hash_text order by count(*) desc"
+        query = "select hash_text, count(*) from hashtag  natural inner join message where " \
+                "date = current_date group by hash_text order by count(*) desc"
         cursor.execute(query)
         result = []
         for row in cursor:

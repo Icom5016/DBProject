@@ -5,11 +5,26 @@ class HashtagHandler:
 
     def getAllHashtag(self):
         dao = HashtagDAO()
-        result = dao.getAllDistinctHashtag()
+        result = dao.getAllHashtag()
         mapped_result = []
         for r in result:
             mapped_result.append(self.mapToHashtagDict(r))
         return jsonify(Hashtag=mapped_result)
+
+    def getAllDistinctHashtag(self):
+        dao = HashtagDAO()
+        result = dao.getAllDistinctHashtag()
+        mapped_result = []
+        for r in result:
+            mapped_result.append(self.mapToDistinctHashtagDict(r))
+        return jsonify(Hashtag=mapped_result)
+
+    def getHashtagByID(self, hash_id):
+        dao = HashtagDAO()
+        result = dao.getHashtagByID(hash_id)
+        if not result:
+            return jsonify(Error="NOT FOUND"), 404
+        return jsonify(Hashtag=self.mapToHashtagDict(result))
 
     def getHashtagByMsgId(self, msg_id):
         dao = HashtagDAO()
@@ -25,6 +40,11 @@ class HashtagHandler:
         result = {}
         result["hashtag_id"] = row[0]
         result["hashtag_text"] = row[1]
+        return result
+
+    def mapToDistinctHashtagDict(self, row):
+        result = {}
+        result["hashtag_text"] = row[0]
         return result
 
     def getMsgsByHashtagText(self, hashtag_text):

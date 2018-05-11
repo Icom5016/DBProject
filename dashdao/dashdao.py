@@ -62,7 +62,8 @@ class DashDAO:
         query="select hash_text, count*" \
               "from hashtag" \
               "group by hash_text" \
-              "order by count* DESC"
+              "order by count* DESC" \
+              "limit 10"
         cursor.execute(query, (date,))
         result = []
         for row in cursor:
@@ -77,7 +78,8 @@ class DashDAO:
         query="select username, count*" \
               "from message" \
               "group by username" \
-              "order by count* DESC"
+              "order by count* DESC" \
+              "limit 10"
         cursor.execute(query, (date,))
         result = []
         for row in cursor:

@@ -77,7 +77,7 @@ class HashtagDAO:
     def getTrendingHashtag(self):
         cursor = self.conn.cursor()
         query = "select hash_text, count(*) from hashtag  natural inner join message where " \
-                "date = current_date group by hash_text order by count(*) desc"
+                "date = current_date group by hash_text order by count(*) desc limit 10"
         cursor.execute(query)
         result = []
         for row in cursor:

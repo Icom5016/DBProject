@@ -1,0 +1,162 @@
+angular.module('AppChat').controller('DashController', ['$http', '$log', '$scope', '$location', '$routeParams',
+    function($http, $log, $scope, $location, $routeParams) {
+
+        var thisCtrl = this;
+
+        this.messageList = [];
+        this.counter  = 0;
+        this.newText = "";
+        this.likesList = [];
+        this.dislikesList = [];
+
+        this.loadTrendingHashtags = function(){
+            // Now create the url with the route to talk with the rest API
+            var reqURL = "http://localhost:5000/MessagingApp/trending_hashtags";
+            console.log("reqURL: " + reqURL);
+            // Now issue the http request to the rest API
+            $http.get(reqURL).then(
+                // Success function
+                function (response) {
+                    console.log("data: " + JSON.stringify(response.data));
+
+                    thisCtrl.hashtagList = response.data.Hashtag; //CHECK THIS LINE
+                    thisCtrl.counter = thisCtrl.hashtagList.length;
+                },
+            function (response){
+                // This is the error function
+                // If we get here, some error occurred.
+                // Verify which was the cause and show an alert.
+                var status = response.status;
+                if (status == 0){
+                    alert("No hay conexion a Internet");
+                }
+                else if (status == 401){
+                    alert("Su sesion expiro. Conectese de nuevo.");
+                }
+                else if (status == 403){
+                    alert("No esta autorizado a usar el sistema.");
+                }
+                else if (status == 404){
+                    alert("No se encontro la informacion solicitada.");
+                }
+                else {
+                    alert("Error interno del sistema.");
+                }
+            });
+
+            $log.error("Hashtags Loaded: ", JSON.stringify(thisCtrl.hashtagList));
+        };
+
+        this.likesQuantity = function(msg_id){
+            // Now create the url with the route to talk with the rest API
+            var reqURL1 = "http://localhost:5000/MessagingApp/msg/wholiked/" + msg_id;
+            console.log("reqURL: " + reqURL1);
+            // Now issue the http request to the rest API
+            $http.get(reqURL1).then(
+                // Success function
+                function (response) {
+                    console.log("data: " + JSON.stringify(response.data));
+                    // assing the part details to the variable in the controller
+
+                    /*
+                    * Stores the data received from python call. The jsonyfied data
+                    */
+                    thisCtrl.likesList = response.data.Users;
+
+                },
+            function (response){
+                // This is the error function
+                // If we get here, some error occurred.
+                // Verify which was the cause and show an alert.
+                var status = response.status;
+                if (status == 0){
+                    alert("No hay conexion a Internet");
+                }
+                else if (status == 401){
+                    alert("Su sesion expiro. Conectese de nuevo.");
+                }
+                else if (status == 403){
+                    alert("No esta autorizado a usar el sistema.");
+                }
+                else if (status == 404){ // It means there are no users who like message
+                    thisCtrl.likesList = [];
+                }
+                else {
+                    alert("Error interno del sistema.");
+                }
+            });
+
+            $log.error("Message Loaded: ", JSON.stringify(thisCtrl.reactList));
+        };
+
+        this.loadWhoDisliked = function(msg_id){
+            // Now create the url with the route to talk with the rest API
+            var reqURL1 = "http://localhost:5000/MessagingApp/msg/whodisliked/" + msg_id;
+            console.log("reqURL: " + reqURL1);
+            // Now issue the http request to the rest API
+            $http.get(reqURL1).then(
+                // Success function
+                function (response) {
+                    console.log("data: " + JSON.stringify(response.data));
+                    // assing the part details to the variable in the controller
+
+                    /*
+                    * Stores the data received from python call. The jsonyfied data
+                    */
+                    thisCtrl.dislikesList = response.data.Users;
+
+                },
+            function (response){
+                // This is the error function
+                // If we get here, some error occurred.
+                // Verify which was the cause and show an alert.
+                var status = response.status;
+                if (status == 0){
+                    alert("No hay conexion a Internet");
+                }
+                else if (status == 401){
+                    alert("Su sesion expiro. Conectese de nuevo.");
+                }
+                else if (status == 403){
+                    alert("No esta autorizado a usar el sistema.");
+                }
+                else if (status == 404){
+                    thisCtrl.dislikesList = []; // It means there are no users who dislike message
+                }
+                else {
+                    alert("Error interno del sistema.");
+                }
+            });
+
+            $log.error("Message Loaded: ", JSON.stringify(thisCtrl.reactList));
+        };
+
+        this.postMsg = function(){
+            var msg = thisCtrl.newText;
+            // Need to figure out who I am
+            var author = "Me";
+            thisCtrl.counter += 1;
+            thisCtrl.messageList.unshift({"msg_id": thisCtrl.counter, "text" : msg, "username" : author, "likes" : 0, "dislikes" : 0});
+            thisCtrl.newText = "";
+        };
+
+        this.likeMsg = function(m_id){
+            for (var i = 0; i < thisCtrl.messageList.length; i++) {
+                if (thisCtrl.messageList[i].msg_id == m_id) {
+                    thisCtrl.messageList[i]["likes"] += 1;
+                    break;
+                }
+            }
+        };
+
+        this.dislikeMsg = function(m_id){
+            for (var i = 0; i < thisCtrl.messageList.length; i++) {
+                if (thisCtrl.messageList[i].msg_id == m_id) {
+                    thisCtrl.messageList[i]["dislikes"] += 1;
+                    break;
+                }
+            }
+        };
+
+        this.loadMessages();
+}]);

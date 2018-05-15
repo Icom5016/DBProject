@@ -3,6 +3,7 @@ import psycopg2
 
 class DashDAO:
     def __init__(self):
+
         connection_url = "dbname=%s user=%s password=%s" % (pg_config['dbname'],
                                                             pg_config['user'],
                                                             pg_config['passwd'])
@@ -13,7 +14,7 @@ class DashDAO:
         cursor = self.conn.cursor()
         query = "select sum(likes) " \
                 "from message " \
-                "where date = %s"
+                "where date = %s;"
         cursor.execute(query, (date,))
         result = cursor.fetchone()
         if result == []:
@@ -25,7 +26,7 @@ class DashDAO:
         cursor = self.conn.cursor()
         query = "select sum(dislikes) " \
                 "from message " \
-                "where date = %s"
+                "where date = %s;"
         cursor.execute(query, (date,))
         result = cursor.fetchone()
         if result == []:
@@ -37,7 +38,7 @@ class DashDAO:
         cursor = self.conn.cursor()
         query = "select count* " \
                 "from message " \
-                "where date = %s"
+                "where date = %s;"
         cursor.execute(query, (date,))
         result = cursor.fetchone()
         if result == []:
@@ -49,7 +50,7 @@ class DashDAO:
         cursor = self.conn.cursor()
         query = "select count* " \
                 "from message as M, reply as R" \
-                "where M.date = %s and R.msg_id = M.msg_id"
+                "where M.date = %s and R.msg_id = M.msg_id;"
         cursor.execute(query, (date,))
         result = cursor.fetchone()
         if result == []:
@@ -63,7 +64,7 @@ class DashDAO:
               "from hashtag" \
               "group by hash_text" \
               "order by count* DESC" \
-              "limit 10"
+              "limit 10;"
         cursor.execute(query, (date,))
         result = []
         for row in cursor:
@@ -79,7 +80,7 @@ class DashDAO:
               "from message" \
               "group by username" \
               "order by count* DESC" \
-              "limit 10"
+              "limit 10;"
         cursor.execute(query, (date,))
         result = []
         for row in cursor:

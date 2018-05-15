@@ -11,24 +11,24 @@ CORS(app)
 #RoutesForJsons
 
 #GetLikesOnDate
-@app.route("/MessagingApp/dashboard/likes/<date: date>", methods=['GET', 'PUT', 'DELETE'])
+@app.route("/MessagingApp/dashboard/likes/<string: date>", methods=['GET', 'PUT', 'DELETE'])
 def getDashLikesForDate(date):
-    return DashHandler.getTotalLikesPerDay(date)
+    return DashHandler().getTotalLikesPerDay(date)
 
 #GetDislikesOnDate
-@app.route("/MessagingApp/dashboard/dislikes/<date: date>", methods=['GET', 'PUT', 'DELETE'])
+@app.route("/MessagingApp/dashboard/dislikes/<string: date>", methods=['GET', 'PUT', 'DELETE'])
 def getDashDislikesForDate(date):
-    return DashHandler.getTotalDislikesPerDay(date)
+    return DashHandler().getTotalDislikesPerDay(date)
 
 #GetMessagesOnDate
-@app.route("/MessagingApp/dashboard/msgs/<date: date>", methods=['GET', 'PUT', 'DELETE'])
+@app.route("/MessagingApp/dashboard/msgs/<string: date>", methods=['GET', 'PUT', 'DELETE'])
 def getDashTotMsgsForDate(date):
-    return DashHandler.getTotalMessagesPerDay(date)
+    return DashHandler().getTotalMessagesPerDay(date)
 
 #GetRepliesOnDate
-@app.route("/MessagingApp/dashboard/replies/<date: date>", methods=['GET', 'PUT', 'DELETE'])
+@app.route("/MessagingApp/dashboard/replies/<string: date>", methods=['GET', 'PUT', 'DELETE'])
 def getDashTotRepliesForDate(date):
-    return DashHandler.getTotalRepliesPerDay(date)
+    return DashHandler().getTotalRepliesPerDay(date)
 
 #Get Top 10 hashtags
 

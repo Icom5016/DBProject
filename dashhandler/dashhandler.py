@@ -24,7 +24,7 @@ class DashHandler:
 
 
     def getTotalLikesPerDay(self, date):
-        dao = DashDAO
+        dao = DashDAO()
         result = dao.getLikesPerDate(date)
         if result == None:
             return jsonify(Error="NOT FOUND"), 404
@@ -33,7 +33,7 @@ class DashHandler:
             return jsonify(Message=mapped)
 
     def getTotalDislikesPerDay(self, date):
-        dao = DashDAO
+        dao = DashDAO()
         result = dao.getDislikesPerDate(date)
         if result == None:
             return jsonify(Error="NOT FOUND"), 404
@@ -42,7 +42,7 @@ class DashHandler:
             return jsonify(Message=mapped)
 
     def getTotalRepliesPerDay(self, date):
-        dao = DashDAO
+        dao = DashDAO()
         result = dao.getTotalRepliesPerDate(date)
         if result == None:
             return jsonify(Error="NOT FOUND"), 404
@@ -51,7 +51,7 @@ class DashHandler:
             return jsonify(Message=mapped)
 
     def getTotalMessagesPerDay(self, date):
-        dao = DashDAO
+        dao = DashDAO()
         result = dao.getTotalMessagesPerDate(date)
         if result == None:
             return jsonify(Error="NOT FOUND"), 404

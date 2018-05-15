@@ -1,7 +1,7 @@
 #Databse configuration information
 
 pg_config = {
-    'user' : 'ubuntu',
-    'passwd' : 'lloydsucks7',
-    'dbname' : 'messageappdb'
+    'user' : 'appusr',
+    'passwd' : '12345',
+    'dbname' : 'appdb'
 }

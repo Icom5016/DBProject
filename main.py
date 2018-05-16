@@ -5,7 +5,7 @@ from handler.contactlists import ContactListHandler
 from handler.groupChat import GroupChatHandler
 from handler.dashboard import DashboardHandler
 from handler.hashtag import HashtagHandler
-from dao.imageDao import ImageDAO
+# from dao.imageDao import ImageDAO
 from flask_cors import CORS, cross_origin
 
 #ACTIVATE
@@ -357,9 +357,9 @@ def getTrendingHashtag():
 def getTrendingHashtagsByGchatId(gchat_id):
     return HashtagHandler().getTrendingHashtagByGchatId(gchat_id)
 
-@app.route("/MessagingApp/image")
-def getImage():
-    return ImageDAO().getImage()
+# @app.route("/MessagingApp/image")
+# def getImage():
+#     return ImageDAO().getImage()
 
 if __name__ == '__main__':
     app.run()

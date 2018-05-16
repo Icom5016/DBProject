@@ -31,6 +31,16 @@ def getDashTotRepliesForDate(date):
     return DashHandler().getTotalRepliesPerDay(date)
 
 #Get Top 10 hashtags
+@app.route("/MessagingApp/dashboard/trending/<string:date>", methods=['GET', 'PUT', 'DELETE'])
+def getOrderedHashtagFrequency(date):
+    return DashHandler().getOrderedHashtagFrequency(date)
+
+#GetActiveUsersOnDate
+@app.route("/MessagingApp/dashboard/users/<string:date>", methods=['GET', 'PUT', 'DELETE'])
+def getActiveUsersForDate(date):
+    return DashHandler().getActiveUsersForDate(date)
+
+#Get Top 10 hashtags
 
 #Get Top 10 active users
 

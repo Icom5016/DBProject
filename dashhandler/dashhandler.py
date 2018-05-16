@@ -22,6 +22,36 @@ class DashHandler:
         result["replies"] = row[0]
         return result
 
+    def mapToTotalActiveUsersDict(self, row):
+        result = {}
+        result["active_users"] = row[0]
+        return result
+
+    def mapToOrderedHashtagFrequencyDict(self, row):
+        result = {}
+        result["hashtag"] = row[0]
+        result["frequency"] = row[1]
+        return result
+
+    def getOrderedHashtagFrequency(self, date):
+        dao = DashDAO()
+        result = dao.getOrderedHashtagFrequency(date)
+        if result == None:
+            return jsonify(Error="NOT FOUND"), 404
+        else:
+            mapped_result = []
+            for r in result:
+                mapped_result.append(self.mapToOrderedHashtagFrequencyDict(r))
+            return jsonify(Trending=mapped_result)
+
+    def getActiveUsersForDate(self, date):
+        dao = DashDAO()
+        result = dao.getActiveUsersForDate(date)
+        if result == None:
+            return jsonify(Error="NOT FOUND"), 404
+        else :
+            mapped = self.mapToTotalActiveUsersDict(result)
+            return jsonify(Active_Users=mapped)
 
     def getTotalLikesPerDay(self, date):
         dao = DashDAO()

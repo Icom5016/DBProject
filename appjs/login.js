@@ -2,38 +2,23 @@ angular.module('AppChat').controller('LoginController', ['$http', '$log', '$scop
     function($http, $log, $scope, $location, $routeParams) {
 
         var thisCtrl = this;
-        this.counter = 1;
         this.username = "";
         this.password = "";
         this.currentUser = {};
 
         this.checkLogin = function(){
-            var reqURL = "http://localhost:5000/MessagingApp/user";
+            var reqURL = "http://localhost:5000/MessagingApp/login";
                 console.log("reqURL: " + reqURL);
+                var data = {'username': thisCtrl.username, 'password': thisCtrl.password}
                 // Now issue the http request to the rest API
-                $http.get(reqURL).then(
+                $http.post(reqURL, data).then(
                     // Success function
                     function (response) {
                         console.log("data: " + JSON.stringify(response.data));
-                        userList = response.data.User;
-//                        username = $scope.username;
-                        console.log(username)
-                        password = $scope.password;
-                        console.log(password)
-                        for (var i = 0; i < userList.length; i++) {
-                            if (userList[i].username == thisCtrl.username){
-                                if (userList[i].password == password) {
-                                    thisCtrl.currentUser = userList[i];
-                                    $location.url('/msg/gchat/1'); //+ userList[i].person_id)
-                                    break;
-                                }
-                                else {
-                                    alert("Incorrect password.");
-                                    break;
-                                }
-                            }
-                            alert("Incorrect username.")
-                        }
+                        thisCtrl.currentUser = JSON.stringify(response.data);
+                        thisCtrl.username = "";
+                        thisCtrl.password = "";
+                        $location.path('/msg/gchat/1')
                     },
                 function (response){
                     // This is the error function

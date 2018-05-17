@@ -5,7 +5,7 @@ from handler.contactlists import ContactListHandler
 from handler.groupChat import GroupChatHandler
 from handler.dashboard import DashboardHandler
 from handler.hashtag import HashtagHandler
-from dao.imageDao import ImageDAO
+#from dao.imageDao import ImageDAO
 from flask_cors import CORS, cross_origin
 
 #ACTIVATE
@@ -22,13 +22,17 @@ def home():
     return "Welcome to the social messaging application!"
 
 #Registration page
-@app.route("/MessagingApp/register")
+@app.route("/MessagingApp/register", methods=['POST'])
 def register():
+    if request.method =='POST':
+        UserHandler().insertUser(request.form)
     return "Registration successful"
 
 #Login page
-@app.route("/MessagingApp/login")
+@app.route("/MessagingApp/login", methods=['POST'])
 def login():
+    if request.method == 'POST':
+        UserHandler().getUserByUsernameAndPassword(request.get_json())
     return "Login successful"
 
 #################################### MESSAGE ROUTES ####################################
@@ -36,6 +40,8 @@ def login():
 #Get all the existing messages
 @app.route("/MessagingApp/msg", methods=['GET', 'POST'])
 def msg():
+    if request.method == 'POST':
+        MsgHandler().insertMsg(request.form)
     if not request.args:
         return MsgHandler().getAllMsg()
     else:
@@ -127,9 +133,9 @@ def getAllReplies():
 #Get all existing users
 @app.route("/MessagingApp/user", methods=['GET', 'POST'])
 def user():
-    # if request.method == 'POST':
-    #     return UserHandler().insertUser(request.form)
-    # else:
+    if request.method == 'POST':
+        return UserHandler().insertUser(request.form)
+    else:
         if not request.args:
             return UserHandler().getAllUser()
         else:
@@ -230,8 +236,10 @@ def getContactListByUserId(user_id):
 #################################### (GROUP) CHAT ROUTES  ####################################
 
 #Get all existing group chats
-@app.route("/MessagingApp/gchat")
+@app.route("/MessagingApp/gchat", methods=['GET', 'POST'])
 def getAllGroupChats():
+    if request.method == 'POST':
+        return GroupChatHandler().insertGroupChat(request.form)
     if not request.args:
         return GroupChatHandler().getAllChats()
     else:
@@ -264,10 +272,13 @@ def getAllChatsAndMembers():
     return handler.getAllChatsAndMembers()
 
 #Gets a group chat and its members using the chat's id
-@app.route("/MessagingApp/gchat/members/<int:gchat_id>", methods=['GET', 'PUT', 'DELETE'])
+@app.route("/MessagingApp/gchat/members/<int:gchat_id>", methods=['GET', 'POST', 'PUT', 'DELETE'])
 def getChatMembersByChatId(gchat_id):
-    handler = GroupChatHandler()
-    return handler.getChatMembersByChatID(gchat_id)
+    if request.method == 'POST':
+        GroupChatHandler().insertMemberToGroupChat(request.form)
+    elif request.method == 'GET':
+        handler = GroupChatHandler()
+        return handler.getChatMembersByChatID(gchat_id)
 
 #Gets the owner of a gchat
 @app.route("/MessagingApp/gchat/getowner/<int:gchat_id>", methods=['GET', 'PUT', 'DELETE'])
@@ -357,9 +368,10 @@ def getTrendingHashtag():
 def getTrendingHashtagsByGchatId(gchat_id):
     return HashtagHandler().getTrendingHashtagByGchatId(gchat_id)
 
-@app.route("/MessagingApp/image")
-def getImage():
-    return ImageDAO().getImage()
+# @app.route("/MessagingApp/image")
+# def getImage():
+#     return ImageDAO().getImage()
 
 if __name__ == '__main__':
+    app.debug = True
     app.run()

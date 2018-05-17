@@ -255,3 +255,23 @@ class MsgHandler:
             for r in result:
                 mapped_result.append(self.mapToMsgDict(r))
             return jsonify(Replies=mapped_result)
+
+    def insertMsg(self, form):
+        if len(form) != 8:
+            return jsonify(Error="Malformed post request"), 400
+        else:
+            text = form['text']
+            likes = form['likes']
+            dislikes = form['dislikes']
+            date = form['date']
+            time = form['time']
+            person_id = form['person_id']
+            gchat_id = form['gchat_id']
+            username = form['username']
+            if text and likes and dislikes and date and time and person_id and gchat_id and username:
+                dao = MsgDAO()
+                m_id = dao.insertMsg(text, likes, dislikes, date, time, person_id, gchat_id, username)
+                result = self.mapToMsgDict(m_id, text, likes, dislikes, date, time, person_id, gchat_id, username)
+                return jsonify(Message=result), 201
+            else:
+                return jsonify(Error="Unexpected attributes in post request"), 400

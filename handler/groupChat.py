@@ -108,3 +108,32 @@ class GroupChatHandler():
         result["password"] = row[5]
         result["username"] = row[6]
         return result
+
+    def insertToGroupChat(self, form):
+        if len(form) != 2:
+            return jsonify(Error="Malformed post request"), 400
+        else:
+            gchat_name = form['gchat_name']
+            person_id = form['person_id']
+            if gchat_name and person_id:
+                dao = GroupChatDAO()
+                gchat_id = dao.insertGroupChat(gchat_name, person_id)
+                result = self.mapToGroupChatDict(gchat_id, gchat_name, person_id)
+                return jsonify(GroupChat=result), 201
+            else:
+                return jsonify(Error="Unexpected attributes in post request"), 400
+
+    def insertToGroupChat(self, form):
+        if len(form) != 2:
+            return jsonify(Error="Malformed post request"), 400
+        else:
+            gchat_id = form['gchat_id']
+            person_id = form['person_id']
+            if gchat_id and person_id:
+                dao = GroupChatDAO()
+                member_id = dao.insertMember(gchat_id, person_id)
+                result = self.mapToGroupChatDict(member_id, gchat_id, person_id)
+                return jsonify(GroupChat=result), 201
+            else:
+                return jsonify(Error="Unexpected attributes in post request"), 400
+

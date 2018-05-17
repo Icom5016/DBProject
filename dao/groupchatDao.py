@@ -64,3 +64,21 @@ class GroupChatDAO:
         if result == []:
             return None
         return result
+
+    def insertGroupChat(self, gchat_name, person__id):
+        cursor = self.conn.cursor()
+        query = "insert into group_chat(gchat_name, person_id) " \
+                "values (%s, %s);"
+        cursor.execute(query, (gchat_name, person__id,))
+        gchat_id = cursor.fetchone()[0]
+        self.conn.commit()
+        return gchat_id
+
+    def insertMember(self, gchat_id, person__id):
+        cursor = self.conn.cursor()
+        query = "insert into chat_members(gchat_id, person_id) " \
+                "values (%s, %s);"
+        cursor.execute(query, (gchat_id, person__id,))
+        member_id = cursor.fetchone()[0]
+        self.conn.commit()
+        return member_id

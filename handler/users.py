@@ -208,3 +208,32 @@ class UserHandler:
         result["person_id"] = row[6]
         result["gchat_id"] = row[7]
         return result
+
+    def getUserByUsernameAndPassword(self, form):
+        if len(form) != 2:
+            return jsonify(Error="Malformed post request"), 400
+        username = form['username']
+        password = form['password']
+        if not username or not password:
+            return jsonify(Error="Unexpected attributes in post request"), 400
+        dao = UserDAO()
+        result = dao.getUserByUsernameAndPassword(username, password)
+        return jsonify(User=self.mapToUserDict(result))
+
+    def insertUser(self, form):
+        if len(form) != 6:
+            return jsonify(Error="Malformed post request"), 400
+        else:
+            first_name = form['first_name']
+            last_name = form['last_name']
+            email = form['email']
+            phone = form['phone']
+            password = form['password']
+            username = form['username']
+            if first_name and last_name and email and phone and password and username:
+                dao = UserDAO()
+                u_id = dao.insert(first_name, last_name, email, phone, password, username)
+                result = self.mapToUserDict(u_id, first_name, last_name, email, phone, password, username)
+                return jsonify(Part=result), 201
+            else:
+                return jsonify(Error="Unexpected attributes in post request"), 400

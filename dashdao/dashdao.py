@@ -75,29 +75,16 @@ class DashDAO:
             return None
         return result
 
-    # #Get a list of users and messages sent in a day
-    # def getOrderedUserMessageFrequency(self, date):
-    #     cursor = self.conn.cursor()
-    #     query="select username, count(*) " \
-    #           "from message " \
-    #           "group by username " \
-    #           "order by count* DESC " \
-    #           "limit 10;"
-    #     cursor.execute(query, (date,))
-    #     result = []
-    #     for row in cursor:
-    #         result.append(row)
-    #     if result == []:
-    #         return None
-    #     return result
-
     #Get number of active users on a day
     def getActiveUsersForDate(self, date):
         cursor = self.conn.cursor()
-        query= "select count(distinct P.person_id) " \
+        query= "select P.username, count(*) as messages " \
                "from person as P, message as M " \
                "where P.person_id = M.person_id " \
-               "and M.date = %s"
+               "and M.date = %s " \
+               "group by P.username " \
+               "order by count(*) DESC " \
+               "limit 10"
         cursor.execute(query, (date,))
         result = []
         for row in cursor:

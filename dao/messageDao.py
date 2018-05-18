@@ -180,3 +180,12 @@ class MsgDAO:
         if result == []:
             return None
         return result
+
+    def insertMsg(self, text, likes, dislikes, date, time, person_id, gchat_id, username):
+        cursor = self.conn.cursor()
+        query = "insert into message(text, likes, dislikes, date, time, person_id, gchat_id, username) " \
+                "values (%s, %s, %s, %s, %s, %s, %s, %s);"
+        cursor.execute(query, (text, likes, dislikes, date, time, person_id, gchat_id, username,))
+        m_id = cursor.fetchone()[0]
+        self.conn.commit()
+        return m_id

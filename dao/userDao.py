@@ -109,3 +109,22 @@ class UserDAO:
         if result == []:
             return None
         return result
+
+    def getUserByUsernameAndPassword(self, username, password):
+        cursor = self.conn.cursor()
+        query = "select * from person where username = %s and password = %s;"
+        cursor.execute(query, (username, password,))
+        result = cursor.fetchone()
+        if not result:
+            return None
+        return result
+
+    def insertUser(self, first_name, last_name, email, phone, password, username):
+        cursor = self.conn.cursor()
+        query = "insert into person(first_name, last_name, email, phone, password, username) " \
+                "values (%s, %s, %s, %s, %s, %s);"
+        cursor.execute(query, (first_name, last_name, email, phone, password, username,))
+        u_id = cursor.fetchone()[0]
+        self.conn.commit()
+        return u_id
+

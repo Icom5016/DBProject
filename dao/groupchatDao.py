@@ -68,7 +68,7 @@ class GroupChatDAO:
     def insertGroupChat(self, gchat_name, person__id):
         cursor = self.conn.cursor()
         query = "insert into group_chat(gchat_name, person_id) " \
-                "values (%s, %s);"
+                "values (%s, %s) returning gchat_id;"
         cursor.execute(query, (gchat_name, person__id,))
         gchat_id = cursor.fetchone()[0]
         self.conn.commit()
@@ -77,8 +77,22 @@ class GroupChatDAO:
     def insertMember(self, gchat_id, person__id):
         cursor = self.conn.cursor()
         query = "insert into chat_members(gchat_id, person_id) " \
-                "values (%s, %s);"
+                "values (%s, %s) returning member_id;"
         cursor.execute(query, (gchat_id, person__id,))
         member_id = cursor.fetchone()[0]
+        self.conn.commit()
+        return member_id
+
+    def deleteGroupChat(self, gchat_id):
+        cursor = self.conn.cursor()
+        query = "delete from group_chat where gchat_id = %s;"
+        cursor.execute(query, (gchat_id,))
+        self.conn.commit()
+        return gchat_id
+
+    def deleteMember(self, member_id):
+        cursor = self.conn.cursor()
+        query = "delete from chat_members where member_id = %s;"
+        cursor.execute(query, (member_id,))
         self.conn.commit()
         return member_id

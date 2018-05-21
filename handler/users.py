@@ -232,8 +232,18 @@ class UserHandler:
             username = form['username']
             if first_name and last_name and email and phone and password and username:
                 dao = UserDAO()
-                u_id = dao.insert(first_name, last_name, email, phone, password, username)
-                result = self.mapToUserDict(u_id, first_name, last_name, email, phone, password, username)
+                u_id = dao.insertUser(first_name, last_name, email, phone, password, username)
+                result = self.mapToUserDict([u_id, first_name, last_name, email, phone, password, username])
                 return jsonify(Part=result), 201
             else:
                 return jsonify(Error="Unexpected attributes in post request"), 400
+
+    def deleteUser(self, form):
+        if len(form) != 1:
+            return jsonify(Error="Malformed post request"), 400
+        else:
+            person_id = form['person_id']
+            if person_id:
+                dao = UserDAO()
+                dao.deleteUser(person_id)
+                return jsonify(DeleteStatus="OK"), 200

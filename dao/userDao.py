@@ -122,9 +122,16 @@ class UserDAO:
     def insertUser(self, first_name, last_name, email, phone, password, username):
         cursor = self.conn.cursor()
         query = "insert into person(first_name, last_name, email, phone, password, username) " \
-                "values (%s, %s, %s, %s, %s, %s);"
+                "values (%s, %s, %s, %s, %s, %s) returning person_id;"
         cursor.execute(query, (first_name, last_name, email, phone, password, username,))
         u_id = cursor.fetchone()[0]
         self.conn.commit()
         return u_id
+
+    def deleteUser(self, person_id):
+        cursor = self.conn.cursor()
+        query = "delete from person where person_id = %s;"
+        cursor.execute(query, (person_id,))
+        self.conn.commit()
+        return person_id
 

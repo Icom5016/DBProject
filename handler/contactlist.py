@@ -64,3 +64,57 @@ class ContactListHandler:
     #     else :
     #         mapped = handler.mapToUserDict(result)
 #         return jsonify(User=mapped)
+
+    def insertContactList(self, form):
+        if len(form) != 1:
+            return jsonify(Error="Malformed post request"), 400
+        else:
+            person_id = form['person_id']
+            if person_id:
+                dao = ContactListDAO()
+                clist_id = dao.insertContactList(person_id)
+                result = self.mapToContactListDict([clist_id, person_id, None])
+                return jsonify(ContactList=result), 201
+            else:
+                return jsonify(Error="Unexpected attributes in post request"), 400
+
+    def insertContact(self, form):
+        if len(form) != 2:
+            return jsonify(Error="Malformed post request"), 400
+        else:
+            clist_id = form['clist_id']
+            person_id = form['person_id']
+            if clist_id and person_id:
+                dao = ContactListDAO()
+                contact_id = dao.insertContact(clist_id, person_id)
+                result = self.mapToContact([contact_id, clist_id, person_id])
+                return jsonify(Contact=result), 201
+            else:
+                return jsonify(Error="Unexpected attributes in post request"), 400
+
+    def mapToContactDict(self, row):
+        result = {}
+        result['contact_id'] = row[0]
+        result['clist_id'] = row[1]
+        result['person_id'] = row[2]
+        return result
+
+    def deleteContactList(self, form):
+        if len(form) != 1:
+            return jsonify(Error="Malformed post request"), 400
+        else:
+            clist_id = form['clist_id']
+            if clist_id:
+                dao = ContactListDAO()
+                dao.deleteContactList(clist_id)
+                return jsonify(DeleteStatus="OK"), 200
+
+    def deleteContact(self, form):
+        if len(form) != 1:
+            return jsonify(Error="Malformed post request"), 400
+        else:
+            contact_id = form['contact_id']
+            if contact_id:
+                dao = ContactListDAO()
+                dao.deleteContact(contact_id)
+                return jsonify(DeleteStatus="OK"), 200

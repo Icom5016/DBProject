@@ -271,7 +271,49 @@ class MsgHandler:
             if text and likes and dislikes and date and time and person_id and gchat_id and username:
                 dao = MsgDAO()
                 m_id = dao.insertMsg(text, likes, dislikes, date, time, person_id, gchat_id, username)
-                result = self.mapToMsgDict(m_id, text, likes, dislikes, date, time, person_id, gchat_id, username)
+                result = self.mapToMsgDict([m_id, text, likes, dislikes, date, time, person_id, gchat_id, username])
                 return jsonify(Message=result), 201
             else:
                 return jsonify(Error="Unexpected attributes in post request"), 400
+
+    def insertReply(self, form):
+        if len(form) != 2:
+            return jsonify(Error="Malformed post request"), 400
+        else:
+            original_id = form['original_id']
+            msg_id = form['msg_id']
+            if original_id and msg_id:
+                dao = MsgDAO()
+                reply_id = dao.insertReply(original_id, msg_id)
+                result = self.mapToReplyDict([reply_id, original_id, msg_id])
+                return jsonify(Reply=result), 201
+            else:
+                return jsonify(Error="Unexpected attributes in post request"), 400
+
+    def mapToReplyDict(self, row):
+        result = {}
+        result["reply_id"] = row[0]
+        result["original_id"] = row[1]
+        result["msg_id"] = row[2]
+        return result
+
+    def deleteMsg(self, form):
+        if len(form) != 1:
+            return jsonify(Error="Malformed post request"), 400
+        else:
+            msg_id = form['msg_id']
+            if msg_id:
+                dao = MsgDAO()
+                dao.deleteMsg(msg_id)
+                return jsonify(DeleteStatus="OK"), 200
+
+    def deleteReply(self, form):
+        if len(form) != 1:
+            return jsonify(Error="Malformed post request"), 400
+        else:
+            reply_id = form['reply_id']
+            if reply_id:
+                dao = MsgDAO()
+                msg_id = dao.deleteReply(reply_id)
+                dao.deleteMsg(msg_id)
+                return jsonify(DeleteStatus="OK"), 200

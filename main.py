@@ -1,7 +1,7 @@
 from flask import Flask, request
 from handler.messages import MsgHandler
 from handler.users import UserHandler
-from handler.contactlists import ContactListHandler
+from handler.contactlist import ContactListHandler
 from handler.groupChat import GroupChatHandler
 from handler.dashboard import DashboardHandler
 from handler.hashtag import HashtagHandler
@@ -25,27 +25,27 @@ def home():
 @app.route("/MessagingApp/register", methods=['POST'])
 def register():
     if request.method =='POST':
-        UserHandler().insertUser(request.form)
-    return "Registration successful"
+        return UserHandler().insertUser(request.get_json())
 
 #Login page
 @app.route("/MessagingApp/login", methods=['POST'])
 def login():
     if request.method == 'POST':
-        UserHandler().getUserByUsernameAndPassword(request.get_json())
-    return "Login successful"
+        return UserHandler().getUserByUsernameAndPassword(request.get_json())
 
 #################################### MESSAGE ROUTES ####################################
 
 #Get all the existing messages
-@app.route("/MessagingApp/msg", methods=['GET', 'POST'])
+@app.route("/MessagingApp/msg", methods=['GET', 'POST', 'DELETE'])
 def msg():
-    if request.method == 'POST':
-        MsgHandler().insertMsg(request.form)
-    if not request.args:
+    if request.method == 'GET':
         return MsgHandler().getAllMsg()
-    else:
-        return MsgHandler.getAllMsg(request.args)
+    elif request.method == 'POST':
+        return MsgHandler().insertMsg(request.get_json())
+    elif request.method == 'DELETE':
+        return MsgHandler().deleteMsg(request.get_json())
+    if not request.args:
+        return MsgHandler.getAllMsg()
 
 #Get one message using the message id
 @app.route("/MessagingApp/msg/<int:msg_id>", methods=['GET', 'PUT', 'DELETE'])
@@ -123,23 +123,28 @@ def getRepliesByOriginalId(original_id):
     return MsgHandler().getRepliesByOriginalId(original_id)
 
 #Gets a list of all existing messages that are replies
-@app.route("/MessagingApp/msg/reply", methods=['GET', 'PUT', 'DELETE'])
+@app.route("/MessagingApp/msg/reply", methods=['GET', 'POST', 'PUT', 'DELETE'])
 def getAllReplies():
-    handler = MsgHandler()
-    return handler.getAllReplies()
+    if request.method == 'GET':
+        return MsgHandler().getAllReplies()
+    elif request.method == 'POST':
+        return MsgHandler().insertReply(request.get_json())
+    elif request.method == 'DELETE':
+        return MsgHandler().deleteReply(request.get_json())
+
 
 #################################### USER ROUTES ####################################
 
 #Get all existing users
-@app.route("/MessagingApp/user", methods=['GET', 'POST'])
+@app.route("/MessagingApp/user", methods=['GET', 'POST', 'DELETE'])
 def user():
-    if request.method == 'POST':
-        return UserHandler().insertUser(request.form)
-    else:
-        if not request.args:
-            return UserHandler().getAllUser()
-        else:
-            return UserHandler.getAllUser(request.args)
+    if request.method == 'GET':
+        return UserHandler().getAllUser()
+    elif request.method == 'POST':
+        return UserHandler().insertUser(request.get_json())
+    elif request.method == 'DELETE':
+        return UserHandler().deleteUser(request.get_json())
+
 
 #Get an user using the id
 @app.route("/MessagingApp/user/<int:user_id>", methods=['GET', 'PUT', 'DELETE'])
@@ -207,18 +212,24 @@ def getDislikedMsgByUserId(user_id):
 #################################### CONTACT LIST ROUTES  ##################################
 
 #Get all contact lists with their current contacts
-@app.route("/MessagingApp/contactlist")
+@app.route("/MessagingApp/contactlist", methods=['GET', 'POST', 'DELETE'])
 def contactlist():
-    # handler = ContactListHandler()
-    # return handler.getAllContactList()
-    if not request.args:
+    if request.method == 'GET':
         return ContactListHandler().getAllContactList()
-    else:
-        return ContactListHandler.getAllContactList(request.args)
+    if request.method == 'POST':
+        return ContactListHandler().insertContactList(request.get_json())
+    elif request.method == 'DELETE':
+        return ContactListHandler().deleteContactList(request.get_json())
 
-@app.route("/MessagingApp/contactlist/<int:clist_id>", methods=['GET', 'PUT', 'DELETE'])
+@app.route("/MessagingApp/contactlist/<int:clist_id>", methods=['GET', 'POST', 'PUT', 'DELETE'])
 def getContactListByID(clist_id):
-    return ContactListHandler().getContactListByID(clist_id)
+    if request.method == 'GET':
+        return ContactListHandler().getContactListByID(clist_id)
+    elif request.method == 'POST':
+        return ContactListHandler().insertContact(request.get_json())
+    elif request.method == 'DELETE':
+        return ContactListHandler().deleteContact(request.get_json())
+
 
 #Gets the contact list of a user using the user's id
 @app.route("/MessagingApp/contactlist/owner/<int:user_id>", methods=['GET', 'PUT', 'DELETE'])
@@ -236,14 +247,15 @@ def getContactListByUserId(user_id):
 #################################### (GROUP) CHAT ROUTES  ####################################
 
 #Get all existing group chats
-@app.route("/MessagingApp/gchat", methods=['GET', 'POST'])
+@app.route("/MessagingApp/gchat", methods=['GET', 'POST', 'DELETE'])
 def getAllGroupChats():
-    if request.method == 'POST':
-        return GroupChatHandler().insertGroupChat(request.form)
-    if not request.args:
+    if request.method == 'GET':
         return GroupChatHandler().getAllChats()
-    else:
-        return GroupChatHandler.getAllChats(request.args)
+    elif request.method == 'POST':
+        return GroupChatHandler().insertGroupChat(request.get_json())
+    elif request.method == 'DELETE':
+        return GroupChatHandler().deleteGroupChat(request.get_json())
+
 
 #Get a group chat using its id
 @app.route("/MessagingApp/gchat/<int:gchat_id>", methods=['GET', 'PUT', 'DELETE'])
@@ -274,11 +286,13 @@ def getAllChatsAndMembers():
 #Gets a group chat and its members using the chat's id
 @app.route("/MessagingApp/gchat/members/<int:gchat_id>", methods=['GET', 'POST', 'PUT', 'DELETE'])
 def getChatMembersByChatId(gchat_id):
-    if request.method == 'POST':
-        GroupChatHandler().insertMemberToGroupChat(request.form)
-    elif request.method == 'GET':
-        handler = GroupChatHandler()
-        return handler.getChatMembersByChatID(gchat_id)
+    if request.method == 'GET':
+        return GroupChatHandler().getChatMembersByChatID(gchat_id)
+    elif request.method == 'POST':
+        return GroupChatHandler().insertMemberToGroupChat(request.get_json())
+    elif request.method == 'DELETE':
+        return GroupChatHandler().deleteMember(request.get_json())
+
 
 #Gets the owner of a gchat
 @app.route("/MessagingApp/gchat/getowner/<int:gchat_id>", methods=['GET', 'PUT', 'DELETE'])

@@ -106,3 +106,35 @@ class ContactListDAO:
         if result == []:
             return None
         return result
+
+    def insertContactList(self, person_id):
+        cursor = self.conn.cursor()
+        query = "insert into contact_list(person_id) " \
+                "values (%s) returning clist_id;"
+        cursor.execute(query, (person_id,))
+        clist_id = cursor.fetchone()[0]
+        self.conn.commit()
+        return clist_id
+
+    def insertContact(self, clist_id, person_id):
+        cursor = self.conn.cursor()
+        query = "insert into contacts(clist_id, person_id) " \
+                "values (%s, %s) returning contact_id;"
+        cursor.execute(query, (clist_id, person_id,))
+        contact_id = cursor.fetchone()[0]
+        self.conn.commit()
+        return contact_id
+
+    def deleteContactList(self, clist_id):
+        cursor = self.conn.cursor()
+        query = "delete from contact_list where clist_id = %s;"
+        cursor.execute(query, (clist_id,))
+        self.conn.commit()
+        return clist_id
+
+    def deleteContact(self, contact_id):
+        cursor = self.conn.cursor()
+        query = "delete from contacts where contact_id = %s;"
+        cursor.execute(query, (contact_id,))
+        self.conn.commit()
+        return contact_id

@@ -184,8 +184,31 @@ class MsgDAO:
     def insertMsg(self, text, likes, dislikes, date, time, person_id, gchat_id, username):
         cursor = self.conn.cursor()
         query = "insert into message(text, likes, dislikes, date, time, person_id, gchat_id, username) " \
-                "values (%s, %s, %s, %s, %s, %s, %s, %s);"
+                "values (%s, %s, %s, %s, %s, %s, %s, %s) returning m_id;"
         cursor.execute(query, (text, likes, dislikes, date, time, person_id, gchat_id, username,))
         m_id = cursor.fetchone()[0]
         self.conn.commit()
         return m_id
+
+    def insertReply(self, original_id, msg_id):
+        cursor = self.conn.cursor()
+        query = "insert into reply(original_id, msg_id) " \
+                "values (%s, %s) returning reply_id;"
+        cursor.execute(query, (original_id, msg_id,))
+        reply_id = cursor.fetchone()[0]
+        self.conn.commit()
+        return reply_id
+
+    def deleteMsg(self, msg_id):
+        cursor = self.conn.cursor()
+        query = "delete from message where m_id = %s;"
+        cursor.execute(query, (msg_id,))
+        self.conn.commit()
+        return msg_id
+
+    def deleteReply(self, reply_id):
+        cursor = self.conn.cursor()
+        query = "delete from reply where reply_id = %s returning msg_id;"
+        cursor.execute(query, (reply_id,))
+        self.conn.commit()
+        return reply_id

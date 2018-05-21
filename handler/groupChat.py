@@ -109,7 +109,7 @@ class GroupChatHandler():
         result["username"] = row[6]
         return result
 
-    def insertToGroupChat(self, form):
+    def insertGroupChat(self, form):
         if len(form) != 2:
             return jsonify(Error="Malformed post request"), 400
         else:
@@ -118,12 +118,12 @@ class GroupChatHandler():
             if gchat_name and person_id:
                 dao = GroupChatDAO()
                 gchat_id = dao.insertGroupChat(gchat_name, person_id)
-                result = self.mapToGroupChatDict(gchat_id, gchat_name, person_id)
+                result = self.mapToGroupChatDict([gchat_id, gchat_name, person_id])
                 return jsonify(GroupChat=result), 201
             else:
                 return jsonify(Error="Unexpected attributes in post request"), 400
 
-    def insertToGroupChat(self, form):
+    def insertMemberToGroupChat(self, form):
         if len(form) != 2:
             return jsonify(Error="Malformed post request"), 400
         else:
@@ -132,8 +132,28 @@ class GroupChatHandler():
             if gchat_id and person_id:
                 dao = GroupChatDAO()
                 member_id = dao.insertMember(gchat_id, person_id)
-                result = self.mapToGroupChatDict(member_id, gchat_id, person_id)
+                result = self.mapToGroupChatDict([member_id, gchat_id, person_id])
                 return jsonify(GroupChat=result), 201
             else:
                 return jsonify(Error="Unexpected attributes in post request"), 400
+
+    def deleteGroupChat(self, form):
+        if len(form) != 1:
+            return jsonify(Error="Malformed post request"), 400
+        else:
+            gchat_id = form['gchat_id']
+            if gchat_id:
+                dao = GroupChatDAO()
+                dao.deleteGroupChat(gchat_id)
+                return jsonify(DeleteStatus="OK"), 200
+
+    def deleteMember(self, form):
+        if len(form) != 1:
+            return jsonify(Error="Malformed post request"), 400
+        else:
+            member_id = form['member_id']
+            if member_id:
+                dao = GroupChatDAO()
+                dao.deleteMember(member_id)
+                return jsonify(DeleteStatus="OK"), 200
 

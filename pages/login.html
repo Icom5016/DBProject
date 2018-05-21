@@ -38,13 +38,13 @@
     </style>
 
     <div id="left">
-        <form name="form" ng-submit="loginCtrl.checkLogin()" role="form">
+        <form name="form" ng-submit="loginCtrl.checkLogin(login_username, login_password)" role="form">
             <center><h5>LOGIN</h5></center>
             <div class="form-group">
                 <label for="username">Username</label>
                 <i class="fa fa-key"></i>
                 <div>
-                    <input type="text" name="username" id="username" class="form-control" ng-model="loginCtrl.username" required />
+                    <input type="text" name="username" id="username" class="form-control" ng-model="login_username" required />
                 </div>
                 <span ng-show="form.username.$dirty && form.username.$error.required" class="help-block"></span>
             </div>
@@ -53,7 +53,7 @@
                 <label for="password">Password</label>
                 <i class="fa fa-lock"></i>
                 <div>
-                    <input type="password" name="password" id="password" class="form-control" ng-model="loginCtrl.password" required />
+                    <input type="password" name="password" id="password" class="form-control" ng-model="login_password" required />
                 </div>
                 <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block"></span>
             </div>
@@ -65,7 +65,7 @@
     </div>
 
     <div id="right">
-        <form name="form" ng-submit="register()" role="form">
+        <form name="form" ng-submit="loginCtrl.register(firstname, lastname, email, phone, username, password)" role="form">
             <center><h5>REGISTER</h5></center>
             <div class="form-group">
                 <label for="firstname">First Name</label>

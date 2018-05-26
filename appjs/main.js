@@ -22,14 +22,15 @@
 
     app.service('currUser', function () {
 
-        var currentUser = {};
-
             this.setUser = function(user) {
-                currentUser = user;
+                localStorage.setItem('currentUser',JSON.stringify(user));
                 return;
             }
             this.getUser = function() {
-                return currentUser;
+                return JSON.parse(localStorage.getItem('currentUser'));
+            }
+            this.deleteUser = function() {
+                localStorage.removeItem('currentUser');
             }
 });
 

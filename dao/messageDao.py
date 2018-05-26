@@ -99,7 +99,7 @@ class MsgDAO:
         query = "select M.msg_id, M.text, M.likes, M.dislikes, M.date, M.time, M.person_id, M.gchat_id, M.username " \
                 "from group_chat as C, message as M " \
                 "where C.gchat_id = M.gchat_id and C.gchat_id = %s " \
-                "order by msg_id;"
+                "order by date desc, time desc;"
         cursor.execute(query, (gchat_id,))
         result = []
 

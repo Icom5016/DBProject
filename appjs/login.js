@@ -1,5 +1,5 @@
-angular.module('AppChat').controller('LoginController', ['$http', '$log', '$scope', '$location', '$routeParams',
-    function($http, $log, $scope, $location, $routeParams) {
+angular.module('AppChat').controller('LoginController', ['$http', '$log', '$scope', '$location', '$routeParams', 'currUser',
+    function($http, $log, $scope, $location, $routeParams, currUser) {
 
         var thisCtrl = this;
         this.currentUser = {};
@@ -13,9 +13,9 @@ angular.module('AppChat').controller('LoginController', ['$http', '$log', '$scop
                     // Success function
                     function (response) {
                         console.log("data: " + JSON.stringify(response.data));
-                        thisCtrl.currentUser = response.data;
-                        console.log(thisCtrl.currentUser);
-                        $location.path('/msg/gchat/1')
+                        thisCtrl.currentUser = response.data.User;
+                        currUser.setUser(thisCtrl.currentUser);
+                        $location.path('/user/gchats')
                     },
                 function (response){
                     // This is the error function
@@ -53,7 +53,7 @@ angular.module('AppChat').controller('LoginController', ['$http', '$log', '$scop
                     function (response) {
                         console.log("data: " + JSON.stringify(response.data));
                         thisCtrl.currentUser = JSON.stringify(response.data);
-                        $location.path('/msg/gchat/1')
+                        $location.path('/user/gchats')
                     },
                     function (response){
                     // This is the error function

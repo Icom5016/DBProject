@@ -1,61 +1,95 @@
 <div ng-cloak style="align-content: center">
-    <div class="row">
-        <div class="col s12 m6">
-            <div class="card teal darken-1">
-                <div class="card-content ">
-                    <i class="material-icons prefix" style="color: white">mode_edit</i> <span text-white style="font-size:larger; color:white">Message:</span>
-                     <textarea style="background: white" id="textarea1" class="materialize-textarea" ng-model="chatCtrl.newText"></textarea>
-                </div>
-                <div class="card-action white">
-                    <button class="btn waves-effect waves-light " type="submit" name="action" ng-click="chatCtrl.postMsg()">Send
-                    <i class="material-icons right">send</i>
-                    </button>
-                </div>
-            </div>
-        </div>
 
+    <style type="text/css">
+
+        #left {
+           float:left;
+           width:50%;
+        }
+        #right {
+           float:right;
+           width:50%;
+        }
+
+
+    </style>
+
+    <div class="groupChats" id="left">
+        <div ng-repeat="c in chatCtrl.chatsList">
+            <div class="row">
+                    <div class="col s12 m6">
+                        <div class="card" ng-click="chatCtrl.currentChat = c.gchat_id; chatCtrl.loadMessages()">
+                            <div class="card-content">
+                                <!-- Card Title is the name of the chat -->
+                                <button class="card-title" >{{ c.gchat_name }}</button>
+                                <!-- Users who belong to that chat -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
     </div>
 
-    <!--<div  id="chat-list" style="height:300px;overflow:auto">-->
-    <div>
-        <!-- Here come the messages in the chat, each one presented in card -->
-        <div ng-repeat="m in chatCtrl.messageList">
-            <!-- This card prodives space for the message and Like/dislike buttons -->
-            <div class="row">
-                <div class="col s12 m6">
-                    <div class="card">
-                        <div class="card-content">
-                            <!-- Card Title is the person who write the message -->
-                            <span class="card-title" >{{ m.username }}</span>
-                            <!-- Here comes the message text -->
-                            <p>
-                                {{m.text}}
-                            </p>
-                        </div>
-                        <div class="card-action" ng-init="showWhoLiked=false" ng-init="showWhoDisliked=false">
-                            <button class="btn-floating btn-small waves-effect waves-light blue" type="submit" name="action"
-                                    ng-click="chatCtrl.likeMsg(m.msg_id)"  ng-mouseover="chatCtrl.loadWhoLiked(m.msg_id); showWhoLiked=true" ng-mouseleave="showWhoLiked=false">
-                                <i class="material-icons">thumb_up
-                                </i><</button> <span ng-model= "m.like"> {{ m.likes }} </span>
 
-                            <button class="btn-floating btn-small waves-effect waves-light blue" type="submit" name="action"
-                                    ng-click="chatCtrl.dislikeMsg(m.msg_id)" ng-mouseover="chatCtrl.loadWhoDisliked(m.msg_id); showWhoDisliked=true" ng-mouseleave="showWhoDisliked=false">
-                                <i class="material-icons">thumb_down
-                                </i></button> <span ng-model="m.dislike"> {{ m.dislikes }} </span>
+    <div class="chat" id="right">
+        <div class="row">
+            <div class="col s12 m6">
+                <div class="card teal darken-1">
+                    <div class="card-content ">
+                        <i class="material-icons prefix" style="color: white">mode_edit</i> <span text-white style="font-size:larger; color:white">Message:</span>
+                         <textarea style="background: white" id="textarea1" class="materialize-textarea" ng-model="chatCtrl.newText"></textarea>
+                    </div>
+                    <div class="card-action white">
+                        <button class="btn waves-effect waves-light " type="submit" name="action" ng-click="chatCtrl.postMsg()">Send
+                        <i class="material-icons right">send</i>
+                        </button>
+                    </div>
+                </div>
+            </div>
 
-                            <div class="showWhoLiked" ng-show="showWhoLiked">
-                                <div ng-repeat="user in chatCtrl.likesList">{{ user.username }}</div>
+        </div>
+
+        <!--<div  id="chat-list" style="height:300px;overflow:auto">-->
+        <div>
+            <!-- Here come the messages in the chat, each one presented in card -->
+            <div ng-repeat="m in chatCtrl.messageList">
+                <!-- This card prodives space for the message and Like/dislike buttons -->
+                <div class="row">
+                    <div class="col s12 m6">
+                        <div class="card">
+                            <div class="card-content">
+                                <!-- Card Title is the person who write the message -->
+                                <span class="card-title" >{{ m.username }}</span>
+                                <!-- Here comes the message text -->
+                                <p>
+                                    {{m.text}}
+                                </p>
                             </div>
+                            <div class="card-action" ng-init="showWhoLiked=false" ng-init="showWhoDisliked=false">
+                                <button class="btn-floating btn-small waves-effect waves-light blue" type="submit" name="action"
+                                        ng-click="chatCtrl.likeMsg(m.msg_id)"  ng-mouseover="chatCtrl.loadWhoLiked(m.msg_id); showWhoLiked=true" ng-mouseleave="showWhoLiked=false">
+                                    <i class="material-icons">thumb_up
+                                    </i><</button> <span ng-model= "m.like"> {{ m.likes }} </span>
 
-                            <div class="showWhoDisliked" ng-show="showWhoDisliked">
-                                <div ng-repeat="user in chatCtrl.dislikesList">{{ user.username }}</div>
+                                <button class="btn-floating btn-small waves-effect waves-light blue" type="submit" name="action"
+                                        ng-click="chatCtrl.dislikeMsg(m.msg_id)" ng-mouseover="chatCtrl.loadWhoDisliked(m.msg_id); showWhoDisliked=true" ng-mouseleave="showWhoDisliked=false">
+                                    <i class="material-icons">thumb_down
+                                    </i></button> <span ng-model="m.dislike"> {{ m.dislikes }} </span>
+
+                                <div class="showWhoLiked" ng-show="showWhoLiked">
+                                    <div ng-repeat="user in chatCtrl.likesList">{{ user.username }}</div>
+                                </div>
+
+                                <div class="showWhoDisliked" ng-show="showWhoDisliked">
+                                    <div ng-repeat="user in chatCtrl.dislikesList">{{ user.username }}</div>
+                                </div>
+
                             </div>
-
-                        </div>
-                        <div>
-                            <p style="text-align:right">
-                                {{ m.time }}&nbsp;&nbsp;&nbsp;&nbsp;
-                            </p>
+                            <div>
+                                <p style="text-align:right">
+                                    {{ m.time }}&nbsp;&nbsp;&nbsp;&nbsp;
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>

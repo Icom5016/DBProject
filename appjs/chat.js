@@ -1,33 +1,63 @@
-angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope', '$location', '$routeParams',
-    function($http, $log, $scope, $location, $routeParams) {
+angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope', '$location', '$routeParams', 'currUser',
+    function($http, $log, $scope, $location, $routeParams, currUser) {
 
         var thisCtrl = this;
 
         this.messageList = [];
+        this.chatsList = [];
         this.counter  = 0;
         this.newText = "";
         this.likesList = [];
         this.dislikesList = [];
+        this.currentUser = currUser.getUser();
+        this.currentChat;
 
-        //
-        //HERE IS WHERE WE GET FROM THE DB???//
-        //
-        //
-        //
 
-//        this.loadMessages = function(){
-//            // Get the messages from the server through the rest api
-//            thisCtrl.messageList.push({"id": 1, "text": "Hola Mi Amigo", "author" : "Bob",
-//            "like" : 4, "nolike" : 1});
-//            thisCtrl.messageList.push({"id": 2, "text": "Hello World", "author": "Joe",
-//                "like" : 11, "nolike" : 12});
-//
-//            $log.error("Message Loaded: ", JSON.stringify(thisCtrl.messageList));
-//        };
+        this.loadChats = function(){
+            // Now create the url with the route to talk with the rest API
+            var reqURL = "http://localhost:5000/MessagingApp/user/gchats/" + thisCtrl.currentUser.user_id;
+            console.log("reqURL: " + reqURL);
+            // Now issue the http request to the rest API
+            $http.get(reqURL).then(
+                // Success function
+                function (response) {
+                    console.log("data: " + JSON.stringify(response.data));
+                    // assing the part details to the variable in the controller
+
+                    /*
+                    * Stores the data received from python call. The jsonyfied data
+                    */
+                    thisCtrl.chatsList = response.data.GroupChats;
+
+                },
+            function (response){
+                // This is the error function
+                // If we get here, some error occurred.
+                // Verify which was the cause and show an alert.
+                var status = response.status;
+                if (status == 0){
+                    alert("No hay conexion a Internet");
+                }
+                else if (status == 401){
+                    alert("Su sesion expiro. Conectese de nuevo.");
+                }
+                else if (status == 403){
+                    alert("No esta autorizado a usar el sistema.");
+                }
+                else if (status == 404){
+                    alert("No se encontro la informacion solicitada.");
+                }
+                else {
+                    alert("Error interno del sistema.");
+                }
+            });
+
+            $log.error("Message Loaded: ", JSON.stringify(thisCtrl.messageList));
+        };
 
         this.loadMessages = function(){
             // Now create the url with the route to talk with the rest API
-            var reqURL = "http://localhost:5000/MessagingApp/msg/gchat/1";
+            var reqURL = "http://localhost:5000/MessagingApp/msg/gchat/" + thisCtrl.currentChat;
             console.log("reqURL: " + reqURL);
             // Now issue the http request to the rest API
             $http.get(reqURL).then(
@@ -61,7 +91,7 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
                     alert("No esta autorizado a usar el sistema.");
                 }
                 else if (status == 404){
-                    alert("No se encontro la informacion solicitada.");
+
                 }
                 else {
                     alert("Error interno del sistema.");
@@ -158,7 +188,7 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
         this.postMsg = function(){
             var msg = thisCtrl.newText;
             // Need to figure out who I am
-            var author = "Me";
+            var author = thisCtrl.currentUser.first_name;
             thisCtrl.counter += 1;
             thisCtrl.messageList.unshift({"msg_id": thisCtrl.counter, "text" : msg, "username" : author, "likes" : 0, "dislikes" : 0});
             thisCtrl.newText = "";
@@ -182,5 +212,7 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
             }
         };
 
+        this.loadChats();
         this.loadMessages();
+
 }]);

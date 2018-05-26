@@ -98,6 +98,16 @@ class GroupChatHandler():
             mapped = self.mapToUserDict(result)
             return jsonify(Owner=mapped)
 
+    def getChatsFromUser(self, person_id):
+        dao = GroupChatDAO()
+        result = dao.getChatsFromUser(person_id)
+        if not result:
+            return jsonify(Error="NOT FOUND"), 404
+        mapped_result = []
+        for r in result:
+            mapped_result.append(self.mapToGroupChatDict(r))
+        return jsonify(GroupChats=mapped_result)
+
     def mapToUserDict(self, row):
         result = {}
         result["user_id"] = row[0]

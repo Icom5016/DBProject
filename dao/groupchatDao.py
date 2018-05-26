@@ -65,6 +65,17 @@ class GroupChatDAO:
             return None
         return result
 
+    def getChatsFromUser(self, person_id):
+        cursor = self.conn.cursor()
+        query = "select gchat_id, gchat_name, G.person_id " \
+                "from group_chat as G inner join chat_members as M " \
+                "using (gchat_id) where M.person_id = %s;"
+        cursor.execute(query, (person_id,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
     def insertGroupChat(self, gchat_name, person__id):
         cursor = self.conn.cursor()
         query = "insert into group_chat(gchat_name, person_id) " \

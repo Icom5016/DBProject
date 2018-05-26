@@ -300,6 +300,13 @@ def getOwnerOfChat(gchat_id):
     handler = GroupChatHandler()
     return handler.getOwnerOfChat(gchat_id)
 
+#Get all chats where a user belongs to using user id
+@app.route("/MessagingApp/user/gchats/<int:person_id>", methods=['GET'])
+def getChatsFromUser(person_id):
+    if request.method == 'GET':
+        print(person_id)
+        return GroupChatHandler().getChatsFromUser(person_id)
+
 #################################### DASHBOARD ROUTES ####################################
 
 

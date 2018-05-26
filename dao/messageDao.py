@@ -181,14 +181,24 @@ class MsgDAO:
             return None
         return result
 
-    def insertMsg(self, text, likes, dislikes, date, time, person_id, gchat_id, username):
+    def getReactByMsgAndUserID(self, msg_id, person_id):
+        cursor = self.conn.cursor()
+        query = "select * from react where msg_id = %s and person_id = %s;"
+        cursor.execute(query, (msg_id, person_id,))
+        result = cursor.fetchone()
+        if result == []:
+            print("yizus craist")
+            return None
+        return result
+
+    def insertMsg(self, text, likes, dislikes, person_id, gchat_id, username):
         cursor = self.conn.cursor()
         query = "insert into message(text, likes, dislikes, date, time, person_id, gchat_id, username) " \
-                "values (%s, %s, %s, %s, %s, %s, %s, %s) returning m_id;"
-        cursor.execute(query, (text, likes, dislikes, date, time, person_id, gchat_id, username,))
-        m_id = cursor.fetchone()[0]
+                "values (%s, %s, %s, current_date, current_time, %s, %s, %s) returning *;"
+        cursor.execute(query, (text, likes, dislikes, person_id, gchat_id, username,))
+        msg = cursor.fetchone()
         self.conn.commit()
-        return m_id
+        return msg
 
     def insertReply(self, original_id, msg_id):
         cursor = self.conn.cursor()
@@ -212,3 +222,29 @@ class MsgDAO:
         cursor.execute(query, (reply_id,))
         self.conn.commit()
         return reply_id
+
+    def insertReact(self, likes, dislikes, person_id, msg_id):
+        cursor = self.conn.cursor()
+        query = "insert into react(likes, dislikes, person_id, msg_id) " \
+                "values (%s, %s, %s, %s) returning react_id;"
+        cursor.execute(query, (likes, dislikes, person_id, msg_id,))
+        react_id = cursor.fetchone()[0]
+        self.conn.commit()
+        return react_id
+
+    def updateReact(self, likes, dislikes, person_id, msg_id):
+        cursor = self.conn.cursor()
+        query = "update react set likes = %s, dislikes = %s " \
+                "where person_id = %s and msg_id = %s" \
+                "returning react_id;"
+        cursor.execute(query, (likes, dislikes, person_id, msg_id,))
+        react_id = cursor.fetchone()[0]
+        self.conn.commit()
+        return react_id
+
+    def updateReactCount(self, likes, dislikes, msg_id):
+        cursor = self.conn.cursor()
+        query = "update message set likes = likes + %s, dislikes = dislikes + %s where msg_id = %s"
+        cursor.execute(query, (likes, dislikes, msg_id,))
+        self.conn.commit()
+        return msg_id

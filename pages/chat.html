@@ -14,6 +14,10 @@
 
     </style>
 
+    <div>
+        <button class="logout" ng-click="chatCtrl.logout()">logout</button>
+    </div>
+
     <div class="groupChats" id="left">
         <div ng-repeat="c in chatCtrl.chatsList">
             <div class="row">
@@ -37,10 +41,10 @@
                 <div class="card teal darken-1">
                     <div class="card-content ">
                         <i class="material-icons prefix" style="color: white">mode_edit</i> <span text-white style="font-size:larger; color:white">Message:</span>
-                         <textarea style="background: white" id="textarea1" class="materialize-textarea" ng-model="chatCtrl.newText"></textarea>
+                         <textarea style="background: white" id="textarea1" class="materialize-textarea" ng-model="newText"></textarea>
                     </div>
                     <div class="card-action white">
-                        <button class="btn waves-effect waves-light " type="submit" name="action" ng-click="chatCtrl.postMsg()">Send
+                        <button class="btn waves-effect waves-light " type="submit" name="action" ng-click="chatCtrl.postMsg(newText)">Send
                         <i class="material-icons right">send</i>
                         </button>
                     </div>

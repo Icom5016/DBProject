@@ -15,7 +15,7 @@ angular.module('AppChat').controller('LoginController', ['$http', '$log', '$scop
                         console.log("data: " + JSON.stringify(response.data));
                         thisCtrl.currentUser = response.data.User;
                         currUser.setUser(thisCtrl.currentUser);
-                        $location.path('/user/gchats')
+                        $location.path('/user/gchats');
                     },
                 function (response){
                     // This is the error function

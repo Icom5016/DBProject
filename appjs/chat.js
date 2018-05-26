@@ -5,8 +5,6 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
 
         this.messageList = [];
         this.chatsList = [];
-        this.counter  = 0;
-        this.newText = "";
         this.likesList = [];
         this.dislikesList = [];
         this.currentUser = currUser.getUser();
@@ -70,11 +68,6 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
                     * Stores the data received from python call. The jsonyfied data
                     */
                     thisCtrl.messageList = response.data.Messages;
-                    thisCtrl.counter = thisCtrl.messageList.length;
-                    //thisCtrl.messageList.push({"id": 1, "text": "Hola Mi Amigo", "author" : "Bob", "like" : 4, "nolike"
-//                    thisCtrl.messageList.push({"id": 1, "text": "Hola Mi Amigo", "author" : "Bob", "like" : 4, "nolike" : 1});
-//                    thisCtrl.messageList.push({"id": 2, "text": "Hello World", "author": "Joe", "like" : 11, "nolike" : 12});
-
                 },
             function (response){
                 // This is the error function
@@ -185,31 +178,121 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
             $log.error("Message Loaded: ", JSON.stringify(thisCtrl.reactList));
         };
 
-        this.postMsg = function(){
-            var msg = thisCtrl.newText;
-            // Need to figure out who I am
-            var author = thisCtrl.currentUser.first_name;
-            thisCtrl.counter += 1;
-            thisCtrl.messageList.unshift({"msg_id": thisCtrl.counter, "text" : msg, "username" : author, "likes" : 0, "dislikes" : 0});
-            thisCtrl.newText = "";
+        this.postMsg = function(newText){
+            var reqURL = "http://localhost:5000/MessagingApp/msg";
+                console.log("reqURL: " + reqURL);
+                var data = {'text': newText, 'person_id': thisCtrl.currentUser.user_id,
+                            'gchat_id': thisCtrl.currentChat, 'username': thisCtrl.currentUser.username};
+                console.log(data);
+                // Now issue the http request to the rest API
+                $http.post(reqURL, data).then(
+                    // Success function
+                    function (response) {
+                        console.log("data: " + JSON.stringify(response.data));
+                        this.loadMessages();
+                    },
+                function (response){
+                    // This is the error function
+                    // If we get here, some error occurred.
+                    // Verify which was the cause and show an alert.
+                    var status = response.status;
+                    if (status == 0){
+                        alert("No hay conexion a Internet");
+                    }
+                    else if (status == 401){
+                        alert("Su sesion expiro. Conectese de nuevo.");
+                    }
+                    else if (status == 403){
+                        alert("No esta autorizado a usar el sistema.");
+                    }
+                    else if (status == 404){
+                        alert("No se encontro la informacion solicitada.");
+                    }
+                    else {
+                        alert("Error interno del sistema.");
+                    }
+                });
+
+                $log.error("Users Loaded: ", JSON.stringify());
         };
 
-        this.likeMsg = function(m_id){
-            for (var i = 0; i < thisCtrl.messageList.length; i++) {
-                if (thisCtrl.messageList[i].msg_id == m_id) {
-                    thisCtrl.messageList[i]["likes"] += 1;
-                    break;
-                }
-            }
+        this.likeMsg = function(msg_id){
+            var reqURL = "http://localhost:5000/MessagingApp/msg/liked";
+                console.log("reqURL: " + reqURL);
+                var data = {'likes': true, 'dislikes': false,
+                            'person_id': thisCtrl.currentUser.user_id, 'msg_id': msg_id};
+                console.log(data);
+                // Now issue the http request to the rest API
+                $http.put(reqURL, data).then(
+                    // Success function
+                    function (response) {
+                        console.log("data: " + JSON.stringify(response.data));
+                    },
+                function (response){
+                    // This is the error function
+                    // If we get here, some error occurred.
+                    // Verify which was the cause and show an alert.
+                    var status = response.status;
+                    if (status == 0){
+                        alert("No hay conexion a Internet");
+                    }
+                    else if (status == 401){
+                        alert("Su sesion expiro. Conectese de nuevo.");
+                    }
+                    else if (status == 403){
+                        alert("No esta autorizado a usar el sistema.");
+                    }
+                    else if (status == 404){
+                        alert("No se encontro la informacion solicitada.");
+                    }
+                    else {
+                        alert("Error interno del sistema.");
+                    }
+                    });
+
+                $log.error("Users Loaded: ", JSON.stringify());
         };
 
-        this.dislikeMsg = function(m_id){
-            for (var i = 0; i < thisCtrl.messageList.length; i++) {
-                if (thisCtrl.messageList[i].msg_id == m_id) {
-                    thisCtrl.messageList[i]["dislikes"] += 1;
-                    break;
-                }
-            }
+        this.dislikeMsg = function(msg_id){
+            var reqURL = "http://localhost:5000/MessagingApp/msg/disliked";
+                console.log("reqURL: " + reqURL);
+                var data = {'likes': false, 'dislikes': true,
+                            'person_id': thisCtrl.currentUser.user_id, 'msg_id': msg_id};
+                console.log(data);
+                // Now issue the http request to the rest API
+                $http.put(reqURL, data).then(
+                    // Success function
+                    function (response) {
+                        console.log("data: " + JSON.stringify(response.data));
+                    },
+                function (response){
+                    // This is the error function
+                    // If we get here, some error occurred.
+                    // Verify which was the cause and show an alert.
+                    var status = response.status;
+                    if (status == 0){
+                        alert("No hay conexion a Internet");
+                    }
+                    else if (status == 401){
+                        alert("Su sesion expiro. Conectese de nuevo.");
+                    }
+                    else if (status == 403){
+                        alert("No esta autorizado a usar el sistema.");
+                    }
+                    else if (status == 404){
+                        alert("No se encontro la informacion solicitada.");
+                    }
+                    else {
+                        alert("Error interno del sistema.");
+                    }
+                    });
+
+                $log.error("Users Loaded: ", JSON.stringify());
+        };
+
+        this.logout = function() {
+            currUser.deleteUser();
+            $location.path('/login')
         };
 
         this.loadChats();

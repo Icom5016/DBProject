@@ -257,21 +257,21 @@ class MsgHandler:
             return jsonify(Replies=mapped_result)
 
     def insertMsg(self, form):
-        if len(form) != 8:
+        if len(form) != 4:
             return jsonify(Error="Malformed post request"), 400
         else:
             text = form['text']
-            likes = form['likes']
-            dislikes = form['dislikes']
-            date = form['date']
-            time = form['time']
+            #likes = form['likes']
+            #dislikes = form['dislikes']
+            #date = form['date']
+            #time = form['time']
             person_id = form['person_id']
             gchat_id = form['gchat_id']
             username = form['username']
-            if text and likes and dislikes and date and time and person_id and gchat_id and username:
+            if text and person_id and gchat_id and username:
                 dao = MsgDAO()
-                m_id = dao.insertMsg(text, likes, dislikes, date, time, person_id, gchat_id, username)
-                result = self.mapToMsgDict([m_id, text, likes, dislikes, date, time, person_id, gchat_id, username])
+                msg = dao.insertMsg(text, 0, 0, person_id, gchat_id, username)
+                result = self.mapToMsgDict(msg)
                 return jsonify(Message=result), 201
             else:
                 return jsonify(Error="Unexpected attributes in post request"), 400
@@ -317,3 +317,72 @@ class MsgHandler:
                 msg_id = dao.deleteReply(reply_id)
                 dao.deleteMsg(msg_id)
                 return jsonify(DeleteStatus="OK"), 200
+
+    def updateLikes(self, form):
+        if len(form) != 4:
+            return jsonify(Error="Malformed post request"), 400
+        else:
+            likes = form['likes']
+            dislikes = form['dislikes']
+            person_id = form['person_id']
+            msg_id = form['msg_id']
+            if likes is not None and dislikes is not None and person_id and msg_id:
+                dao = MsgDAO()
+                react = dao.getReactByMsgAndUserID(msg_id, person_id)
+                # If users hasn't reacted yet to message
+                if not react:
+                    react_id = dao.insertReact(likes, dislikes, person_id, msg_id)
+                    dao.updateReactCount(1, 0, msg_id)
+                    return jsonify(React=self.mapToReact([react_id, likes, dislikes, person_id, msg_id]))
+                else:
+                    # User already liked message, set liked to false
+                    if react[1] == True:
+                        react_id = dao.updateReact(not likes, dislikes, person_id, msg_id)
+                        dao.updateReactCount(-1, 0, msg_id)
+                        return jsonify(React=self.mapToReact(react))
+                    # User had disliked message, set like to true and dislike to false
+                    else:
+                        react_id = dao.updateReact(likes, dislikes, person_id, msg_id)
+                        dao.updateReactCount(1, -1, msg_id)
+                        return jsonify(React=self.mapToReact([react_id, likes, dislikes, person_id, msg_id]))
+            else:
+                return jsonify(Error="Unexpected attributes in post request"), 400
+
+    def updateDisikes(self, form):
+        if len(form) != 4:
+            return jsonify(Error="Malformed post request"), 400
+        else:
+            likes = form['likes']
+            dislikes = form['dislikes']
+            person_id = form['person_id']
+            msg_id = form['msg_id']
+            if likes is not None and dislikes is not None and person_id and msg_id:
+                dao = MsgDAO()
+                react = dao.getReactByMsgAndUserID(msg_id, person_id)
+                # If users hasn't reacted yet to message
+                if not react:
+                    react_id = dao.insertReact(likes, dislikes, person_id, msg_id)
+                    dao.updateReactCount(0, 1, msg_id)
+                    return jsonify(React=self.mapToReact([react_id, likes, dislikes, person_id, msg_id]))
+                else:
+                    # User already disliked message, set dislike to false
+                    if react[2] == True:
+                        react_id = dao.updateReact(likes, not dislikes, person_id, msg_id)
+                        dao.updateReactCount(0, -1, msg_id)
+                        return jsonify(React=self.mapToReact(react))
+                    # User had liked message, set dislike to true and like to false
+                    else:
+                        react_id = dao.updateReact(likes, dislikes, person_id, msg_id)
+                        dao.updateReactCount(-1, 1, msg_id)
+                        return jsonify(React=self.mapToReact([react_id, likes, dislikes, person_id, msg_id]))
+            else:
+                return jsonify(Error="Unexpected attributes in post request"), 400
+
+    def mapToReact(self, row):
+        result = {}
+        result['react_id'] = row[0]
+        result['likes'] = row[1]
+        result['dislikes'] = row[2]
+        result['person_id'] = row[3]
+        result['msg_id'] = row[4]
+        return result

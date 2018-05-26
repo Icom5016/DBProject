@@ -70,7 +70,23 @@ def getLikesByMsgId(msg_id):
 #Get list of users who liked a message
 @app.route("/MessagingApp/msg/wholiked/<int:msg_id>", methods=['GET', 'PUT', 'DELETE'])
 def getUsersWhoLikedByMsgId(msg_id):
-    return MsgHandler().getUsersWhoLikeMessages(msg_id)
+    if request.method == 'GET':
+        return MsgHandler().getUsersWhoLikeMessages(msg_id)
+    elif request.method == 'PUT':
+        print("llega")
+        return MsgHandler().updateLikes(request.get_json())
+
+#Update likes
+@app.route("/MessagingApp/msg/liked", methods=['PUT'])
+def updateLikes():
+    if request.method == 'PUT':
+        return MsgHandler().updateLikes(request.get_json())
+
+#Update dislikes
+@app.route("/MessagingApp/msg/disliked", methods=['PUT'])
+def updateDisikes():
+    if request.method == 'PUT':
+        return MsgHandler().updateDisikes(request.get_json())
 
 #Get list of users who disliked a message
 @app.route("/MessagingApp/msg/whodisliked/<int:msg_id>", methods=['GET', 'PUT', 'DELETE'])
@@ -304,7 +320,6 @@ def getOwnerOfChat(gchat_id):
 @app.route("/MessagingApp/user/gchats/<int:person_id>", methods=['GET'])
 def getChatsFromUser(person_id):
     if request.method == 'GET':
-        print(person_id)
         return GroupChatHandler().getChatsFromUser(person_id)
 
 #################################### DASHBOARD ROUTES ####################################

@@ -68,7 +68,7 @@ class GroupChatDAO:
     def getChatsFromUser(self, person_id):
         cursor = self.conn.cursor()
         query = "with ORDERED as " \
-                "(select *, ROW_NUMBER() over (partition by gchat_id) as distinct " \
+                "(select gchat_id, gchat_name, C.person_id, ROW_NUMBER() over (partition by gchat_id) as distinct_chat " \
                 "from group_chat inner join " \
                 "(select * from message natural inner join chat_members) as C " \
                 "using (gchat_id) where C.person_id = %s " \

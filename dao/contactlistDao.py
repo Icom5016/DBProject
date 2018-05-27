@@ -95,6 +95,13 @@ class ContactListDAO:
             return None
         return result
 
+    def getUserContactListID(self, user_id):
+        cursor = self.conn.cursor()
+        query = "select * from contact_list where person_id = %s;"
+        cursor.execute(query, (user_id,))
+        result = cursor.fetchone()
+        return result
+
     def insertContactList(self, person_id):
         cursor = self.conn.cursor()
         query = "insert into contact_list(person_id) " \
@@ -104,12 +111,15 @@ class ContactListDAO:
         self.conn.commit()
         return clist_id
 
-    def insertContact(self, clist_id, person_id):
+    def insertContact(self, owner_id, person_id):
         cursor = self.conn.cursor()
-        query = "insert into contacts(clist_id, person_id) " \
-                "values (%s, %s) returning contact_id;"
-        cursor.execute(query, (clist_id, person_id,))
-        contact_id = cursor.fetchone()[0]
+        query1 = "select clist_id from contact_list where person_id = %s;"
+        cursor.execute(query1, (owner_id,))
+        clist_id = cursor.fetchone()
+        query2 = "insert into contacts(clist_id, person_id) " \
+                "values (%s, %s) returning *;"
+        cursor.execute(query2, (clist_id, person_id,))
+        contact_id = cursor.fetchone()
         self.conn.commit()
         return contact_id
 

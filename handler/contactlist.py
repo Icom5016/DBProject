@@ -1,5 +1,6 @@
 from flask import jsonify, request
 from dao.contactlistDao import ContactListDAO
+from dao.userDao import UserDAO
 from handler.users import UserHandler
 
 class ContactListHandler:
@@ -35,16 +36,24 @@ class ContactListHandler:
         result = {}
         result["clist_id"] = row[0]
         result["person_id"] = row[1]
-        result["contacts"] = row[2]
         return result
 
     def getContactsByUserID(self, user_id):
         dao = ContactListDAO()
         result = dao.getContactsByUserID(user_id)
+        if not result:
+            return jsonify(Error="NOT FOUND"), 404
         mapped_result = []
         for r in result:
             mapped_result.append(self.mapToUserDict(r))
         return jsonify(Users=mapped_result)
+
+    def getUserContactListID(self, user_id):
+        dao = ContactListDAO()
+        result = dao.getUserContactListID(user_id)
+        if not result:
+            return jsonify(Error="NOT FOUND"), 404
+        return jsonify(ContactList=self.mapToContactListDict(result))
 
     def mapToUserDict(self, row):
         result = {}
@@ -84,13 +93,16 @@ class ContactListHandler:
         if len(form) != 2:
             return jsonify(Error="Malformed post request"), 400
         else:
-            clist_id = form['clist_id']
-            person_id = form['person_id']
-            if clist_id and person_id:
-                dao = ContactListDAO()
-                contact_id = dao.insertContact(clist_id, person_id)
-                result = self.mapToContact([contact_id, clist_id, person_id])
-                return jsonify(Contact=result), 201
+            owner_id = form['owner_id']
+            username = form['username']
+            if owner_id and username:
+                dao1 = UserDAO()
+                person_id = dao1.getUserByUsername(username)[0]
+                if not person_id:
+                    return jsonify(ERROR="NOT FOUND"), 404
+                dao2 = ContactListDAO()
+                result = dao2.insertContact(owner_id, person_id)
+                return jsonify(Contact=self.mapToContactDict(result)), 201
             else:
                 return jsonify(Error="Unexpected attributes in post request"), 400
 

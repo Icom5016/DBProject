@@ -233,7 +233,7 @@ def contactlist():
     if request.method == 'GET':
         return ContactListHandler().getAllContactList()
     if request.method == 'POST':
-        return ContactListHandler().insertContactList(request.get_json())
+        return ContactListHandler().insertContact(request.get_json())
     elif request.method == 'DELETE':
         return ContactListHandler().deleteContactList(request.get_json())
 
@@ -246,6 +246,11 @@ def getContactListByID(clist_id):
     elif request.method == 'DELETE':
         return ContactListHandler().deleteContact(request.get_json())
 
+#Get the contact's list id of a user using user id
+@app.route("/MessagingApp/user/contactlist/<int:user_id>", methods=['GET'])
+def getUserContactListId(user_id):
+    if request.method == 'GET':
+        return ContactListHandler().getUserContactListID(user_id);
 
 #Gets the contact list of a user using the user's id
 @app.route("/MessagingApp/contactlist/owner/<int:user_id>", methods=['GET', 'PUT', 'DELETE'])

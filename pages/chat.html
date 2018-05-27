@@ -1,9 +1,11 @@
 <div ng-cloak style="align-content: center">
 
     <div>
-        <p style="text-align:right">
+        <div style="text-align:left">
+            <button class="refresh" ng-click=chatCtrl.refresh()>Refresh</div>
+        <div style="text-align:right">
             <button class="contacts" ng-click="chatCtrl.showContacts()">Contacts</button>
-            <button class="logout" ng-click="chatCtrl.logout()">logout</button></p>
+            <button class="logout" ng-click="chatCtrl.logout()">logout</button></div>
     </div>
 
         <div class="row">
@@ -16,6 +18,7 @@
                     </div>
                 </div>
 
+                <h5>Chats</h5>
                 <div ng-repeat="c in chatCtrl.chatsList">
                     <div class="card" ng-click="chatCtrl.currChat(c.gchat_id); chatCtrl.loadMessages()">
                         <div class="card-content">
@@ -84,5 +87,20 @@
                     </div>
                 </div>
             </div>
+
+            <div class="col s2">
+                <h5>Owned Chats</h5>
+                <div ng-repeat="c in chatCtrl.ownedChatsList">
+                    <div class="card" ng-click="chatCtrl.currChat(c.gchat_id); chatCtrl.loadMessages()">
+                        <div class="card-content">
+                            <!-- Card Title is the name of the chat -->
+                            <span class="card-title" >{{ c.gchat_name }}</span>
+                                <!-- Users who belong to that chat -->
+                            <p style="text-align:right" ng-click="chatCtrl.editChat(c.gchat_id)">edit</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
 </div>

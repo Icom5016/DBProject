@@ -26,8 +26,10 @@ class ContactListHandler:
         if result == None:
             return jsonify(Error="NOT FOUND"), 404
         else :
-            mapped = self.mapToContactListDict(result)
-            return jsonify(User=mapped)
+            mapped_result = []
+            for r in result:
+                mapped_result.append(self.mapToUserDict(r))
+            return jsonify(Contacts=mapped_result)
 
     def mapToContactListDict(self, row):
         result = {}

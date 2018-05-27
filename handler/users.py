@@ -234,7 +234,7 @@ class UserHandler:
                 dao = UserDAO()
                 u_id = dao.insertUser(first_name, last_name, email, phone, password, username)
                 result = self.mapToUserDict([u_id, first_name, last_name, email, phone, password, username])
-                return jsonify(Part=result), 201
+                return jsonify(User=result), 201
             else:
                 return jsonify(Error="Unexpected attributes in post request"), 400
 

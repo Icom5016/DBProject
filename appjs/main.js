@@ -11,6 +11,14 @@
             templateUrl: 'pages/chat.html',
             controller: 'ChatController',
             controllerAs : 'chatCtrl'
+        }).when('/user/contacts', {
+            templateUrl: 'pages/contacts.html',
+            controller: 'ContactsController',
+            controllerAs : 'contactCtrl'
+        }).when('/newChat', {
+            templateUrl: 'pages/newChat.html',
+            controller: 'NewChatController',
+            controllerAs : 'newChatCtrl'
         }).when('/msg/gchat/1', {
             templateUrl: 'pages/chat.html',
             controller: 'ChatController',

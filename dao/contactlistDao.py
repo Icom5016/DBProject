@@ -67,25 +67,13 @@ class ContactListDAO:
     #returns single contact list
     def getContactListByUserID(self, user_id):
         cursor = self.conn.cursor()
-        query = "select L.clist_id, L.person_id, C.person_id from contact_list as L, " \
-                "contacts as C where L.clist_id = C.clist_id and L.person_id = %s;"
+        query = "select * from person natural inner join " \
+                "(select C.person_id from contact_list as L " \
+                "join contacts as C using(clist_id) where L.person_id = %s) as P;"
         cursor.execute(query, (user_id,))
-
-        dao = UserDAO()
         result = []
-        clist_id = 0
-        owner_id = 0
-        contacts = []
-        firstPass = True
         for row in cursor:
-            if firstPass:
-                clist_id = row[0]
-                owner_id = row[1]
-            contacts.append(dao.getUserById(row[2]))
-        # result.append([clist_id, owner_id, contacts])
-        result.append(clist_id)
-        result.append(owner_id)
-        result.append(contacts)
+            result.append(row)
         if result == []:
             return None
         return result

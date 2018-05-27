@@ -27,6 +27,10 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
                     */
                     thisCtrl.chatsList = response.data.GroupChats;
 
+                    for (var index = 0; index < thisCtrl.chatsList.length; index++) {
+                        $scope.getMembers(index);
+                    }
+
                 },
             function (response){
                 // This is the error function
@@ -43,7 +47,7 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
                     alert("No esta autorizado a usar el sistema.");
                 }
                 else if (status == 404){
-                    alert("No se encontro la informacion solicitada.");
+
                 }
                 else {
                     alert("Error interno del sistema.");
@@ -54,8 +58,9 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
         };
 
         this.loadMessages = function(){
+            currChat = localStorage.getItem('currentChat');
             // Now create the url with the route to talk with the rest API
-            var reqURL = "http://localhost:5000/MessagingApp/msg/gchat/" + thisCtrl.currentChat;
+            var reqURL = "http://localhost:5000/MessagingApp/msg/gchat/" + currChat;
             console.log("reqURL: " + reqURL);
             // Now issue the http request to the rest API
             $http.get(reqURL).then(
@@ -182,14 +187,14 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
             var reqURL = "http://localhost:5000/MessagingApp/msg";
                 console.log("reqURL: " + reqURL);
                 var data = {'text': newText, 'person_id': thisCtrl.currentUser.user_id,
-                            'gchat_id': thisCtrl.currentChat, 'username': thisCtrl.currentUser.username};
+                            'gchat_id': localStorage.getItem('currentChat'), 'username': thisCtrl.currentUser.username};
                 console.log(data);
                 // Now issue the http request to the rest API
                 $http.post(reqURL, data).then(
                     // Success function
                     function (response) {
                         console.log("data: " + JSON.stringify(response.data));
-                        this.loadMessages();
+                        //$location.path('/user/gchats');
                     },
                 function (response){
                     // This is the error function
@@ -290,9 +295,61 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
                 $log.error("Users Loaded: ", JSON.stringify());
         };
 
+        this.currChat = function(gchat_id) {
+            localStorage.setItem('currentChat', gchat_id);
+        };
+
+        this.showContacts = function() {
+            $location.path('/user/contacts');
+        };
+
+        this.newChat = function() {
+            $location.path('/newChat');
+        }
+
         this.logout = function() {
             currUser.deleteUser();
+            localStorage.removeItem('currentChat');
             $location.path('/login')
+        };
+
+        $scope.getMembers = function(gchat_index) {
+            thisCtrl.chatsList[gchat_index].members = [];
+            var reqURL = "http://localhost:5000/MessagingApp/gchat/members/" + thisCtrl.chatsList[gchat_index].gchat_id;
+            console.log("reqURL: " + reqURL);
+            $http.get(reqURL).then(
+            function (response) {
+                console.log("data: " + JSON.stringify(response.data));
+                chat_members = response.data.Chat_Members;
+                var membersList = [];
+                for (var j = 0; j < chat_members.length; j++) {
+                    membersList.push(chat_members[j].username);
+                }
+                thisCtrl.chatsList[gchat_index].members = membersList;
+            },
+                            function (response){
+                                // This is the error function
+                                // If we get here, some error occurred.
+                                // Verify which was the cause and show an alert.
+                                var status = response.status;
+                                if (status == 0){
+                                    alert("No hay conexion a Internet");
+                                }
+                                else if (status == 401){
+                                    alert("Su sesion expiro. Conectese de nuevo.");
+                                }
+                                else if (status == 403){
+                                    alert("No esta autorizado a usar el sistema.");
+                                }
+                                else if (status == 404){
+
+                                }
+                                else {
+                                    alert("Error interno del sistema.");
+                                }
+                            });
+
+                            $log.error("Message Loaded: ", JSON.stringify());
         };
 
         this.loadChats();

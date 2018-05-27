@@ -52,7 +52,8 @@ angular.module('AppChat').controller('LoginController', ['$http', '$log', '$scop
                     // Success function
                     function (response) {
                         console.log("data: " + JSON.stringify(response.data));
-                        thisCtrl.currentUser = JSON.stringify(response.data);
+                        thisCtrl.currentUser = response.data.User;
+                        currUser.setUser(thisCtrl.currentUser);
                         $location.path('/user/gchats')
                     },
                     function (response){

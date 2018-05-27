@@ -261,13 +261,13 @@ class MsgHandler:
             return jsonify(Error="Malformed post request"), 400
         else:
             text = form['text']
-            #likes = form['likes']
-            #dislikes = form['dislikes']
-            #date = form['date']
-            #time = form['time']
             person_id = form['person_id']
             gchat_id = form['gchat_id']
             username = form['username']
+            print(text)
+            print(person_id)
+            print(gchat_id)
+            print(username)
             if text and person_id and gchat_id and username:
                 dao = MsgDAO()
                 msg = dao.insertMsg(text, 0, 0, person_id, gchat_id, username)

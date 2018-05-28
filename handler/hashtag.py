@@ -57,6 +57,16 @@ class HashtagHandler:
             mapped_result.append(self.mapToMsgDict(r))
         return jsonify(Hashtag=mapped_result)
 
+    def getMsgsByChatIdAndHashtagText(self, gchat_id, hashtag_text):
+        dao = HashtagDAO()
+        result = dao.getMsgsByChatIdAndHashtagText(gchat_id, hashtag_text)
+        if not result:
+            return jsonify(Error="NOT FOUND"), 404
+        mapped_result = []
+        for r in result:
+            mapped_result.append(self.mapToMsgDict(r))
+        return jsonify(Hashtag=mapped_result)
+
     def mapToMsgDict(self, row):
         result = {}
         result["message_id"] = row[0]

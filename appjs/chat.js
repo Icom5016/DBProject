@@ -299,7 +299,8 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
         };
 
         this.searchMsg = function(hashtag) {
-            var reqURL1 = "http://localhost:5000/MessagingApp/msgs/hashtag/" + hashtag;
+            var currChat = localStorage.getItem('currentChat');
+            var reqURL1 = "http://localhost:5000/MessagingApp/gchat/" + currChat+ "/hashtag/" + hashtag;
             console.log("reqURL: " + reqURL1);
             // Now issue the http request to the rest API
             $http.get(reqURL1).then(

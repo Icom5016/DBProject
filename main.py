@@ -391,6 +391,11 @@ def getHashtagdByMsgId(msg_id):
 def getMsgsByHashtagText(hashtag_text):
     return HashtagHandler().getMsgsByHashtagText(hashtag_text)
 
+#Get all messages from a chat that contain a hashtag using the message id and hashtag text
+@app.route("/MessagingApp/gchat/<int:gchat_id>/hashtag/<string:hashtag_text>")
+def getMsgsByChatIdAndHashtagText(gchat_id, hashtag_text):
+    return HashtagHandler().getMsgsByChatIdAndHashtagText(gchat_id, hashtag_text)
+
 # #Get the frequency at wich a hashtag has been used using its id
 # @app.route("/MessagingApp/hashtag/frequency/<int:hashtag_id>")
 # def getFrequencyByHashtagId(hashtag_id):

@@ -65,6 +65,17 @@ class HashtagDAO:
             return None
         return result
 
+    def getMsgsByChatIdAndHashtagText(self, gchat_id, hashtag_text):
+        cursor = self.conn.cursor()
+        query = "select * from Hashtag natural inner join message where gchat_id = %s and hash_text = %s;"
+        cursor.execute(query, (gchat_id, hashtag_text,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        if result == []:
+            return None
+        return result
+
     def getFrequencyByHashtagText(self, text):
         cursor = self.conn.cursor()
         query = "select hash_text, count(*) from Hashtag where hash_text = %s group by hash_text;"
@@ -97,3 +108,12 @@ class HashtagDAO:
         if result == []:
             return None
         return result
+
+    def insertHashtag(self, hash_text, msg_id):
+        cursor = self.conn.cursor()
+        query = "insert into hashtag(hash_text, msg_id) " \
+                "values (%s, %s) returning hash_id;"
+        cursor.execute(query, (hash_text, msg_id,))
+        hash_id = cursor.fetchone()[0]
+        self.conn.commit()
+        return hash_text

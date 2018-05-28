@@ -1,15 +1,6 @@
 <div ng-cloak style="align-content: center">
 
     <div>
-        <div class="col s2">
-            <label for="search">Search Hashtag</label>
-                <i class="fa fa-key"></i>
-                <div>
-                    <input type="text" name="search" id="search" class="form-control" ng-model="search"/>
-                    <button class="search" ng-click="chatCtrl.searchMsg(search);
-                                    chatCtrl.openSearch=true; chatCtrl.openChat=false">Search</button>
-                </div>
-        </div>
         <p><div style="text-align:left">
             <button class="refresh" ng-click=chatCtrl.refresh()>Refresh</div>
         <div style="text-align:right">
@@ -137,6 +128,16 @@
                     </div>
                 </div>
 
+            </div>
+
+            <div class="col s2">
+                <label for="search">Search Hashtag in Chat</label>
+                    <i class="fa fa-key"></i>
+                    <div>
+                        <input type="text" name="search" id="search" class="form-control" ng-model="search"/>
+                        <button class="search" ng-click="chatCtrl.searchMsg(search);
+                                        chatCtrl.openSearch=true; chatCtrl.openChat=false">Search</button>
+                    </div>
             </div>
 
         </div>

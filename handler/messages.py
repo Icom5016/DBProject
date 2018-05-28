@@ -3,6 +3,7 @@ from dao.messageDao import MsgDAO
 # from dao.likesDao import LikesDAO
 # from dao.dislikesDao import DislikesDAO
 from dao.userDao import UserDAO
+from dao.hashtagDao import HashtagDAO
 
 class MsgHandler:
     def getAllMsg(self):
@@ -264,14 +265,15 @@ class MsgHandler:
             person_id = form['person_id']
             gchat_id = form['gchat_id']
             username = form['username']
-            print(text)
-            print(person_id)
-            print(gchat_id)
-            print(username)
+            hashtags = [i for i in text.split() if i.startswith("#")]
             if text and person_id and gchat_id and username:
                 dao = MsgDAO()
                 msg = dao.insertMsg(text, 0, 0, person_id, gchat_id, username)
                 result = self.mapToMsgDict(msg)
+                if hashtags:
+                    dao = HashtagDAO()
+                    for h in hashtags:
+                        dao.insertHashtag(h[1:], result['msg_id'])
                 return jsonify(Message=result), 201
             else:
                 return jsonify(Error="Unexpected attributes in post request"), 400

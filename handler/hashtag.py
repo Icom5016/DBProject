@@ -66,8 +66,11 @@ class HashtagHandler:
         result["message_likes"] = row[4]
         result["message_dislikes"] = row[5]
         result["message_date"] = row[6]
+        time = "%s:%s:%s" % (row[7].hour, row[7].minute, row[7].second)
+        result["time"] = time
         result["person_id"] = row[8]
         result["groupchat_id"] = row[9]
+        result["username"] = row[10]
         return result
 
     def getFrequencyByHashtagText(self, hashtag_text):

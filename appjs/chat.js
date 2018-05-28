@@ -10,7 +10,10 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
         this.dislikesList = [];
         this.currentUser = currUser.getUser();
         this.currentChat;
+        this.searchList = [];
 
+        this.openChat;
+        this.openSearch;
 
         this.loadChats = function(){
             // Now create the url with the route to talk with the rest API
@@ -336,6 +339,47 @@ angular.module('AppChat').controller('ChatController', ['$http', '$log', '$scope
                     });
 
                 $log.error("Users Loaded: ", JSON.stringify());
+        };
+
+        this.searchMsg = function(hashtag) {
+            var reqURL1 = "http://localhost:5000/MessagingApp/msgs/hashtag/" + hashtag;
+            console.log("reqURL: " + reqURL1);
+            // Now issue the http request to the rest API
+            $http.get(reqURL1).then(
+                // Success function
+                function (response) {
+                    console.log("data: " + JSON.stringify(response.data));
+                    // assing the part details to the variable in the controller
+
+                    /*
+                    * Stores the data received from python call. The jsonyfied data
+                    */
+                    thisCtrl.searchList = response.data.Hashtag;
+
+                },
+            function (response){
+                // This is the error function
+                // If we get here, some error occurred.
+                // Verify which was the cause and show an alert.
+                var status = response.status;
+                if (status == 0){
+                    alert("No hay conexion a Internet");
+                }
+                else if (status == 401){
+                    alert("Su sesion expiro. Conectese de nuevo.");
+                }
+                else if (status == 403){
+                    alert("No esta autorizado a usar el sistema.");
+                }
+                else if (status == 404){ // It means there are no users who like message
+
+                }
+                else {
+                    alert("Error interno del sistema.");
+                }
+            });
+
+            $log.error("Message Loaded: ", JSON.stringify(thisCtrl.reactList));
         };
 
         this.currChat = function(gchat_id) {

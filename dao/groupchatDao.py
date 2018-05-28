@@ -33,9 +33,9 @@ class GroupChatDAO:
         cursor = self.conn.cursor()
         query = "select * from group_chat where person_id = %s;"
         cursor.execute(query, (user_id,))
-        result = cursor.fetchone()
-        if result == []:
-            return None
+        result = []
+        for row in cursor:
+            result.append(row)
         return result
 
     def getAllChatsByOwnerIdAndName(self, user_id, gchat_name):
@@ -99,10 +99,28 @@ class GroupChatDAO:
         self.conn.commit()
         return member_id
 
+    def changeName(self, gchat_id, gchat_name):
+        cursor = self.conn.cursor()
+        query = "update group_chat set gchat_name = %s where gchat_id = %s returning *;"
+        cursor.execute(query, (gchat_name, gchat_id,))
+        result = cursor.fetchone()
+        self.conn.commit()
+        return result
+
     def deleteGroupChat(self, gchat_id):
         cursor = self.conn.cursor()
-        query = "delete from group_chat where gchat_id = %s;"
-        cursor.execute(query, (gchat_id,))
+        query1 = "delete from chat_members where gchat_id = %s;"
+        query2 = "delete from hashtag where msg_id in (select msg_id from message where gchat_id = %s);"
+        query3 = "delete from react where msg_id in (select msg_id from message where gchat_id = %s);"
+        query4 = "delete from reply where msg_id in (select msg_id from message where gchat_id = %s);"
+        query5 = "delete from message where gchat_id = %s;"
+        query6 = "delete from group_chat where gchat_id = %s;"
+        cursor.execute(query1, (gchat_id,))
+        cursor.execute(query2, (gchat_id,))
+        cursor.execute(query3, (gchat_id,))
+        cursor.execute(query4, (gchat_id,))
+        cursor.execute(query5, (gchat_id,))
+        cursor.execute(query6, (gchat_id,))
         self.conn.commit()
         return gchat_id
 

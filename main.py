@@ -275,13 +275,17 @@ def getAllGroupChats():
     elif request.method == 'POST':
         return GroupChatHandler().insertGroupChat(request.get_json())
     elif request.method == 'DELETE':
+        print (request.get_json())
         return GroupChatHandler().deleteGroupChat(request.get_json())
 
 
 #Get a group chat using its id
 @app.route("/MessagingApp/gchat/<int:gchat_id>", methods=['GET', 'PUT', 'DELETE'])
 def getGroupChatById(gchat_id):
-    return GroupChatHandler().getGroupChatById(gchat_id)
+    if request.method == 'DELETE':
+        return GroupChatHandler().deleteGroupChat(gchat_id)
+    else:
+        return GroupChatHandler().getGroupChatById(gchat_id)
 
 #Get the group chats of an owner (user) using their id
 @app.route("/MessagingApp/gchat/owner/<int:user_id>", methods=['GET', 'PUT', 'DELETE'])
@@ -311,6 +315,8 @@ def getChatMembersByChatId(gchat_id):
         return GroupChatHandler().getChatMembersByChatID(gchat_id)
     elif request.method == 'POST':
         return GroupChatHandler().insertMemberToGroupChat(request.get_json())
+    elif request.method == 'PUT':
+        return GroupChatHandler().changeGroupChatName(request.get_json())
     elif request.method == 'DELETE':
         return GroupChatHandler().deleteMember(request.get_json())
 

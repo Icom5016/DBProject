@@ -23,8 +23,7 @@ class GroupChatHandler():
 
     def getAllGroupChatByOwnerId(self, owner_id):
         dao = GroupChatDAO()
-        result = []
-        result.append(dao.getAllGroupChatsByOwnerId(owner_id))
+        result = dao.getAllGroupChatsByOwnerId(owner_id)
         mapped_result = []
         for r in result:
             mapped_result.append(self.mapToGroupChatDict(r))
@@ -147,15 +146,24 @@ class GroupChatHandler():
             else:
                 return jsonify(Error="Unexpected attributes in post request"), 400
 
-    def deleteGroupChat(self, form):
-        if len(form) != 1:
+    def changeGroupChatName(self, form):
+        if len(form) != 2:
             return jsonify(Error="Malformed post request"), 400
         else:
             gchat_id = form['gchat_id']
-            if gchat_id:
+            gchat_name = form['gchat_name']
+            if gchat_id and gchat_name:
                 dao = GroupChatDAO()
-                dao.deleteGroupChat(gchat_id)
-                return jsonify(DeleteStatus="OK"), 200
+                result = dao.changeName(gchat_id, gchat_name)
+                result = self.mapToGroupChatDict(result)
+                return jsonify(GroupChat=result), 201
+            else:
+                return jsonify(Error="Unexpected attributes in post request"), 400
+
+    def deleteGroupChat(self, gchat_id):
+        dao = GroupChatDAO()
+        dao.deleteGroupChat(gchat_id)
+        return jsonify(DeleteStatus="OK"), 200
 
     def deleteMember(self, form):
         if len(form) != 1:

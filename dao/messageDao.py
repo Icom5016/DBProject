@@ -132,9 +132,9 @@ class MsgDAO:
 
     def getRepliesByOriginalId(self, original_id):
         cursor = self.conn.cursor()
-        query = "select M.msg_id, M.text, M.likes, M.dislikes, M.date, M.time, M.person_id, M.gchat_id " \
+        query = "select M.msg_id, M.text, M.likes, M.dislikes, M.date, M.time, M.person_id, M.gchat_id, M.username " \
                 "from message as M, reply as R where M.msg_id = R.msg_id " \
-                "and R.original_id = %s; order by msg_id"
+                "and R.original_id = %s order by msg_id"
         cursor.execute(query, (original_id,))
         result = []
         for row in cursor:
@@ -145,8 +145,8 @@ class MsgDAO:
 
     def getAllReplies(self):
         cursor = self.conn.cursor()
-        query = "select M.msg_id, M.text, M.likes, M.dislikes, M.date, M.time, M.person_id, M.gchat_id " \
-                "from message as M, reply as R where M.msg_id = R.msg_id; order by msg_id"
+        query = "select M.msg_id, M.text, M.likes, M.dislikes, M.date, M.time, M.person_id, M.gchat_id, M.username " \
+                "from message as M, reply as R where M.msg_id = R.msg_id order by msg_id"
         cursor.execute(query)
         result = []
         for row in cursor:

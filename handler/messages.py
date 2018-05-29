@@ -161,7 +161,7 @@ class MsgHandler:
     def getMessagesByChatId(self, gc_id):
         dao = MsgDAO()
         result = dao.getMessagesByChatId(gc_id)
-        if len(result) == 0:
+        if result == None:
             return jsonify(Error="NOT FOUND"), 404
         mapped_result = []
         for r in result:
@@ -343,9 +343,13 @@ class MsgHandler:
                         dao.updateReactCount(-1, 0, msg_id)
                         return jsonify(React=self.mapToReact(react))
                     # User had disliked message, set like to true and dislike to false
-                    else:
+                    elif react[2] == True:
                         react_id = dao.updateReact(likes, dislikes, person_id, msg_id)
                         dao.updateReactCount(1, -1, msg_id)
+                        return jsonify(React=self.mapToReact([react_id, likes, dislikes, person_id, msg_id]))
+                    else:
+                        react_id = dao.updateReact(likes, dislikes, person_id, msg_id)
+                        dao.updateReactCount(1, 0, msg_id)
                         return jsonify(React=self.mapToReact([react_id, likes, dislikes, person_id, msg_id]))
             else:
                 return jsonify(Error="Unexpected attributes in post request"), 400
@@ -373,9 +377,13 @@ class MsgHandler:
                         dao.updateReactCount(0, -1, msg_id)
                         return jsonify(React=self.mapToReact(react))
                     # User had liked message, set dislike to true and like to false
-                    else:
+                    elif react[1] == True:
                         react_id = dao.updateReact(likes, dislikes, person_id, msg_id)
                         dao.updateReactCount(-1, 1, msg_id)
+                        return jsonify(React=self.mapToReact([react_id, likes, dislikes, person_id, msg_id]))
+                    else:
+                        react_id = dao.updateReactCount(likes, dislikes, person_id, msg_id)
+                        dao.updateReactCount(0, 1, msg_id)
                         return jsonify(React=self.mapToReact([react_id, likes, dislikes, person_id, msg_id]))
             else:
                 return jsonify(Error="Unexpected attributes in post request"), 400

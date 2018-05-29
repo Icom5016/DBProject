@@ -235,7 +235,7 @@ class MsgDAO:
     def updateReact(self, likes, dislikes, person_id, msg_id):
         cursor = self.conn.cursor()
         query = "update react set likes = %s, dislikes = %s " \
-                "where person_id = %s and msg_id = %s" \
+                "where person_id = %s and msg_id = %s " \
                 "returning react_id;"
         cursor.execute(query, (likes, dislikes, person_id, msg_id,))
         react_id = cursor.fetchone()[0]

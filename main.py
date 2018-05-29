@@ -73,7 +73,6 @@ def getUsersWhoLikedByMsgId(msg_id):
     if request.method == 'GET':
         return MsgHandler().getUsersWhoLikeMessages(msg_id)
     elif request.method == 'PUT':
-        print("llega")
         return MsgHandler().updateLikes(request.get_json())
 
 #Update likes

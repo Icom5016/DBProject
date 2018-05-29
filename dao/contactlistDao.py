@@ -116,12 +116,18 @@ class ContactListDAO:
         query1 = "select clist_id from contact_list where person_id = %s;"
         cursor.execute(query1, (owner_id,))
         clist_id = cursor.fetchone()
-        query2 = "insert into contacts(clist_id, person_id) " \
-                "values (%s, %s) returning *;"
+        query2 = "select contact_id from contacts where clist_id = %s and person_id = %s;"
         cursor.execute(query2, (clist_id, person_id,))
         contact_id = cursor.fetchone()
-        self.conn.commit()
-        return contact_id
+        if not contact_id:
+            query3 = "insert into contacts(clist_id, person_id) " \
+                    "values (%s, %s) returning *;"
+            cursor.execute(query3, (clist_id, person_id,))
+            contact_id = cursor.fetchone()
+            self.conn.commit()
+            return [contact_id, clist_id, person_id]
+        else:
+            return [contact_id, clist_id, person_id]
 
     def deleteContactList(self, clist_id):
         cursor = self.conn.cursor()

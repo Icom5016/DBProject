@@ -127,6 +127,7 @@ class GroupChatHandler():
             if gchat_name and person_id:
                 dao = GroupChatDAO()
                 gchat_id = dao.insertGroupChat(gchat_name, person_id)
+                dao.insertMember(gchat_id, person_id)
                 result = self.mapToGroupChatDict([gchat_id, gchat_name, person_id])
                 return jsonify(GroupChat=result), 201
             else:

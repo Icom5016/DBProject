@@ -79,6 +79,12 @@ class GroupChatDAO:
         result = []
         for row in cursor:
             result.append(row)
+        query2 = "select G.gchat_id, G.gchat_name, G.person_id " \
+                 "from group_chat as G inner join chat_members as M using(person_id) " \
+                 "where G.person_id = %s and G.gchat_id not in (select gchat_id from message);"
+        cursor.execute(query2, (person_id,))
+        for row in cursor:
+            result.append(row)
         return result
 
     def insertGroupChat(self, gchat_name, person__id):

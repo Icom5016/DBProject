@@ -1,6 +1,7 @@
 from flask import jsonify
 from dao.userDao import UserDAO
 from dao.chatMembersDao import ChatMembersDAO
+from dao.contactlistDao import ContactListDAO
 
 
 class UserHandler:
@@ -233,6 +234,7 @@ class UserHandler:
             if first_name and last_name and email and phone and password and username:
                 dao = UserDAO()
                 u_id = dao.insertUser(first_name, last_name, email, phone, password, username)
+                ContactListDAO().insertContactList(u_id)
                 result = self.mapToUserDict([u_id, first_name, last_name, email, phone, password, username])
                 return jsonify(User=result), 201
             else:
